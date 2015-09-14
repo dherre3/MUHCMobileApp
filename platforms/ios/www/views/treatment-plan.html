@@ -1,0 +1,26 @@
+<ons-page ng-controller="TreatmentPlanController">
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button ng-click="menu.toggle()">
+        <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">Treatment Plan</div>
+  </ons-toolbar>
+     <div class="container">
+ <alert align="center" ng-show="showAlert" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span></alert>
+ </div>
+  <ons-row style="margin-top: 100px; text-align: center;">
+    <ons-col>
+      <div class="container" align="center">
+      <hr />
+    <h3>Stacked <button class="btn btn-sm btn-primary" type="button" ng-click="randomStacked()">Randomize</button></h3>
+    <progress><bar ng-repeat="bar in stacked track by $index" value="bar.value" type="{{bar.type}}"><span ng-hide="bar.value < 5">{{bar.value}}%</span></bar></progress>
+
+    
+      <p style="color: #999; font-size: 13px;">Phase 1 then 2 then 3.</p>
+       <highchart id="chart1" config="chartConfig"></highchart>
+      </div>
+    </ons-col>
+  </ons-row>
+</ons-page>
