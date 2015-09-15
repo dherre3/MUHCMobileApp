@@ -17,8 +17,8 @@
 </ons-pull-hook>
 
     <div  ng-hide="noNotifications">
-   
-   <ons-list-item ng-repeat="notification in NotificationsArray" ng-click="goToNotification($index,notification)" modifier="chevron" class="list-item-container">
+   <ons-list>
+   <ons-list-item ng-repeat="notification in NotificationsArray" ng-click="goToNotification($index,notification)" modifier="tappable" class="list-item-container">
           <ons-row >
             <ons-col class="hidden-xs col-sm-4 col-lg-4">
              <img src="img/logo.png" class="thumbnail2 img-responsive">
@@ -27,16 +27,21 @@
               <div class="name" >
                 {{notification.Name}}
               </div>
-              <div class="location">
-                <i class="fa fa-calendar"></i> {{notification.DateTime|date:"EEEE MMMM d, yyyy 'at' h:mm a"}}
-              </div>
+              
               <div class="desc">
-                Issued By: {{notification.IssuedBy}}
+                Issued By: {{notification.IssuedBy}}<br><br>
+                {{notification.Content}}
               </div>
+
             </ons-col>
-            <ons-col width="20%" class="col-xs-2 col-sm-6 col-lg-2  "><p align="right" style="text-align:right;color:grey" ng-show="notification.ReadStatus===0">UNREAD</p></ons-col>
+            <ons-col width="20%" style="margin-left:-10px"class="col-xs-2 col-sm-6 col-lg-6  ">
+            <div class="location" style="margin-left:-10px">
+               {{notification.DateTime|dateEmail}}
+              </div>
+            <p align="right" style="font-size:10px;text-align:right;color:grey" ng-show="notification.ReadStatus==='0'">UNREAD</p></ons-col>
           </ons-row>
         </ons-list-item>
+        </ons-list>
 </div>
       <p style="margin-top:100px;color:grey" ng-show="noNotifications" style="color: #999; font-size: 13px;">You have no notifications</p>
 </ons-page>
