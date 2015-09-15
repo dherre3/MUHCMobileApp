@@ -103,7 +103,6 @@ $scope.$watch('person.selected', function(){
   $scope.selectedIndex=0;
   $scope.conversation=$scope.messages[0].Messages;
   $scope.glue=true;
-
   $scope.messageAttachmentOpener=function(mes){
    var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
   if(app){
@@ -138,6 +137,7 @@ $scope.$watchGroup(['newMessage','upload'],function(){
     $scope.sendButtonDisabled=false;
   }
 });
+
   $scope.submitMessage=function(){
     $scope.glue=false;
     //Create object to send

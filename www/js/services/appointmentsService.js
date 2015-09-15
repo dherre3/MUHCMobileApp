@@ -106,6 +106,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                 //Setting min date for upcoming appointment
                 var min=Infinity;
                 //Format date to javascript date
+                var index=-1;
                 for (var i = 0; i < keysArray.length; i++) {
                     appointments[keysArray[i]].ScheduledStartTime = $filter('formatDate')(appointments[keysArray[i]].ScheduledStartTime);
                     appointments[keysArray[i]].ScheduledEndTime =  $filter('formatDate')(appointments[keysArray[i]].ScheduledEndTime);
@@ -128,12 +129,13 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                     }
 
                     //Deciding whether they are future or past appointments
-                    var dateDiff = (this.UserAppointmentsArray[i].ScheduledStartTime).getTime()-today.getTime();
+                    var dateDiff = this.UserAppointmentsArray[i].ScheduledStartTime-today;
                     if (dateDiff > 0) {
                         //Choosing the next appointment
                          if(dateDiff<min){
                             this.NextAppointment.Object=this.UserAppointmentsArray[i];
                             this.NextAppointment.Index=i;
+                            index=i;
                             min=dateDiff;
                         }
                         this.FutureAppointments.push(this.UserAppointmentsArray[i]);
@@ -143,15 +145,23 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                 }
 
 
+                
                 //Sort Appointments chronologically most recent first
                 this.UserAppointmentsArray = $filter('orderBy')(this.UserAppointmentsArray, 'ScheduledStartTime', false);
                 this.PastAppointments=$filter('orderBy')(this.PastAppointments, 'ScheduledStartTime',true);
                 this.TodayAppointments=$filter('orderBy')(this.TodayAppointments, 'ScheduledStartTime',false);
                 this.FutureAppointments=$filter('orderBy')(this.FutureAppointments, 'ScheduledStartTime',false);
-                if(this.NextAppointment!==undefined&&this.NextAppointment.Object.ScheduledStartTime.getTime()<(new Date()).getTime()){
-                    this.NextAppointment={};
-                }
                 console.log(this.UserAppointmentsArray);
+                if(this.NextAppointment.hasOwnProperty('Index')){
+                    for (var i = 0; i < keysArray.length; i++) {
+                        if(this.NextAppointment.Object.AppointmentSerNum==this.UserAppointmentsArray[i].AppointmentSerNum)
+                        {
+                           this.NextAppointment.Index=i; 
+                        }
+
+
+                    }        
+                }
         /*  
             * Setting User Calendar
             //The rest of this function takes the results from the sorted by date appointments and organizes them into an object with

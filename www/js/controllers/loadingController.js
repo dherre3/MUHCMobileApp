@@ -6,6 +6,7 @@ angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state'
 		console.log('Im doing it');
 	    var updateUI=UpdateUI.UpdateUserFields();
 	    updateUI.then(function(){
+	    	$rootScope.refresh=true;
 	        $state.go('Home');
 	    });
 

@@ -18,8 +18,7 @@
 *Manages the logic of the home screen after log in, instatiates 
 */
 var myApp = angular.module('MUHCApp');
-myApp.controller('HomeController', ['Appointments','$scope','Patient','UpdateUI', '$timeout','$filter','$cordovaNetwork','UserPlanWorkflow','$rootScope', 'tmhDynamicLocale','$translate', '$translatePartialLoader', function (Appointments, $scope, Patient,UpdateUI,$timeout,$filter,$cordovaNetwork,UserPlanWorkflow, $rootScope,tmhDynamicLocale, $translate, $translatePartialLoader) {
-    var updatedField=null;
+myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient','UpdateUI', '$timeout','$filter','$cordovaNetwork','UserPlanWorkflow','$rootScope', 'tmhDynamicLocale','$translate', '$translatePartialLoader', function ($state,Appointments, $scope, Patient,UpdateUI,$timeout,$filter,$cordovaNetwork,UserPlanWorkflow, $rootScope,tmhDynamicLocale, $translate, $translatePartialLoader) {
        /**
         * @ngdoc method
         * @name load
@@ -31,54 +30,55 @@ myApp.controller('HomeController', ['Appointments','$scope','Patient','UpdateUI'
         *
         *
         */
-        if(!$rootScope.refresh){
-            UpdateUI.UpdateUserFields();
-        }
-        
-        /*$scope.locales = [
-            { name: 'English', id: 'en' },
-            { name: 'French', id: 'fr' },
-            { name: 'Spanish', id: 'es' }
-        ];
+        function homePageInit(){
+        $scope.dateToday=new Date();
+        var date;
+        var nextAppointment=Appointments.getNextAppointment();
+       
+        if(nextAppointment.hasOwnProperty('Object')){
+            $scope.noNextAppointment=false;
+            $scope.NextAppointment=nextAppointment.Object;
+            console.log($scope.NextAppointment);
+            date=nextAppointment.Object.ScheduledStartTime;
+            console.log(date);
+            console.log($scope.dateToday);
+            var dateDay=date.getDate();
+            var dateMonth=date.getMonth();
+            var dateYear=date.getFullYear();
 
-        $translatePartialLoader.addPart('home');
-        $translate.refresh();
-        $scope.updateLocale = function (locale) {
-            tmhDynamicLocale.set(locale);
-            $translate.use(locale);
-        };*/
+            if(dateMonth==$scope.dateToday.getMonth()&&dateDay==$scope.dateToday.getDate()&&dateYear==$scope.dateToday.getFullYear()){
+                console.log('asdas');
+                $scope.nextAppointmentIsToday=true;
+            }else{
+                console.log('notToday');
+                $scope.nextAppointmentIsToday=false;
+            }
+        }else{
+            $scope.noNextAppointment=true;
+        }
+        $scope.FirstName = Patient.getFirstName();
+        $scope.LastName = Patient.getLastName();
+    }
+        homePageInit();
         $scope.load = function($done) {
           
           $timeout(function() {
-
             loadInfo();
                 $done();
-                
           }, 1000);
         };
+
         function loadInfo(){
            var dataVal= UpdateUI.UpdateUserFields();
            dataVal.then(function(data){
                 $timeout(function(){
-                    $scope.NextAppointment=(Appointments.getNextAppointment()).Object.ScheduledStartTime;
-                    $scope.FirstName = Patient.getFirstName();
-                    $scope.LastName = Patient.getLastName();
-                    $scope.TelNum = Patient.getTelNum();
-                    $scope.Email = Patient.getEmail();
+                   homePageInit();
 
                 });
         });
        }
-
 //Sets all the variables in the view. 
-    $scope.dateToday=new Date();
-    $scope.NextAppointmentDate=(Appointments.getNextAppointment()).Object.ScheduledStartTime;
-    $scope.NextAppointmentType=(Appointments.getNextAppointment()).Object.AppointmentType;
-    if($scope.NextAppointmentDate.getTime()-$scope.dateToday.getTime()>0) { $timeout(function(){$scope.showNextAppointment=true})}else{ $timeout(function(){$scope.showNextAppointment=false})};
-    $scope.FirstName = Patient.getFirstName();
-    $scope.LastName = Patient.getLastName();
-    $scope.TelNum = Patient.getTelNum();
-    $scope.Email = Patient.getEmail();
+    
 }]);
 
 

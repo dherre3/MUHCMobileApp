@@ -9,7 +9,7 @@ myApp.service('EncryptionService',function(UserAuthorizationInfo){
 			        	decryptObject(object[key]);
 			        }else
 			        {
-				        var decipherbytes = CryptoJS.AES.decrypt(object[key], '12345');
+				        var decipherbytes = CryptoJS.AES.decrypt(object[key], UserAuthorizationInfo.getPassword());
 				        object[key]=decipherbytes.toString(CryptoJS.enc.Utf8)
 			        }
 		       	}
