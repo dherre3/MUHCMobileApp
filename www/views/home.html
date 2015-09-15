@@ -29,12 +29,13 @@
         <div  align="center" style="text-align:left;margin-left:5%;margin-right:10%" >
         <div align="center"><strong>{{dateToday|date:"EEEE, MMMM d yyyy"}}</strong><br></div>
       <div align="center" style="color:#2B6197"><h3>{{FirstName}} {{LastName}}</h3></div>
-        
-         <span class="profile-name">{{'STATUS'|translate}}: </span>Treatment Planning.
+        <div  align="center">
+         <span class="profile-name">{{'STATUS'|translate}}: </span><br>Treatment Plan Stage
+         </div>
      <div >
-          <span class="profile-name">Next Appointment: </span>
-          <div style="margin-left:5vw">{{NextAppointment.AppointmentType}}<br>
-          {{NextAppointment.ScheduledStartTime|date:"EEEE, MMMM d 'at' h:mm a"}}</div> 
+          <div align="center"> <span class="profile-name">Next Appointment: </span><br></div>
+          <div align="center">{{NextAppointment.ScheduledStartTime|date:"EEEE, MMMM d 'at' h:mm a"}}<br>{{NextAppointment.AppointmentType}}
+          </div> 
          <!-- <select ng-model="locale" class="form-control"
             ng-change="updateLocale(locale)"
             ng-options="locale.id as locale.name for locale in locales">
