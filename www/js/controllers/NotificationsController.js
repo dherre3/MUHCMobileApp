@@ -3,6 +3,7 @@ myApp.controller('NotificationsController', ['RequestToServer','Notifications', 
     //Clear Number of Notifications in menu once inside the notification center.
      $rootScope.showAlert=false;
      $rootScope.Notifications='';
+     $rootScope.TotalNumberOfNews='';
      setViewNotifications();
      $scope.NotificationsArray=[];
     /*
