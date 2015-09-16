@@ -22,37 +22,43 @@
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
+
       <div class="container" align="center">
         <img ng-src="./img/muhc-logo-text.png" >
       </div>
-       <div class="profile-card" style="padding-bottom:5vh">
+  <div class='container' style="margin-top:3vh">
+    <div class="panel panel-default">
+      <div class="panel-body" style="text-align: left;padding:5% 1% 5% 1%;">
         <div  align="center" style="text-align:left;margin-left:5%;margin-right:10%" >
-        <div align="center"><strong>{{dateToday|date:"EEEE, MMMM d yyyy"}}</strong><br></div>
-      <div align="center" style="color:#2B6197"><h3>{{FirstName}} {{LastName}}</h3></div>
-        <div  align="center">
-         <span class="profile-name">{{'STATUS'|translate}}: </span><br>Treatment Plan Stage
-         </div>
-     <div >
-          <div align="center"> <span class="profile-name">Next Appointment: </span><br></div>
-          <div align="center">{{NextAppointment.ScheduledStartTime|date:"EEEE, MMMM d 'at' h:mm a"}}<br>{{NextAppointment.AppointmentType}}
-          </div> 
-         <!-- <select ng-model="locale" class="form-control"
-            ng-change="updateLocale(locale)"
-            ng-options="locale.id as locale.name for locale in locales">
-        </select>-->
-        <div  ng-show="nextAppointmentIsToday" >
-        
-        <hr>
-        <div>
-              <h5>Checkin to your appointment: </h5>
+                <div align="center"><strong>{{dateToday|date:"EEEE, MMMM d yyyy"}}</strong><br></div>
+              <div align="center" style="color:#2B6197"><h3>{{FirstName}} {{LastName}}</h3></div>
+                <div  align="center">
+                 <span class="profile-name">{{'STATUS'|translate}}: </span><br>Treatment planning
+                 </div>
+             <div >
+                  <div align="center"> <span class="profile-name">Next Appointment: </span><br></div>
+                  <div align="center">{{NextAppointment.ScheduledStartTime|date:"EEEE, MMMM d 'at' h:mm a"}}<br>{{NextAppointment.AppointmentType}}
+                  </div> 
+                 <!-- <select ng-model="locale" class="form-control"
+                    ng-change="updateLocale(locale)"
+                    ng-options="locale.id as locale.name for locale in locales">
+                </select>-->
+                <div  ng-show="nextAppointmentIsToday" >
+                
+                <hr>
+                <div>
+                      <h5>Checkin to your appointment: </h5>
+                </div>
+                  <div align="center">
+                      <button class="btn btn-primary" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
+                  </div>
+                  </div>
+              </div>
         </div>
-          <div align="center">
-              <button class="btn btn-primary" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
-          </div>
-          </div>
-      </div>
+    </div>
+  </div>
 </div>
-</div>
+  
 
       <!--<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
        <ons-list-item modifier="chevron" ng-click="menu.setMainPage('views/schedule.html', {closeMenu: true})">
