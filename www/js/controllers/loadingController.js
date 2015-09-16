@@ -9,5 +9,12 @@ angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state'
 	    	$rootScope.refresh=true;
 	        $state.go('Home');
 	    });
+	    setTimeout(function() {
+	    	if($rootScope.refresh!==true){
+	    		$state.go('logOut');
+	    	}
+
+
+	    }, 8000);
 
 }]);

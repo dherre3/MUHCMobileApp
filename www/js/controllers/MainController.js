@@ -11,7 +11,6 @@ angular.module('MUHCApp').controller('MainController', ["$state",'$rootScope',fu
         $rootScope.showAlert=false;
     };
   
-  $rootScope.refresh=true;
    
   /*  document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady(){

@@ -3,11 +3,15 @@
 //  Created by David Herrera on 2015-05-04.
 //  Copyright (c) 2015 David Herrera. All rights reserved.
 //
-angular.module('MUHCApp').controller('logOutController',['Auth','UserAuthorizationInfo', '$state','$q','RequestToServer', function(Auth, UserAuthorizationInfo,$state,$q,RequestToServer){
+angular.module('MUHCApp').controller('logOutController',['Auth','$rootScope','UserAuthorizationInfo', '$state','$q','RequestToServer', function(Auth, $rootScope, UserAuthorizationInfo,$state,$q,RequestToServer){
 		console.log(Auth);
+		if($rootScope.refresh!==true){
+			var redirect=redirectPage();
+			redirect.then(setTimeout(function(){location.reload()},100));
+		}
 	//this.firebaseLink.set({logged: 'false'});
 		var firebaseLink=new Firebase('https://luminous-heat-8715.firebaseio.com/');
-		RequestToServer.sendRequest('Logout');
+		
 		//firebaseLink.child('Users/'+UserAuthorizationInfo.UserName).set({Logged: 'false'});
 		var authData = firebaseLink.getAuth();
 		firebaseLink.unauth();
@@ -23,8 +27,10 @@ angular.module('MUHCApp').controller('logOutController',['Auth','UserAuthorizati
 			r.resolve;
 			return r.promise;
 		}
+		RequestToServer.sendRequest('Logout');
 		if(authData){
 			var redirect=redirectPage();
+			$rootScope.refresh=null;
 			redirect.then(setTimeout(function(){location.reload()},100));
 		}
 
