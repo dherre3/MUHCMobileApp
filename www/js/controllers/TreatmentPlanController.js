@@ -46,21 +46,21 @@ myApp.controller('TreatmentPlanStagesController',['$rootScope','$scope','$timeou
 myApp.controller('TreatmentPlanStatusController',['$rootScope','$scope','UserPlanWorkflow',function($rootScope,$scope,UserPlanWorkflow){
 $scope.estimatedTime='3 days';
     $scope.finishedTreatment=false;
-    var appoint=UserPlanWorkflow.getPlanWorkflow();
-    if(appoint){
-        $scope.appointments=appoint;
-        $scope.timeBetweenAppointments=UserPlanWorkflow.getTimeBetweenEvents('Day');
-        $scope.today=new Date();
-        $scope.currentStage=appoint[UserPlanWorkflow.CurrentTaskOrAppointmentIndex].Name;
-        if(appoint[UserPlanWorkflow.CurrentTaskOrAppointmentIndex].Date>$scope.today){
-            $scope.lastFinished=appoint[UserPlanWorkflow.CurrentTaskOrAppointmentIndex-1].Name;  
-            $scope.dynamic=Math.floor(100*((UserPlanWorkflow.CurrentTaskOrAppointmentIndex)/appoint.length));
-            $scope.message=UserPlanWorkflow.CurrentTaskOrAppointmentIndex+' out of '+appoint.length;
-        }else{
-        $scope.finishedTreatment=true;
-        $scope.dynamic=100;
-        $scope.message=appoint.length+' out of '+appoint.length;
+    var stages=UserPlanWorkflow.getPlanWorkflow();
+    var nextStageIndex=UserPlanWorkflow.getNextStageIndex();
 
-      }
+    if(nextStageIndex==-1){
+        if(stages.length!=0){
+            $scope.completed=true;
+            $scope.percentage=100;
+            $scope.outOf=stages.length +' out of '+ stages.length;
+        }else{
+            $scope.noTreatmentPlan=true;
+        }
+    }else{
+        $scope.currentStage=UserPlanWorkflow.getNextStage().Name;
+        $scope.lastFinished=stages[nextStageIndex-1].Name;
+        $scope.percentage=Math.floor((100*nextStageIndex)/stages.length);
+        $scope.outOf=nextStageIndex +' out of '+ stages.length;
     }
-    }]);
+}]);

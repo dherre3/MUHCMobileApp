@@ -55,6 +55,7 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
 
                 //console.log(tasksAndAppointments[keysArray[i]]);
                 var date=$filter('formatDate')(tasksAndAppointments[keysArray[i]].Date);
+                console.log(date);
                 tasksAndAppointments[keysArray[i]].Date=date;
                 //console.log(date.getDate());     
                 var sta=null;    
@@ -65,8 +66,6 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
                     var tmp=min;
                     min=Math.min(min,date-today);  
                     if(tmp!==min){
-                        console.log(min);
-                        console.log(tasksAndAppointments[keysArray[i]]);
                         index=i;
                     }
                 }else{
@@ -95,8 +94,6 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
                     var diff=this.TasksAndAppointmentsArray[i].Date-today;
                     if(diff>0&&diff===min){          
                         this.TasksAndAppointmentsArray[i].Status='Next';
-                        console.log(this.TasksAndAppointmentsArray[i]);
-                        console.log(i);
                         this.CurrentTaskOrAppointmentIndex=i;
                         flag=1;
                     }
@@ -104,10 +101,6 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
 
             };
             if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length-1;
-            console.log(this.CurrentTaskOrAppointmentIndex);
-            console.log(this.TasksAndAppointmentsArray);
-            console.log(this.FutureStages);
-            console.log(this.PastStages);
             
         },
         /**

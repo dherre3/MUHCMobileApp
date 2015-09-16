@@ -36,9 +36,10 @@ var myApp=angular.module('MUHCApp.filters',[]);
 	myApp.filter('formatDate',function(){
 		return function(str) {
         if(typeof str==='string'){
-            str=str.replace('T',' ');
-            str=str.replace('Z','');
-            return new Date(str);
+          var a = str.split(/[^0-9]/);
+          //for (i=0;i<a.length;i++) { alert(a[i]); }
+          var d=new Date (a[0],a[1]-1,a[2],a[3],a[4],a[5] );
+        return d;
             /*var res = str.split("  ");
            var res1=res[1].split(" ");
             var res2 = (res[0]).split("-");

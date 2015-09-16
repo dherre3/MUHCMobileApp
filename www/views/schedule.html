@@ -181,17 +181,17 @@
           <ons-list-item style="1px solid black" modifier="chevron" ng-repeat="app in calendarDayAppointments"  ng-click="myNavigatorAppointments.pushPage('pageIndividualAppointment.html', {param:app},{ animation : 'slide' } )" >
             <ons-row>
               <ons-col style="opacity: 0.6;
-    filter: alpha(opacity=60);" width="20px" class="plan-left" ng-style="{ 'background-color': getStyle($index) }">
+    filter: alpha(opacity=60);" width="10px" class="plan-left" ng-style="{ 'background-color': getStyle($index) }">
               </ons-col>
 
               <ons-col class="plan-right">
-                <div class="plan-name-calendar"><span class="plan-date-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</span><br>Type: {{app.AppointmentType}}<br></div>
+                <div class="plan-name-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</div>
                 <div class="plan-info">
-                  <div>
-                    <ons-icon icon="fa-phone"></ons-icon>Doctor: {{app.ResourceName}}
+                 <div >
+                    {{app.AppointmentType}}
                   </div>
-                  <div >
-                    <ons-icon icon="fa-map-marker"></ons-icon>Location: {{app.Location}}
+                  <div>
+                    <ons-icon icon="ion-person" size="90%">&nbsp;</ons-icon>{{app.ResourceName}}
                   </div>
                 </div>
               </ons-col>
@@ -210,11 +210,28 @@
   <ons-page ng-controller="AppointmentListController">
  <div>
  <div align="center">
-  <div class="btn-group" >
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'All'">All</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Past'">Past</label>
-        <label class="btn btn-primary"  ng-model="radioModel" btn-radio="'Today'">Today</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Upcoming'">Upcoming</label>
+  <div class="navigation-bar">
+      <div class="navigation-bar__center">
+        <div class="button-bar" style="width:230px;margin:7px 50px;">
+          <div class="button-bar__item">
+            <input type="radio" ng-model="radioModel" value="All" name="navi-segment-a" checked>
+            <div class="button-bar__button">All</div>
+          </div>
+
+          <div class="button-bar__item">
+            <input type="radio" ng-model="radioModel" value="Past" name="navi-segment-a">
+            <div class="button-bar__button">Past</div>
+          </div>
+          <div class="button-bar__item">
+            <input type="radio" ng-model="radioModel" value="Today" name="navi-segment-a">
+            <div class="button-bar__button">Today</div>
+          </div>
+          <div class="button-bar__item">
+            <input type="radio" ng-model="radioModel" value="Upcoming" name="navi-segment-a">
+            <div class="button-bar__button">Future</div>
+          </div>
+        </div>
+      </div>
     </div>
  </div>
  </div>
@@ -227,13 +244,13 @@
               </ons-col>
 
               <ons-col class="plan-right">
-                <div class="plan-name-calendar"><span class="plan-date-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</span><br>Type: {{app.AppointmentType}}<br></div>
+                <div class="plan-name-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</div>
                 <div class="plan-info">
-                  <div>
-                    <ons-icon icon="fa-phone"></ons-icon>Doctor: {{app.ResourceName}}
+                 <div >
+                    {{app.AppointmentType}}
                   </div>
-                  <div >
-                    <ons-icon icon="fa-map-marker"></ons-icon>Location: {{app.Location}}
+                  <div>
+                    <ons-icon icon="ion-person" size="90%">&nbsp;</ons-icon>{{app.ResourceName}}
                   </div>
                 </div>
               </ons-col>
@@ -259,7 +276,7 @@
   <div class="panel-body" style="text-align: left;padding:5% 2% 5% 2%;">
       <br />
     
-      <div align="center"><strong>{{app.AppointmentType}}</strong> <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><span style="font-size:9px">(what is this?)</span></a><br>
+      <div align="center"><strong><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})">{{app.AppointmentType}}</a></strong><br>
      {{app.ResourceName}}<br> 
       {{app.ScheduledStartTime|date:"EEEE MMMM d, yyyy"}}<br>
       <strong>Time: </strong>{{app.ScheduledStartTime|date:"h:mm a"}}<br>
