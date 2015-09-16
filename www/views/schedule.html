@@ -166,7 +166,7 @@
 <ons-template id="pageCalendar.html">
   <ons-page ng-controller="CalendarController">
        <div align="center">
-       <div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background-color:red;display:inline-block;border:1px solid #000;"></div>&nbsp;<strong>Past</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background:#5CE68A;border:1px solid #000;display:inline-block"></div>&nbsp;<strong>Today</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;border:1px solid #000;background:blue;display:inline-block"></div>&nbsp;<strong>Upcoming</strong></div>
+       <div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background-color:#5CE68A;display:inline-block;border:1px solid #000;"></div>&nbsp;<strong>Past</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background:#3399ff;border:1px solid #000;display:inline-block"></div>&nbsp;<strong>Today</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;border:1px solid #000;background:grey;display:inline-block"></div>&nbsp;<strong>Upcoming</strong></div>
 
 
 
@@ -208,9 +208,9 @@
  <div>
  <div align="center">
   <div class="btn-group" >
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Past'">Past</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Today'">Today</label>
-        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Upcoming'">Upcoming</label>
+        <label class="btn" style='background:#5CE68A' ng-model="radioModel" btn-radio="'Past'">Past</label>
+        <label class="btn " style='background:#3399ff' ng-model="radioModel" btn-radio="'Today'">Today</label>
+        <label class="btn " style='background:grey' ng-model="radioModel" btn-radio="'Upcoming'">Upcoming</label>
     </div>
  </div>
  </div>

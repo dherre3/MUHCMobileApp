@@ -783,25 +783,25 @@ ul.checkout-bar a {
 */
 
   .full button {
-    opacity: 0.6;
+    opacity: 0.8;
     filter: alpha(opacity=60);
-    color: #fff;
-    background-color: blue !important;
-    border-color: blue !important;
+    color: white;
+    background-color: grey !important;
+    border-color: grey !important;
   }
 
   .partially button {
-    opacity: 0.6;
+    opacity: 0.8;
     filter: alpha(opacity=60);
     color: #fff;
-    background-color: red !important;
-    border-color: red !important;
+    background-color: #5CE68A !important;
+    border-color: #5CE68A !important;
   }
   .today button {
-    opacity: 0.6;
+    opacity: 0.8;
     filter: alpha(opacity=60);
-     background-color: limegreen;
-    border-color: limegreen;
+     background-color: #3399ff;
+    border-color: #3399ff;
     color: #fff;
   }
   .plan-name-calendar {

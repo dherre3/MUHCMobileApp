@@ -89,14 +89,14 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
         var dateAppointment=$scope.calendarDayAppointments[index].ScheduledStartTime;
 
         if(today.getDate()===dateAppointment.getDate()&&today.getMonth()===dateAppointment.getMonth()&&today.getFullYear()===dateAppointment.getFullYear()){
-            return '#5CE68A';
+            return '#3399ff';
 
         }else if(dateAppointment>today){
-            return '#3399ff';
+            return 'grey';
 
 
         }else{
-            return '#F80000';
+            return '#5CE68A';
         }
     };
 
@@ -291,17 +291,16 @@ function ($scope,$timeout, Appointments) {
         var dateAppointment=$scope.appointments[index].ScheduledStartTime;
 
         if(today.getDate()===dateAppointment.getDate()&&today.getMonth()===dateAppointment.getMonth()&&today.getFullYear()===dateAppointment.getFullYear()){
-            return '#5CE68A';
+            return '#3399ff';
 
         }else if(dateAppointment>today){
-            return '#3399ff';
+            return 'grey';
 
 
         }else{
-            return '#F80000';
+            return '#5CE68A';
         }
     };
-
 }]);
 myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appointments', 
     function ($scope, $timeout, Appointments) {

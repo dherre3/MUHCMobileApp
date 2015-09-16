@@ -22,11 +22,11 @@
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
-        <div class="container-fluid" align="center" style="margin-top:40px">
-         <div  ng-repeat="photo in photoAlbum" align="center" class="col-md-3 col-sm-3 col-xs-12 col-lg-3">
-            <div  class="thumbnail" style="width:180px">
+        <div class="container" align="center" style="margin-top:3vw;padding:5px">
+         <div  ng-repeat="photo in photoAlbum"  class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
+            <div  align="center" style="width:90%;height:300px"  class="thumbnail">
             <a href ng-click="openImage(photo.Content)">
-                <img width="120px" height="60px" ng-src="{{photo.Content}}" alt="{{photo.Name}}">
+                <img width="90%" height="90%" style="max-width:300px" ng-src="{{photo.Content}}" alt="{{photo.Name}}">
           <div class="caption">
             <h5>{{photo.Name}}</h5>
           <p>{{photo.Description}}</p>
