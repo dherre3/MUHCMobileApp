@@ -8,10 +8,8 @@
     </div>
     <div class="center">Appointment Schedule</div>
   </ons-toolbar>
-<ons-tabbar>
-    <ons-tab page="pageAppointmentList.html" label="List" icon="ion-ios-list-outline" active="true"></ons-tab>
-    <ons-tab page="pageCalendar.html" label="Calendar" icon="ion-calendar"></ons-tab>
-</ons-tabbar>
+
+
   <div class="container" ng-hide="noNotifications">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
         <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
@@ -19,9 +17,13 @@
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
+ <ons-tabbar>
+    <ons-tab page="pageAppointmentList.html" label="List" icon="ion-ios-list-outline" active="true"></ons-tab>
+    <ons-tab page="pageCalendar.html" label="Calendar" icon="ion-calendar"></ons-tab>
+</ons-tabbar>
 
 <!--THE NEXT APPOINTMENT DIV FOR ALL VIEWS, IT TAKES THE WHOLE SCREEN FOR MOBILE AND PORTRAIT TABLET VIEW-->
-<div class="container-fluid hidden-xs hidden-sm" style="padding:1%" >
+<!--<div class="container-fluid hidden-xs hidden-sm" style="padding:1%" >
 <ons-split-view
   main-page="pageAppointmentList.html"
   secondary-page="mainAppointmentPage.html"
@@ -62,13 +64,13 @@
             </div>
             <br>
 
-  
+  -->
 
 
 
 <!--DIV LINKS TO CALENDAR AND LIST OF APPOINTMENTS VIEW FOR SMALL AND PORTRAIT TABLET VIEWS-->
 
-<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
+<!--<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
         <ons-list-item modifier="chevron" ng-click="myNavigatorAppointments.pushPage('pageCalendar.html', {param:type},{ animation : 'slide' } )" >
           <ons-icon icon="ion-calendar"></ons-icon>&nbsp;<span style="color:black">Check My Calendar</span>
         </ons-list-item>
@@ -81,7 +83,7 @@
 
 
 
-</div>
+</div>-->
 
 
 <!--
@@ -108,6 +110,7 @@
 
 
 <!-- CALENDAR VIEW FOR MOBILE AND PORTRAIT TABLET, ALSO TO BE USED IN DESKTOP WITH SOME MODIFICATIONS THAT WILL COME LATER-->
+<!--
 <ons-template id="mainAppointmentPage.html" >
 <ons-page ng-controller="ScheduleController">
  <div style="text-align:left" class="container  col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -138,7 +141,7 @@
             </div>
             </div>
             </div>
-            <br>
+            <br>-->
 
   
 
@@ -146,7 +149,7 @@
 
 <!--DIV LINKS TO CALENDAR AND LIST OF APPOINTMENTS VIEW FOR SMALL AND PORTRAIT TABLET VIEWS-->
 
-<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
+<!--<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
         <ons-list-item modifier="chevron" ng-click="myNavigatorAppointments.pushPage('pageCalendar.html', {param:type},{ animation : 'slide' } )" >
           <ons-icon icon="ion-calendar"></ons-icon>&nbsp;<span style="color:black">Check My Calendar</span>
         </ons-list-item>
@@ -162,7 +165,7 @@
 </div>
 </ons-page>
 
-</ons-template>
+</ons-template>-->
 <ons-template id="pageCalendar.html">
   <ons-page ng-controller="CalendarController">
        <div align="center">
@@ -182,7 +185,7 @@
               </ons-col>
 
               <ons-col class="plan-right">
-                <div class="plan-name-calendar"><span class="plan-date-calendar">{{app.ScheduledStartTime|date:"dd/mm/yyyy 'at' h:mm a"}}</span><br>Type: {{app.AppointmentType}}<br></div>
+                <div class="plan-name-calendar"><span class="plan-date-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</span><br>Type: {{app.AppointmentType}}<br></div>
                 <div class="plan-info">
                   <div>
                     <ons-icon icon="fa-phone"></ons-icon>Doctor: {{app.ResourceName}}
@@ -208,9 +211,10 @@
  <div>
  <div align="center">
   <div class="btn-group" >
-        <label class="btn" style='background:#5CE68A' ng-model="radioModel" btn-radio="'Past'">Past</label>
-        <label class="btn " style='background:#3399ff' ng-model="radioModel" btn-radio="'Today'">Today</label>
-        <label class="btn " style='background:grey' ng-model="radioModel" btn-radio="'Upcoming'">Upcoming</label>
+        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'All'">All</label>
+        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Past'">Past</label>
+        <label class="btn btn-primary"  ng-model="radioModel" btn-radio="'Today'">Today</label>
+        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Upcoming'">Upcoming</label>
     </div>
  </div>
  </div>
@@ -223,7 +227,7 @@
               </ons-col>
 
               <ons-col class="plan-right">
-                <div class="plan-name-calendar"><span class="plan-date-calendar">{{app.ScheduledStartTime|date:"dd/mm/yyyy 'at' h:mm a"}}</span><br>Type: {{app.AppointmentType}}<br></div>
+                <div class="plan-name-calendar"><span class="plan-date-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</span><br>Type: {{app.AppointmentType}}<br></div>
                 <div class="plan-info">
                   <div>
                     <ons-icon icon="fa-phone"></ons-icon>Doctor: {{app.ResourceName}}
@@ -255,7 +259,7 @@
   <div class="panel-body" style="text-align: left;padding:5% 2% 5% 2%;">
       <br />
     
-      <div align="center"><strong>{{app.AppointmentType}}</strong> <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><span style="font-size:9px">(what is this?)</span></a>
+      <div align="center"><strong>{{app.AppointmentType}}</strong> <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><span style="font-size:9px">(what is this?)</span></a><br>
      {{app.ResourceName}}<br> 
       {{app.ScheduledStartTime|date:"EEEE MMMM d, yyyy"}}<br>
       <strong>Time: </strong>{{app.ScheduledStartTime|date:"h:mm a"}}<br>
@@ -300,6 +304,9 @@
   </div>  
   </ons-page>
 </ons-template>
+
+
+
 <ons-template id="pageRequestChange.html">
   <ons-page ng-controller="RequestChangeController">
     <ons-toolbar class="hidden-md hidden-lg">

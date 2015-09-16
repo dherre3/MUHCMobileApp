@@ -252,10 +252,8 @@ function ($scope,$timeout, Appointments) {
     //Initializing choice
     if(Appointments.getTodaysAppointments().length!==0){
         $scope.radioModel = 'Today';
-    }else if(Appointments.getFutureAppointments().length!==0){
-        $scope.radioModel = 'Upcoming';
-    }else{
-        $scope.radioModel='Past';
+    }else {
+        $scope.radioModel = 'All';
     }
     
 
@@ -281,7 +279,7 @@ function ($scope,$timeout, Appointments) {
         }else if(selectionRadio==='Past'){
             $scope.appointments=Appointments.getPastAppointments();
         }else{
-            $scope.appointments=Appointments.getAppointments();
+            $scope.appointments=Appointments.getUserAppointments();
         }
     }
 

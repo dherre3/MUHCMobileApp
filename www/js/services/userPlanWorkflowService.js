@@ -19,6 +19,17 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
     *@propertyOf MUHCApp.services:UserPlanWorkflow
     *@description Contains index of current stage in the TasksAndAppointmentsArray 
     */
+    function setTimeBetweenStages(array){
+        if(array.length==0) return;
+        var flag=0;
+        array[0].StageLength=-1;
+        for (var i = 0; i < array.length; i++) {
+            if(i>0){
+                var dateDiffStage=(array[i].Date - array[i-1].Date)/(1000*60*60*24);
+                array[i].StageLength=dateDiffStage;
+            }
+        };
+    }
     
 
     return{
@@ -32,40 +43,71 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
         **/
         setUserPlanWorkflow:function(tasksAndAppointments){
             this.TasksAndAppointmentsArray=[];
+            this.FutureStages=[];
+            this.PastStages=[];
+            this.CurrentTaskOrAppointmentIndex=-1;
+
             var keysArray=Object.keys(tasksAndAppointments);
             var min=Infinity;
             var index=-1;
+            var today=new Date();
             for (var i=0;i<keysArray.length;i++) {
 
-               //console.log(tasksAndAppointments[keysArray[i]]);
-               var date=$filter('formatDate')(tasksAndAppointments[keysArray[i]]);
-               //console.log(date.getDate());         
-                var dateDiff=((new Date()) - date);
-                if(dateDiff<0){
-                    dateDiff=dateDiff*-1;
-                }
-                if((new Date())<date){
-                    var sta='Future';
+                //console.log(tasksAndAppointments[keysArray[i]]);
+                var date=$filter('formatDate')(tasksAndAppointments[keysArray[i]].Date);
+                tasksAndAppointments[keysArray[i]].Date=date;
+                //console.log(date.getDate());     
+                var sta=null;    
+                if(date>today){
+                    sta='Future';
+                    tasksAndAppointments[keysArray[i]].Status=sta;
+                    this.FutureStages.push(tasksAndAppointments[keysArray[i]]);
                     var tmp=min;
-                    min=Math.min(min,dateDiff);  
+                    min=Math.min(min,date-today);  
                     if(tmp!==min){
+                        console.log(min);
+                        console.log(tasksAndAppointments[keysArray[i]]);
                         index=i;
-                    }   
-               }else{
-                    var sta='Past';
-               }       
-               (this.TasksAndAppointmentsArray).push({Name:keysArray[i],Date:date,Status:sta});
+                    }
+                }else{
+                    sta='Past';
+                    tasksAndAppointments[keysArray[i]].Status=sta;
+                    this.PastStages.push(tasksAndAppointments[keysArray[i]]);
+                }
+                (this.TasksAndAppointmentsArray).push(tasksAndAppointments[keysArray[i]]);
+            };
+
+            this.TasksAndAppointmentsArray=$filter('orderBy')(this.TasksAndAppointmentsArray,'Date');
+            this.FutureStages=$filter('orderBy')(this.FutureStages,'Date');
+            this.PastStages=$filter('orderBy')(this.PastStages,'Date');
+
+            setTimeBetweenStages(this.FutureStages);
+            setTimeBetweenStages(this.PastStages);
+
+            var flag=0;
+            this.TasksAndAppointmentsArray[0].StageLength=-1;
+            for (var i = 0; i < this.TasksAndAppointmentsArray.length; i++) {
+                if(i>0){
+                    var dateDiffStage=(this.TasksAndAppointmentsArray[i].Date - this.TasksAndAppointmentsArray[i-1].Date)/(1000*60*60*24);
+                    this.TasksAndAppointmentsArray[i].StageLength=dateDiffStage;
+                }
+                if(index!==-1&&flag==0){                
+                    var diff=this.TasksAndAppointmentsArray[i].Date-today;
+                    if(diff>0&&diff===min){          
+                        this.TasksAndAppointmentsArray[i].Status='Next';
+                        console.log(this.TasksAndAppointmentsArray[i]);
+                        console.log(i);
+                        this.CurrentTaskOrAppointmentIndex=i;
+                        flag=1;
+                    }
+                }
 
             };
-            this.TasksAndAppointmentsArray=$filter('orderBy')(this.TasksAndAppointmentsArray,'Date');
-            if(index!==-1){
-                this.TasksAndAppointmentsArray[index].Status='Next';
-                this.CurrentTaskOrAppointmentIndex=index;
-            }else{
-               this.CurrentTaskOrAppointmentIndex=keysArray.length-1; 
-            }
-            
-
+            if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length-1;
+            console.log(this.CurrentTaskOrAppointmentIndex);
+            console.log(this.TasksAndAppointmentsArray);
+            console.log(this.FutureStages);
+            console.log(this.PastStages);
             
         },
         /**
@@ -120,6 +162,18 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
         }else{
             return {Name:"boom", Date:new Date()};
         }
+        },
+        getNextStageIndex:function(){
+            return this.CurrentTaskOrAppointmentIndex;
+        },
+        getNextStage:function(){
+            return this.TasksAndAppointmentsArray[this.CurrentTaskOrAppointmentIndex];
+        },
+        getFutureStages:function(){
+            return this.FutureStages;
+        },
+        getPastStages:function(){
+            return this.PastStages;
         }
     };
 

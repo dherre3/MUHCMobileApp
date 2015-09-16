@@ -147,7 +147,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
 
                 
                 //Sort Appointments chronologically most recent first
-                this.UserAppointmentsArray = $filter('orderBy')(this.UserAppointmentsArray, 'ScheduledStartTime', false);
+                this.UserAppointmentsArray = $filter('orderBy')(this.UserAppointmentsArray, 'ScheduledStartTime', true);
                 this.PastAppointments=$filter('orderBy')(this.PastAppointments, 'ScheduledStartTime',true);
                 this.TodayAppointments=$filter('orderBy')(this.TodayAppointments, 'ScheduledStartTime',false);
                 this.FutureAppointments=$filter('orderBy')(this.FutureAppointments, 'ScheduledStartTime',false);
