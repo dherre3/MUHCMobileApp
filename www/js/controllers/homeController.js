@@ -30,6 +30,7 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         *
         *
         */
+       
         function homePageInit(){
         $scope.dateToday=new Date();
         var date;
