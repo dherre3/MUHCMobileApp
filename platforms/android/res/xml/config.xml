@@ -24,13 +24,16 @@
     <feature name="Vibration">
         <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
     </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
     <allow-intent href="market:*" />
-    <name>HelloWorld</name>
+    <name>MUHC</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        An app for radioation oncology patients at the MUHC Glen site to provide patients with their personalized data, and give them an estimate of waiting times specific to their treatment using machine learning algorithms
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="davidfherrerar@gmail.com" href="http://cordova.io">
+        David F. Herrera
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -40,4 +43,5 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <icon src="www/img/logo.png" />
 </widget>

@@ -109,6 +109,14 @@
   </script>
 </head>
 <body id='boots' >
+<ons-modal var="modal">
+        <ons-icon icon="ion-load-c" spin="true"></ons-icon>
+        <br><br>
+        <div class="container" align="center">
+        <img ng-src="./img/muhc-logo-text.png" >
+      </div>
+        Loading data...
+</ons-modal>
 
   <div ng-controller="MainController" >
   <ons-navigator title="Navigator" var="myNavigator">
@@ -137,6 +145,7 @@
      <script src="js/controllers/ScheduleController.js"></script>
     <script src="js/controllers/MapsController.js"></script>
     <script src="js/controllers/FeedbackController.js"></script>
+    <script src="js/controllers/ContactsController.js"></script>
      <script src="lib/js/cordovaDeviceModule.min.js"></script>
     <script src="js/controllers/EducationalMaterialController.js"></script>
 

@@ -47,7 +47,8 @@ $scope.personClicked=function(index){
       Messages.changeConversationReadStatus($scope.selectedIndex);
       $scope.glue=true;
     });
-  };
+};
+
 $scope.$watch('person.selected', function(){
   $timeout(function(){
     $scope.glue=false;
@@ -153,8 +154,6 @@ $scope.$watchGroup(['newMessage','upload'],function(){
     Messages.setDateOfLastMessage($scope.selectedIndex, $scope.messages[$scope.selectedIndex].DateOfLastMessage);
     objectToSend.MessageDate=$filter('formatDateToFirebaseString')(new Date());
     objectToSend.MessageContent=$scope.newMessage;
-
-    
     if($scope.upload){
       objectToSend.Attachment=$scope.upload.Document;
       Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessage,new Date(),$scope.upload.Document);
@@ -162,11 +161,12 @@ $scope.$watchGroup(['newMessage','upload'],function(){
     }else{
       Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessage,new Date());
     }
-    $scope.messages=Messages.getUserMessages();
+    
     //Send message request
     RequestToServer.sendRequest('Message',objectToSend);
     $scope.newMessage=''; 
     $scope.glue=true;
+    $scope.messages=Messages.getUserMessages();
   }
 
   $scope.getStyle=function(index){
@@ -309,36 +309,38 @@ $scope.$watchGroup(['newMessageMobile','upload'],function(){
     }
 });
 //Individual sent message function, saves message via service to firebase and to user's object
- $scope.submitMessage=function(){
-    $scope.glue=false;
-   //Create object to send
-    var objectToSend={};
-    //Get conversation for details
-    var conversation=$scope.messages[$scope.selectedIndex];
-    $scope.messages[$scope.selectedIndex].DateOfLastMessage=new Date();
+$scope.submitMessage=function(){
+  $scope.glue=false;
+ //Create object to send
+  var objectToSend={};
 
-    //create object
-    objectToSend.ReceiverSerNum=conversation.UserSerNum;
-    objectToSend.SenderSerNum=Patient.getUserSerNum();
-    objectToSend.SenderRole='Patient';
-    objectToSend.ReceiverRole=conversation.Role;
-    objectToSend.MessageDate=$filter('formatDateToFirebaseString')($scope.messages[$scope.selectedIndex].DateOfLastMessage);
-    objectToSend.MessageContent=$scope.newMessageMobile;
+  //Get conversation for details
+  var conversation=$scope.messages[$scope.selectedIndex];
+  $scope.messages[$scope.selectedIndex].DateOfLastMessage=new Date();
 
-    Messages.setDateOfLastMessage($scope.selectedIndex, $scope.messages[$scope.selectedIndex].DateOfLastMessage);
-    if($scope.upload){
-      objectToSend.Attachment=$scope.upload.Document;
-      Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessageMobile,new Date(),$scope.upload.Document);
-      $scope.upload=null;
-    }else{
-      Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessageMobile,new Date());
-    }
-    $scope.messages=Messages.getUserMessages();
-    //Add message to conversation
-    //Send message request
-    RequestToServer.sendRequest('Message',objectToSend);
-    $scope.newMessageMobile='';
-    $scope.glue=true;
+  //create object
+  objectToSend.ReceiverSerNum=conversation.UserSerNum;
+  objectToSend.SenderSerNum=Patient.getUserSerNum();
+  objectToSend.SenderRole='Patient';
+  objectToSend.ReceiverRole=conversation.Role;
+  objectToSend.MessageDate=$filter('formatDateToFirebaseString')($scope.messages[$scope.selectedIndex].DateOfLastMessage);
+  objectToSend.MessageContent=$scope.newMessageMobile;
+
+  Messages.setDateOfLastMessage($scope.selectedIndex, $scope.messages[$scope.selectedIndex].DateOfLastMessage);
+  if($scope.upload){
+    objectToSend.Attachment=$scope.upload.Document;
+    Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessageMobile,new Date(),$scope.upload.Document);
+    $scope.upload=null;
+  }else{
+    Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessageMobile,new Date());
+  }
+  
+  //Add message to conversation
+  //Send message request
+  RequestToServer.sendRequest('Message',objectToSend);
+  $scope.newMessageMobile='';
+  $scope.glue=true;
+  $scope.messages=Messages.getUserMessages();
 }
 });
 

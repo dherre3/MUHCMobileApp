@@ -1,19 +1,31 @@
- var myApp = angular.module('app');
-  myApp.controller('ScansDocumentController',['UserDataMutable','UpdateUI', '$scope','$timeout',function (UserDataMutable,UpdateUI,$scope,$timeout) {
+ var myApp = angular.module('MUHCApp');
+  myApp.controller('ScansDocumentController',['Patient','Documents','UpdateUI', '$scope','$timeout','UserPreferences', function (Patient,Documents, UpdateUI,$scope,$timeout, UserPreferences) {
         $scope.closeAlert = function () {
    
         $rootScope.showAlert=false;
     };
+    $scope.photoAlbum=Documents.getPhotos();
+    console.log($scope.photoAlbum);
+    if(UserPreferences.getLanguage()=='EN'){
+      for(var i=0;i<$scope.photoAlbum.length;i++){
+        $scope.photoAlbum[i].Name=$scope.photoAlbum[i].ImageHospitalName_EN;
+        $scope.photoAlbum[i].Description=$scope.photoAlbum[i].ImageHospitalDescription_EN;
+      }
+      
+    }else{
+      for(var i=0;i<$scope.photoAlbum.length;i++){
+        $scope.photoAlbum[i].Name=$scope.photoAlbum[i].ImageHospitalName_FR;
+        $scope.photoAlbum[i].Description=$scope.photoAlbum[i].ImageHospitalDescription_FR;
+      }
+    }
       $('[data-toggle="popover"]').popover();  
       $scope.showFullPhotos=false;
       $scope.showListCarousel=true;
-      var Ref = new Firebase("https://luminous-heat-8715.firebaseio.com/users/simplelogin:12/images");
-    //  $scope.imageList = {};
-    $scope.imageList=UserDataMutable.getPhotos();
+          //  $scope.imageList = {};
+    $scope.imageList=Documents.getPhotos();
     $scope.showMe=true;
     
       $scope.$watch('pickPic.name',function(val){
-        console.log(val);
         if(val==='angelFalls'){
            app.carousel.setActiveCarouselItemIndex(0);
         }else if(val==='mountEverest'){
@@ -24,7 +36,14 @@
           app.carousel.setActiveCarouselItemIndex(3);
         }
       });
-
+$scope.openImage=function(img){
+  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
+  if(app){
+     var ref = window.open(img, '_blank', 'location=yes');
+  }else{
+     window.open(img);
+  }
+}
 var options = {
   animation: 'slide', // What animation to use
   onTransitionEnd: function() {} // Called when finishing transition animation
@@ -85,7 +104,7 @@ $scope.clickBack=function(){
                     console.log(dataValues);
                     setTimeout(function(){
                         $scope.$apply(function(){
-                            $scope.imageList=UserDataMutable.getPhotos();
+                            $scope.imageList=Documents.getPhotos();
                         });
                     },100);
                 },function(error){
@@ -120,3 +139,22 @@ $scope.clickBack=function(){
           }
           $scope.date=new Date();
   }]);
+
+ myApp.controller('SingleDocumentController',['Documents', '$timeout', '$scope', function(Documents, $timeout,$scope){
+  console.log('Simgle Document Controller');
+  var page = myNavigatorDocuments.getCurrentPage();
+
+  var image=page.options.param;
+  console.log(image);
+  $scope.header=image.Name;
+  $scope.imageContent=image.Content;
+  var gesturableImg = new ImgTouchCanvas({
+            canvas: document.getElementById('mycanvas'),
+            path: $scope.imageContent
+        });
+  /*var gesturableImg = new ImgTouchCanvas({
+          canvas: document.getElementById('mycanvas2'),
+          path: "./img/D-RC_ODC_16June2015_en_FNL.png"
+      });*/
+
+}]);

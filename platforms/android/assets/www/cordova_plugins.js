@@ -208,6 +208,13 @@ module.exports = [
             "navigator.notification",
             "navigator"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
+        "clobbers": [
+            "device"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -220,7 +227,8 @@ module.exports.metadata =
     "org.apache.cordova.network-information": "0.2.15",
     "org.apache.cordova.battery-status": "0.2.12",
     "org.apache.cordova.dialogs": "0.3.0",
-    "org.apache.cordova.vibration": "0.3.13"
+    "org.apache.cordova.vibration": "0.3.13",
+    "org.apache.cordova.device": "0.3.0"
 }
 // BOTTOM OF METADATA
 });

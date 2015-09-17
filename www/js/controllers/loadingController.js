@@ -12,10 +12,10 @@ angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state'
 	        $state.go('Home');
 
 	    });
-	    setTimeout(function() {
+	    /*setTimeout(function() {
 	    	if(typeof Patient.getFirstName()==='undefined'){
 	    		$state.go('logOut');
 	    	}
-	    }, 8000);
+	    }, 12000);*/
 
 }]);

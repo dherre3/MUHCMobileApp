@@ -20,6 +20,7 @@ var myApp=angular.module('MUHCApp')
     if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
+        RequestToServer.sendRequest('Refresh');
         $state.go('loading');
     }   
     //Creating reference to firebase link 

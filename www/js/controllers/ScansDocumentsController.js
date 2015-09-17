@@ -37,7 +37,12 @@
         }
       });
 $scope.openImage=function(img){
-  window.open(img);
+  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
+  if(app){
+     var ref = window.open(img, '_blank', 'location=yes');
+  }else{
+     window.open(img);
+  }
 }
 var options = {
   animation: 'slide', // What animation to use

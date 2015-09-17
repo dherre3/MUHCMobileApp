@@ -1,6 +1,6 @@
   <ons-sliding-menu
     menu-page="menu.html" main-page="views/home.html" side="left"
-    var="menu" type="reveal" max-slide-distance="300px" swipe-target-width="100" swipeable="true">
+    var="menu" type="reveal" max-slide-distance="250px" swipe-target-width="100" swipeable="true">
   </ons-sliding-menu>
 
   <ons-template id="menu.html">
@@ -15,6 +15,10 @@
           <ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>
           CHECK IN
         </ons-list-item>
+        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/contacts.html', {closeMenu: true})">
+          <ons-icon icon="ion-android-people" fixed-width="true"></ons-icon>
+          CONTACTS
+        </ons-list-item>
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/notifications.html', {closeMenu: true})">
           <ons-icon icon="fa-bell" fixed-width="true"></ons-icon>
           NOTIFICATIONS
@@ -23,7 +27,7 @@
 
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/schedule.html', {closeMenu: true})">
           <ons-icon icon="fa-calendar" fixed-width="true"></ons-icon>
-          APPOINTMENT SCHEDULE
+          APPOINTMENTS
         </ons-list-item>
      
 
@@ -34,7 +38,7 @@
    
       <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/scansNDocuments.html', {closeMenu: true})">
           <ons-icon icon="fa-folder" fixed-width="true"></ons-icon>
-          PATIENT DOCUMENTS
+          DOCUMENTS
         </ons-list-item> 
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/patientPortal.html', {closeMenu: true})">
           <ons-icon icon="fa-envelope" fixed-width="true"></ons-icon>
@@ -44,7 +48,7 @@
 
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/educational-material.html', {closeMenu: true})">
           <ons-icon icon="fa-book" fixed-width="true"></ons-icon>
-          EDUCATIONAL MATERIAL
+          EDUCATIONAL
         </ons-list-item>
    
 
