@@ -285,6 +285,7 @@ $scope.messageAttachmentOpener=function(mes){
   var ref = window.open(mes.Attachment, '_blank', 'location=yes');
 };
 $scope.$watch('upload.Document',function(){
+
   if($scope.upload){
     if(!$scope.upload.Document){
    $timeout(function(){
@@ -302,11 +303,13 @@ $scope.$watch('upload.Document',function(){
 }
 });
 $scope.$watchGroup(['newMessageMobile','upload'],function(){
+    $scope.messageContentScroll=false;
   if($scope.newMessageMobile==''&&$scope.upload==null){
       $scope.sendButtonDisabled=true;
     }else{
       $scope.sendButtonDisabled=false;
     }
+      $scope.messageContentScroll=true;
 });
 //Individual sent message function, saves message via service to firebase and to user's object
 $scope.submitMessage=function(){
@@ -333,6 +336,7 @@ $scope.submitMessage=function(){
     $scope.upload=null;
   }else{
     Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessageMobile,new Date());
+    console.log(Messages.getUserMessages());
   }
   
   //Add message to conversation
@@ -340,7 +344,11 @@ $scope.submitMessage=function(){
   RequestToServer.sendRequest('Message',objectToSend);
   $scope.newMessageMobile='';
   $scope.glue=true;
-  $scope.messages=Messages.getUserMessages();
+  $timeout(function(){
+    $scope.messages=Messages.getUserMessages();
+    console.log($scope.messages);
+  });
+
 }
 });
 

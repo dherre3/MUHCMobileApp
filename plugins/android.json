@@ -39,6 +39,14 @@
                         {
                             "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileOpener2\"><param name=\"android-package\" value=\"io.github.pwlin.cordova.plugins.fileopener2.FileOpener2\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -60,6 +68,10 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
                             "count": 1
                         }
                     ],
@@ -99,6 +111,12 @@
             "PACKAGE_NAME": "com.example.hello"
         },
         "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "io.github.pwlin.cordova.plugins.fileopener2": {
+            "PACKAGE_NAME": "com.example.hello"
+        },
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.example.hello"
         }
     },

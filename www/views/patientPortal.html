@@ -166,7 +166,7 @@
                 <span class="timeline-id">{{mes.Date|date:'h:mm a'}}</span>
               </div>
               <div  class="timeline-message ">
-                {{mes.MessageContent}}
+                <p>{{mes.MessageContent}}</p>
               </div>
               <div>
                 <a ng-click="messageAttachmentOpener(mes)">
@@ -251,7 +251,7 @@
                   <span class="timeline-id">{{mes.Date|date:'h:mm a'}}</span>
                 </div>
                 <div  class="timeline-message ">
-                  {{mes.MessageContent}}
+                  <p>{{mes.MessageContent}}</p>
                 </div>
                 <div>
                 <a ng-click="messageAttachmentOpener(mes)">
@@ -262,16 +262,14 @@
             </div>
       </div>
       
-      </div>
-
-<div align="center" class="bottom container" scroll-glue-bottom="glue">
-
-
-      <div class="col-xs-12">
-      
+  </div>
+<form>
+<div align="center" class="bottom container" scroll-glue-bottom="messageContentScroll">
+<br>
+      <div class="col-xs-12">   
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0">
-        <textarea style="width:100%" id="textareaDesktop" ng-model="newMessageMobile" class=" textarea" rows="1"  placeholder="Message">
+        <textarea msd-elastic style="width:100%;max-height:200px" id="textareaDesktop" ng-model="newMessageMobile" class="textarea" row="1" placeholder="Message">
         </textarea>
       
       </div>
@@ -282,22 +280,22 @@
           <ons-icon icon="ion-paperclip"></ons-icon><input type="file" id="browseBtn" accept=".gif, .jpg, .png, .doc, .pdf|audio/*|video/*|image/*"/ fileread="upload.Document">
         </span>
     </div>
-    <div ng-show="showAttachment" align="left" class="col-xs-3">
+    <div ng-show="showAttachment" align="left" class="col-xs-4">
       <p style="text-align:left">Attachment</p>
     </div>
 
  
-    <div class="col-xs-offset-4 col-xs-1"  align="right">
+    <div class="col-xs-offset-3 col-xs-1"  align="right">
 
-    <button class="button button--quiet" ng-disabled="sendButtonDisabled" ng-click="submitMessage()">Send</button>
+    <button type="submit" class="button button--quiet" ng-disabled="sendButtonDisabled" ng-click="submitMessage()">Send</button>
     </div>
       
   </div>
-  
- 
+  </form>
+   
   </div>
   </div>
-     
+
   </ons-page>
 </ons-template>
 </ons-navigator>

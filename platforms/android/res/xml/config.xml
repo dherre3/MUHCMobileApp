@@ -44,4 +44,10 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <icon src="www/img/logo.png" />
+    <feature name="FileOpener2">
+        <param name="android-package" value="io.github.pwlin.cordova.plugins.fileopener2.FileOpener2" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
 </widget>

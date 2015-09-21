@@ -86,7 +86,6 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
 
                 
             };
-            this.UserConversationsArray=$filter('orderBy')(this.UserConversationsArray,'DateOfLastMessage',true);
             console.log(this.UserConversationsArray);
         },
         /**
@@ -101,7 +100,6 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
         },
         setDateOfLastMessage:function(index, date){
             this.UserConversationsArray[index].DateOfLastMessage=date;
-            this.UserConversationsArray=$filter('orderBy')(this.UserConversationsArray,'DateOfLastMessage',true);
         },
         /**
         *@ngdoc method

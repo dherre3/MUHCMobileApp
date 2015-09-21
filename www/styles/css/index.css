@@ -1102,4 +1102,7 @@ Tabbar treatment plan
   z-index: 0;
 }
 
+p{
+  word-wrap: break-word;
+}
 
