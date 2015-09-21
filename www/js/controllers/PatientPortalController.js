@@ -240,27 +240,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
 
 
 myApp.controller('MessagePageController',function(RequestToServer,$filter, Patient,Messages,UpdateUI,$timeout,$scope){
-//Loading Functionality
- function loadInfo(){
-           var dataVal= UpdateUI.UpdateUserFields();
-           dataVal.then(function(data){
-                $timeout(function(){
-                  $scope.messages=Messages.getUserMessages();
-                  $scope.conversation=$scope.messages[$scope.selectedIndex].Messages;
-                });
-}, function(error){console.log(error);});
 
-        };
-
-
-         $scope.load2 = function($done) {
-           RequestToServer.sendRequest('Refresh');
-          $timeout(function() {
-            loadInfo();
-                $done();
-                
-          }, 3000);
-};
  $scope.getStyle=function(index){
     
     if($scope.messages[index].ReadStatus===0){
@@ -278,9 +258,18 @@ myApp.controller('MessagePageController',function(RequestToServer,$filter, Patie
  $scope.selectedIndex=parameters;
  $scope.messages=Messages.getUserMessages();
  $scope.conversation=$scope.messages[$scope.selectedIndex].Messages;
+ $scope.conversationName=$scope.messages[$scope.selectedIndex].MessageRecipient;
  $scope.sendButtonDisabled=true;
  $scope.newMessageMobile='';
+ $scope.heightContainer=document.documentElement.clientHeight * 0.60;
  $scope.glue=true;
+ $scope.$on('elastic:resize', function(event, element, oldHeight, newHeight) {
+  if(oldHeight>newHeight){
+    $scope.heightContainer=$scope.heightContainer+(oldHeight-newHeight);
+  }else if(oldHeight<newHeight){
+    $scope.heightContainer=$scope.heightContainer-(newHeight-oldHeight);
+  }
+});
 $scope.messageAttachmentOpener=function(mes){
   var ref = window.open(mes.Attachment, '_blank', 'location=yes');
 };

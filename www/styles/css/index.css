@@ -776,6 +776,19 @@ ul.checkout-bar a {
     cursor: inherit;
     display: block;
 }
+
+
+/*
+*Messages bottom div
+*/
+
+#bottomMessage {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    margin:0;
+    padding:0;
+}
 /*
 
 *Calendar view
