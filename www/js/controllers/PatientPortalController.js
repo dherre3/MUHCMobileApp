@@ -143,11 +143,6 @@ $scope.$watchGroup(['newMessage','upload'],function(){
   }
 });
 
-$scope.clickSearchBar=function(){
-
- $rootScope.searchingMask=true;
-
-};
 
   $scope.submitMessage=function(){
     $scope.glue=false;
@@ -190,22 +185,25 @@ $scope.clickSearchBar=function(){
 });
 myApp.controller('ListOfConversationMobileController',['RequestToServer','UpdateUI', '$rootScope', 'UserAuthorizationInfo','$location','$anchorScroll','$timeout','$scope','Messages',
   function(RequestToServer, UpdateUI, $rootScope, UserAuthorizationInfo,$location,$anchorScroll,$timeout,$scope,Messages){
-     
+     $scope.searchMaskSet=function(){
+      $rootScope.searchingMask=true;
+     }
      $scope.refreshMask=function(val){
         if(val!==undefined){
           if(val.length>0){
             $rootScope.searchingMask=true;
           }else if(val.length==0){
             $rootScope.searchingMask=false;
-        }
+          }
       }
 
 
      };
+
      $scope.$watch('person.selected', function(){
         if($scope.person.selected!==undefined){
-          
           $timeout(function(){
+            $rootScope.searchingMask=false;
             var index=$scope.person.selected.index;
             $scope.person.selected=undefined;
             if($scope.messages[index].ReadStatus==0){

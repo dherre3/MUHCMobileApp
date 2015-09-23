@@ -15,7 +15,7 @@
           <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
         </span>
       </ons-pull-hook>
-          <div class="container" ng-hide="noNotifications">
+          <div class="row" ng-hide="noNotifications">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
         <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert>
@@ -27,7 +27,6 @@
         <img ng-src="./img/muhc-logo-text.png" >
       </div>
       <div class="container">
-       <div align="center" style="margin-bottom:5px"><strong>{{dateToday|date:"EEEE, MMMM d yyyy"}}</strong><br></div>
       
        <ons-row class="profile-wrapper" >
         <ons-col width="60px" class="profile-image-wrapper" >
@@ -45,7 +44,7 @@
         <ons-row >
         <ons-col>
         <div  align="middle" style="margin-left:5px">
-          <span class="profile-name">{{'STATUS'|translate}}: </span>Treatment planning
+          <span class="profile-name">{{'STATUS'|translate}}:<br> </span>Treatment planning
         </div>
         </ons-col>
         <ons-col width="3px">
@@ -89,7 +88,8 @@
                       <button class="button button--large" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>
              </div>
-    
+    </div>
+    </ons-page>
      
   
 
