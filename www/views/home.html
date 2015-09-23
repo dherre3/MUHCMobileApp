@@ -23,15 +23,15 @@
         </alert></a>
  </div>
 
-      <div class="container" >
+      <div class="container" align="center">
         <img ng-src="./img/muhc-logo-text.png" >
       </div>
       <div class="container">
-       <div align="left" style="margin-bottom:5px"><strong>{{dateToday|date:"EEEE, MMMM d yyyy"}}</strong><br></div>
+       <div align="center" style="margin-bottom:5px"><strong>{{dateToday|date:"EEEE, MMMM d yyyy"}}</strong><br></div>
       
        <ons-row class="profile-wrapper" >
-        <ons-col width="60px" class="profile-image-wrapper" align="center">
-          <img ng-src="{{ProfileImage}}" class="profile-image">
+        <ons-col width="60px" class="profile-image-wrapper" >
+          <img ng-src="{{ProfileImage}}" class="profile-image-home">
         </ons-col>
         <ons-col>
           <div class="profile-name" style="color:#2B6197">{{FirstName}} {{LastName}}</div>
@@ -40,12 +40,11 @@
        
       </ons-row>
      
-    <div class="btn panel panel-default" style="margin-top:5px;width:100%;padding:3px">
-      <div ng-click="menu.setMainPage('views/treatment-plan.html',{closedMenu:true})">
-      <div class="panel-body" >
+    <div class="btn my-home-profile" ng-click="menu.setMainPage('views/treatment-plan.html',{closedMenu:true})" style="margin:5px 0 5px 0;width:100%;padding:10px">
+      <div>
         <ons-row >
         <ons-col>
-        <div  align="left" style="margin-left:5px">
+        <div  align="middle" style="margin-left:5px">
           <span class="profile-name">{{'STATUS'|translate}}: </span>Treatment planning
         </div>
         </ons-col>
@@ -56,13 +55,11 @@
         </ons-col>
         </ons-row>
       </div>
-      </div>
+
     </div>
-    <div class="btn panel panel-default" style="width:100%;padding:3px" >
-      
-      <div class="panel-body" >
-      <div ng-click="menu.setMainPage('views/schedule.html',{closedMenu:true},{param:'next'})">
-      <ons-row   >
+    <div class="btn my-home-profile">
+      <div style="width:100%">
+      <ons-row  ng-click="menu.setMainPage('views/schedule.html',{closedMenu:true},{param:'next'})">
         <ons-col >
 
          <div align="center" style="margin-left:5px">
@@ -86,16 +83,14 @@
               </ons-col>
               </ons-row>
                </div>
-              <div class="col-xs-12" ng-show="!nextAppointmentIsToday" >
+                </div>
+              <div class="col-xs-12" ng-show="!nextAppointmentIsToday" style="margin-top:15px">
                   <div align="center">
-                  <hr>
-                      <button class="btn btn-primary" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
+                      <button class="button button--large" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>
              </div>
-      </div>
+    
      
-      </div>
-      
   
 
       <!--<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">

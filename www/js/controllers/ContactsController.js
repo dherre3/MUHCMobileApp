@@ -11,7 +11,7 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
     $scope.oncologists=Doctors.getOncologists();
     $scope.primaryPhysician=Doctors.getPrimaryPhysician();
     $scope.otherDoctors=Doctors.getOtherDoctors();
-    console.log($scope.otherDoctors);
+    console.log($scope.oncologists);
     $scope.goDoctorContact=function(doctor){
         if(doctor===undefined){
             myNavigatorContacts.pushPage('page2.html', {param:$scope.primaryPhysician},{ animation : 'slide' } );

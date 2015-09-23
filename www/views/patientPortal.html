@@ -3,7 +3,7 @@
 <ons-navigator title="Navigator" var="myNavigatorMessages">
 
 <ons-page ng-controller="PatientPortalController">
-  <ons-toolbar>
+  <ons-toolbar ng-hide="searchingMask">
     <div class="left">
       <ons-toolbar-button ng-click="menu.toggle()">
         <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon><div class="notification menu-notification">{{TotalNumberOfNews}}</div>
@@ -11,14 +11,14 @@
     </div>
     <div class="center">Messages</div>
   </ons-toolbar>
-  <ons-pull-hook ng-action="load($done)" var="loader">
+  <ons-pull-hook ng-hide="searchingMask" ng-action="load($done)" var="loader">
         <span ng-switch="loader.getCurrentState()">
           <span ng-switch-when="initial"><ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon> Pull down to refresh</span>
           <span ng-switch-when="preaction"><ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon> Release to refresh</span>
           <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
         </span>
 </ons-pull-hook>
-<div class="container" ng-hide="noNotifications">
+<div class="container" ng-hide="noNotifications||searchingMask">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
         <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert>
@@ -27,14 +27,13 @@
  </div>
 
 <!--List Of Conversations Mobile View-->
-
-<div class="visible-xs" ng-controller="ListOfConversationMobileController">
-  <div class="navigation-bar" style="width:100%;height:13vh">
+<div class="alert-dialog-mask" style="z-index:1231231" ng-show="searchingMask"></div>
+<div class="visible-xs" ng-controller="ListOfConversationMobileController" style="height:100vh">
+  <div class="navigation-bar" style="width:100%;height:10vh">
   <div  class="navigation-bar__left" >
-  <span><strong>Search:</strong></span>
-  <ui-select  style="margin-left:3vw;margin-top:1vh" ng-model="person.selected" theme="select2" ng-disabled="disabled" style="min-width: 200px;">
-    <ui-select-match placeholder="Select name...">{{$select.selected.name}}</ui-select-match>
-    <ui-select-choices repeat="person in people | propsFilter: {name: $select.search}">
+  <ui-select style="z-index:12312312;margin-left:3vw;margin-top:1vh;width:94vw;min-width: 200px;" ng-model="person.selected" theme="select2" ng-disabled="disabled">
+    <ui-select-match  class="search-input" placeholder="Search">{{$select.selected.name}}</ui-select-match>
+    <ui-select-choices  refresh="refreshMask($select.search)" refresh-delay="1" repeat="person in people | propsFilter: {name: $select.search}">
       <div ng-bind-html="person.name | highlight: $select.search"></div>
     </ui-select-choices>
   </ui-select>
@@ -95,7 +94,7 @@
     </ui-select-choices>
   </ui-select>-->
    <!--<span><strong>Search:</strong></span>-->
-  <ui-select  style="margin-left:1vw;margin-top:1vh" ng-model="person.selected" theme="select2" ng-disabled="disabled" style="min-width: 200px;">
+  <ui-select  class="search-input" style="margin-left:1vw;margin-top:1vh" ng-model="person.selected" theme="select2" ng-disabled="disabled" style="min-width: 200px;">
     <ui-select-match placeholder="Select name/role...">{{$select.selected.name}}</ui-select-match>
     <ui-select-choices repeat="person in people | propsFilter: {name: $select.search, Role: $select.search}">
       <div ng-bind-html="person.name | highlight: $select.search"></div>

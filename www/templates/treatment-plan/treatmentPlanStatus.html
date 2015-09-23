@@ -14,10 +14,10 @@
         </div>
         <progressbar class="progress-striped" value="percentage" type="{{type}}">{{percentage}}% completed <i ng-show="showWarning">!!! Watch out !!!</i></progressbar>  
         <div ng-hide="completed" align="center">
-            You have finished: <br><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})">{{lastFinished}}</a><br> 
-            Awaiting for stage:<br> <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})">{{currentStage}}</a><br>
-            Estimated time to completion:<br>
-            <strong> 15 days</strong>
+            Finished: <strong>{{lastFinished}}</strong> <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled"></i></a><br> 
+            In Progress: <strong>{{currentStage}}</strong> <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled"></i></a><br>
+            Estimated Time Left: <strong>15 days</strong>
+            
         <br>
         </div>
      </div>

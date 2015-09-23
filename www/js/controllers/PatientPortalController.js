@@ -28,10 +28,13 @@ myApp.controller('PatientPortalController',function(UpdateUI, RequestToServer, $
 };
 
  $scope.messages=Messages.getUserMessages();
+
+
  
 $scope.personClicked=function(index){
     var conversation=$scope.messages[index].Messages;
     $timeout(function(){
+      $rootScope.searchingMask=false;
       $scope.glue=false;
       $scope.person.selected='';
       $scope.selectedIndex=index;
@@ -51,6 +54,7 @@ $scope.personClicked=function(index){
 
 $scope.$watch('person.selected', function(){
   $timeout(function(){
+    $rootScope.searchingMask=false;
     $scope.glue=false;
     if($scope.person.selected!==undefined){
       var index=$scope.person.selected.index;
@@ -139,6 +143,12 @@ $scope.$watchGroup(['newMessage','upload'],function(){
   }
 });
 
+$scope.clickSearchBar=function(){
+
+ $rootScope.searchingMask=true;
+
+};
+
   $scope.submitMessage=function(){
     $scope.glue=false;
     //Create object to send
@@ -181,8 +191,20 @@ $scope.$watchGroup(['newMessage','upload'],function(){
 myApp.controller('ListOfConversationMobileController',['RequestToServer','UpdateUI', '$rootScope', 'UserAuthorizationInfo','$location','$anchorScroll','$timeout','$scope','Messages',
   function(RequestToServer, UpdateUI, $rootScope, UserAuthorizationInfo,$location,$anchorScroll,$timeout,$scope,Messages){
      
+     $scope.refreshMask=function(val){
+        if(val!==undefined){
+          if(val.length>0){
+            $rootScope.searchingMask=true;
+          }else if(val.length==0){
+            $rootScope.searchingMask=false;
+        }
+      }
+
+
+     };
      $scope.$watch('person.selected', function(){
         if($scope.person.selected!==undefined){
+          
           $timeout(function(){
             var index=$scope.person.selected.index;
             $scope.person.selected=undefined;
@@ -219,6 +241,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
 
 
         $scope.personClicked=function(index){
+          $rootScope.searchingMask=false;
           $scope.person.selected=undefined;
           if($scope.messages[index].ReadStatus==0){
             for (var i = 0; i < $scope.messages[index].Messages.length; i++) {
