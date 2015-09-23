@@ -10,6 +10,7 @@ myApp.service('Patient',function(){
             this.Email=patientFields.Email;
             this.Diagnosis=diagnosis;
             this.UserSerNum=patientFields.PatientSerNum;
+            this.ProfileImage='data:image/png;base64,'+patientFields.ProfileImage;
         },
         setDiagnosis:function(diagnosis){
             this.Diagnosis=diagnosis;
@@ -49,6 +50,12 @@ myApp.service('Patient',function(){
         },
         getUserSerNum:function(){
             return this.UserSerNum;
+        },
+        setProfileImage:function(img){
+            this.ProfileImage='data:image/png;base64,'+img;
+        },
+        getProfileImage:function(){
+            return this.ProfileImage;
         }
     };
 });

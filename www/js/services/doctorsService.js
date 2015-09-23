@@ -1,5 +1,5 @@
 var myApp=angular.module('MUHCApp');
-myApp.service('Doctors',function(){
+myApp.service('Doctors',function($filter){
     return{
         setUserContacts:function(doctors)
         {   
@@ -21,6 +21,10 @@ myApp.service('Doctors',function(){
                    }
                    this.Doctors.push(doctors[doctorKeyArray[i]]);
                 };
+                this.Oncologists=$filter('orderBy')(this.Oncologists,'LastName',false);
+                this.Doctors=$filter('orderBy')(this.Doctors,'LastName',false);
+                this.OtherDoctors=$filter('orderBy')(this.OtherDoctors,'LastName',false);
+
             }
         },
         getContacts:function(){

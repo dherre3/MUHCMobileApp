@@ -57,8 +57,10 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         }else{
             $scope.noNextAppointment=true;
         }
+        $scope.Email=Patient.getEmail();
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();
+        $scope.ProfileImage=Patient.getProfileImage();
     }
         homePageInit();
         $scope.load = function($done) {

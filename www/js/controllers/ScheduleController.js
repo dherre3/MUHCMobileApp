@@ -20,7 +20,6 @@ function ($rootScope, UserPreferences, Appointments,$cordovaCalendar,$scope) {
         $rootScope.showAlert = false;
     };
     addEventsToNativeCalendar();
-    $scope.nextAppointment=Appointments.getNextAppointment().Object;
     
    
     /**
@@ -280,6 +279,9 @@ function ($scope,$timeout, Appointments) {
             $scope.appointments=Appointments.getPastAppointments();
         }else{
             $scope.appointments=Appointments.getUserAppointments();
+        }
+        if($scope.appointments.length==0){
+            $scope.noAppointments=true;
         }
     }
 
