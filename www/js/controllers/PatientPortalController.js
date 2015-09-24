@@ -185,57 +185,66 @@ $scope.$watchGroup(['newMessage','upload'],function(){
 });
 myApp.controller('ListOfConversationMobileController',['RequestToServer','UpdateUI', '$rootScope', 'UserAuthorizationInfo','$location','$anchorScroll','$timeout','$scope','Messages',
   function(RequestToServer, UpdateUI, $rootScope, UserAuthorizationInfo,$location,$anchorScroll,$timeout,$scope,Messages){
-     $scope.searchMaskSet=function(){
+     $scope.initialized=false;
+
+     $rootScope.openSearchMask=function(){
+      console.log('open');
       $rootScope.searchingMask=true;
      }
-     $scope.refreshMask=function(val){
-        if(val!==undefined){
-          if(val.length>0){
-            $rootScope.searchingMask=true;
-          }else if(val.length==0){
-            $rootScope.searchingMask=false;
+     $rootScope.closeSearchMask=function(){
+      console.log('close');
+      $rootScope.searchingMask=false;
+     }
+
+     $scope.refreshInfo=function(val){
+        if(val.length>0){
+          $rootScope.searchingMask=true; 
+          $scope.person = {};
+          $scope.people = [];
+          if(!$scope.messages){
+            $scope.messages=[];
           }
-      }
+          for(var i=0;i<$scope.messages.length;i++){
+            var tmp={};
+            tmp.name=$scope.messages[i].MessageRecipient;
+            tmp.Role=$scope.messages[i].Role;
+            tmp.index=i;
+            $scope.people.push(tmp);
+            if(i===$scope.messages.length-1){
+              $scope.initialized=true;
+            }
+          }
+        }else{
+          $scope.people=[];
+          $rootScope.searchingMask=false;
+        }
 
 
      };
 
+      $scope.messages=Messages.getUserMessages(); 
      $scope.$watch('person.selected', function(){
-        if($scope.person.selected!==undefined){
+        console.log($scope.person.selected);
+        if($scope.person.selected!==undefined&&$scope.initialized){
           $timeout(function(){
             $rootScope.searchingMask=false;
             var index=$scope.person.selected.index;
-            $scope.person.selected=undefined;
             if($scope.messages[index].ReadStatus==0){
-            for (var i = 0; i < $scope.messages[index].Messages.length; i++) {
-                RequestToServer.sendRequest('MessageRead',$scope.messages[index].Messages[i].MessageSerNum);
-                $scope.messages[index].Messages[i].ReadStatus=1;
-            };
-          }
+              for (var i = 0; i < $scope.messages[index].Messages.length; i++) {
+                  RequestToServer.sendRequest('MessageRead',$scope.messages[index].Messages[i].MessageSerNum);
+                  $scope.messages[index].Messages[i].ReadStatus=1;
+              };
+            }
             $scope.messages[$scope.selectedIndex].ReadStatus=1;
             Messages.changeConversationReadStatus($scope.selectedIndex);
             Messages.changeConversationReadStatus($scope.selectedIndex);
             myNavigatorMessages.pushPage("pageMessage.html", { param: index }, {animation:'slide'});
+            $scope.person.selected=undefined;
           })
         }
     });
 
-     $scope.messages=Messages.getUserMessages();    
-     $scope.person = {};
-     $scope.people = [];
-     if(!$scope.messages){
-      $scope.messages=[];
-     }
-      for(var i=0;i<$scope.messages.length;i++){
-        var tmp={};
-        tmp.name=$scope.messages[i].MessageRecipient;
-        tmp.Role=$scope.messages[i].Role;
-        tmp.index=i;
-        $scope.people.push(tmp);
-        if(i===$scope.messages.length-1){
-          $scope.initialized=true;
-        }
-      }
+     
 
 
         $scope.personClicked=function(index){

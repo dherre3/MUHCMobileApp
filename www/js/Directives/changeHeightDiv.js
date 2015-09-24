@@ -15,19 +15,3 @@ angular.module('MUHCApp').directive('heightChange', function() {
     });
   };
 });
-
-
- $scope.searchMaskSet=function(){
-      $rootScope.searchingMask=true;
-     }
-     $scope.refreshMask=function(val){
-        if(val!==undefined){
-          if(val.length>0){
-            $rootScope.searchingMask=true;
-          }else if(val.length==0){
-            $rootScope.searchingMask=false;
-          }
-      }
-
-
-     };

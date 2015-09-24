@@ -9,8 +9,8 @@
         <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon><div class="notification menu-notification">{{TotalNumberOfNews}}</div>
       </ons-toolbar-button>
     </div>
-    <div ng-hide="searchingMask" class="center">Messages</div>
-    <div class="right"><ons-toolbar-button ng-click="searchingMask=false"><ons-icon icon="ion-navion" size="28px"></ons-icon></ons-toolbar-button></div>
+    <div ng-hide="searchingMask"  class="center">Messages</div>
+    <div class="right" ng-show="searchingMask" ><ons-toolbar-button ng-click="closeSearchMask()">Cancel</div>
   </ons-toolbar>
   <ons-pull-hook ng-hide="searchingMask" ng-action="load($done)" var="loader">
         <span ng-switch="loader.getCurrentState()">
@@ -32,9 +32,9 @@
 <div class="visible-xs" ng-controller="ListOfConversationMobileController" style="height:100vh" >
   <div class="navigation-bar" style="width:100%" >
   <div  class="navigation-bar__left" >
-  <ui-select ng-click="searchMaskSet()" reset-search-input="false" style="z-index:12312312;margin-left:3vw;margin-top:1vh;width:94vw;min-width: 200px;"  ng-model="person.selected" theme="bootstrap" ng-disabled="disabled">
+  <ui-select reset-search-input="true" style="z-index:12312312;margin-left:3vw;margin-top:1vh;width:94vw;min-width: 200px;"  ng-model="person.selected" theme="bootstrap" ng-disabled="disabled">
     <ui-select-match   placeholder="Search...">{{$select.selected.name}}</ui-select-match>
-    <ui-select-choices  repeat="person in people | propsFilter: {name: $select.search}" refresh="refreshMask($select.search)" refresh-delay="0" >
+    <ui-select-choices  repeat="person in people | propsFilter: {name: $select.search}" refresh="refreshInfo($select.search)" refresh-delay="0" >
       <div ng-bind-html="person.name | highlight: $select.search"></div>
     </ui-select-choices>
   </ui-select>
@@ -97,7 +97,7 @@
     </ui-select-choices>
   </ui-select>-->
    <!--<span><strong>Search:</strong></span>-->
-  <ui-select  class="search-input" style="margin-left:1vw;margin-top:1vh" ng-model="person.selected" theme="select2" ng-disabled="disabled" style="min-width: 200px;">
+  <ui-select  style="margin-left:1vw;margin-top:1vh;min-width: 200px;width:100%" ng-model="person.selected" theme="bootstrap" ng-disabled="disabled" >
     <ui-select-match placeholder="Select name/role...">{{$select.selected.name}}</ui-select-match>
     <ui-select-choices repeat="person in people | propsFilter: {name: $select.search, Role: $select.search}">
       <div ng-bind-html="person.name | highlight: $select.search"></div>

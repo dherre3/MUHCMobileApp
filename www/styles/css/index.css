@@ -157,7 +157,7 @@ img
   Main menu css
 */
 .page--menu-page__background {
-  background-color: #CDCDCA;
+  background-color: #EBEBEA;
 }
 
 .page--menu-page__content {
@@ -176,7 +176,7 @@ img
   background-color: transparent;
   background-image: none !important;
   border-color: transparent;
-  color: black;
+  color: #2B6197;
 }
 
 .menu-item {
@@ -208,7 +208,7 @@ img
   border-color: #2B6197;
   background-color: transparent;
   background-image: none !important;
-  color: black;
+  color: #626262;
 }
 
 .bottom-menu-item:active {

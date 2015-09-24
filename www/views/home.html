@@ -15,7 +15,7 @@
           <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
         </span>
       </ons-pull-hook>
-          <div class="row" ng-hide="noNotifications">
+          <div class="container" ng-hide="noNotifications">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
         <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert>
@@ -48,7 +48,7 @@
         </div>
         </ons-col>
         <ons-col width="3px">
-        <div align="right" style="margin-top:3px">
+        <div align="right" style="margin-top:8px">
                 <i class="ion-chevron-right" style="font-size:20px;opacity:0.2"></i>
                 </div>
         </ons-col>
@@ -83,7 +83,7 @@
               </ons-row>
                </div>
                 </div>
-              <div class="col-xs-12" ng-show="!nextAppointmentIsToday" style="margin-top:15px">
+              <div class="col-xs-12" ng-show="nextAppointmentIsToday" style="margin-top:15px">
                   <div align="center">
                       <button class="button button--large" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>
