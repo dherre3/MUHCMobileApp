@@ -83,3 +83,13 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
 //Sets all the variables in the view. 
     
 }]);
+
+
+myApp.controller('WelcomeHomeController',function($scope,Patient){
+    $scope.FirstName = Patient.getFirstName();
+    $scope.LastName = Patient.getLastName();
+    $scope.welcomeMessage="We are happy to please you with some quality service";
+});
+
+
+

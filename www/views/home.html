@@ -1,4 +1,4 @@
-
+<ons-navigator var="navigatorHome">
 <ons-page ng-controller="HomeController">
   <ons-toolbar>
    <div class="left">
@@ -17,9 +17,9 @@
       </ons-pull-hook>
           <div class="container" ng-hide="noNotifications">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
-        <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
+        <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert>
-        <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
+        <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
 
@@ -39,12 +39,17 @@
        
       </ons-row>
      
-    <div class="btn my-home-profile" ng-click="menu.setMainPage('views/treatment-plan.html',{closedMenu:true})" style="margin:5px 0 5px 0;width:100%;padding:10px">
-      <div>
+    <div class="btn my-home-profile" ng-click="navigatorHome.pushPage('pageWelcomeMessage.html', { animation : 'slide' } )" style="margin:5px 0 5px 0;width:100%;padding:10px">
+      <div style="width:100%">
         <ons-row >
+        <ons-col width="30px">
+          <div align="right" >
+            <i class="fa fa-hospital-o iconHomeView"></i>
+          </div>
+        </ons-col>
         <ons-col>
         <div  align="middle" style="margin-left:5px">
-          <span class="profile-name">{{'STATUS'|translate}}:<br> </span>Treatment planning
+          <span class="profile-name">Welcome<br> </span>A message from your treating team...
         </div>
         </ons-col>
         <ons-col width="3px">
@@ -56,13 +61,40 @@
       </div>
 
     </div>
-    <div class="btn my-home-profile">
+      <div class="btn my-home-profile" ng-click="menu.setMainPage('views/treatment-plan.html',{closedMenu:true},{ animation : 'slide' } )" style="margin:5px 0 5px 0;width:100%;padding:10px">
       <div style="width:100%">
-      <ons-row  ng-click="menu.setMainPage('views/schedule.html',{closedMenu:true},{param:'next'})">
+        <ons-row >
+        <ons-col width="30px">
+        <div align="right" >
+        <i class="fa fa-info-circle iconHomeView" ></i>
+        </div>
+        </ons-col>
+        <ons-col>
+        <div  align="middle" style="margin-left:5px">
+          <span class="profile-name">{{'STATUS'|translate}}<br> </span>Treatment planning
+        </div>
+        </ons-col>
+        <ons-col width="3px">
+        <div align="right" style="margin-top:8px">
+                <i class="ion-chevron-right" style="font-size:20px;opacity:0.2"></i>
+                </div>
+        </ons-col>
+        </ons-row>
+      </div>
+
+    </div>
+    <div class="btn my-home-profile" style="margin:5px 0 5px 0;width:100%;padding:10px">
+      <div style="width:100%">
+      <ons-row  ng-click="menu.setMainPage('views/schedule.html',{closedMenu:true},{param:'next'},{ animation : 'slide' } )">
+        <ons-col width="30px">
+          <div align="right" >
+          <i class="fa fa-calendar iconHomeView" ></i>
+          </div>
+        </ons-col>
         <ons-col >
 
          <div align="center" style="margin-left:5px">
-                  <div align="center"> <span class="profile-name">Next Appointment: </span><br> </div> 
+                  <div align="center"> <span class="profile-name">Next Appointment </span><br> </div> 
               
                     {{NextAppointment.ScheduledStartTime|date:"EEEE, MMMM d 'at' h:mm a"}}<br>
                     {{NextAppointment.AppointmentType}}
@@ -81,18 +113,32 @@
                 </div>
               </ons-col>
               </ons-row>
-               </div>
-                </div>
-              <div class="col-xs-12" ng-show="nextAppointmentIsToday" style="margin-top:15px">
+               <div class="col-xs-12"  style="margin-top:15px">
                   <div align="center">
-                      <button class="button button--large" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
+                      <button ng-disabled="!nextAppointmentIsToday" class="button button--large" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>
              </div>
+               </div>
+                </div>
+             
     </div>
     </ons-page>
-     
-  
+     <ons-template id="pageWelcomeMessage.html">
+  <ons-page ng-controller="WelcomeHomeController">
+    <ons-toolbar>
+      <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="center">Welcome</div>
+    </ons-toolbar>
+     <div class="container my-home-profile" style="margin-top:25vh">
+     <h3>Welcome <span style="color:#2B6197">{{FirstName}} {{LastName}},</span></h3>
+     <div align="center"><p>{{welcomeMessage}}</p></div>
 
+     </div>
+
+  </ons-page>
+</ons-template>
+  
+</ons-navigator>
       <!--<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
        <ons-list-item modifier="chevron" ng-click="menu.setMainPage('views/schedule.html', {closeMenu: true})">
           <i class="fa fa-check-square-o" ></i>&nbsp;{{"GO_TO_APPOINTMENTS_TAP"|translate}}

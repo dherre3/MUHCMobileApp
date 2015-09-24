@@ -341,49 +341,42 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
     var parameters=page.options.param;
     $scope.today=(new Date()).setHours(0,0,0);
     console.log(parameters);
-    $scope.disabledButton=false;
     $scope.showAlert=false;
+    $scope.changeSubmitted=false;
     $scope.app=parameters;
     $scope.timeOfDay;
+    $scope.editRequest=function(){
+        $scope.changeSubmitted=false;
+        $scope.showAlert=false;
+    }
     if(parameters.ChangeRequest==1){
         $scope.showAlert=true;
         $scope.alertClass="bg-success updateMessage-success";
-        $scope.alertMessage="Request has been sent!";
-        $scope.disabledButton=true;
-
+        $scope.alertMessage="Request to change appointment has been sent!";
+        $scope.changeSubmitted=true;
     }
-    $scope.requestChange=function(){
-        $scope.showAlert=true;
-        if(!$scope.timeOfDay){
-            $scope.alertMessage='Error: Time of day  has not been selected';
-            $scope.alertClass="bg-danger updateMessage-error";
-        }else if(!$scope.startDate){
-            $scope.alertMessage='Error: Start date has not been selected';
-            $scope.alertClass="bg-danger updateMessage-error";
-        }else if(!$scope.endDate){
-            $scope.alertMessage='Error: End date has not been selected';
-            $scope.alertClass="bg-danger updateMessage-error";
-        }else if($scope.startDate>$scope.endDate){
-            $scope.alertMessage='Error: Select an end date after the start date';
-            $scope.alertClass="bg-danger updateMessage-error";
-        }else if($scope.startDate<$scope.today){
-            $scope.alertMessage='Error: Select an date after the start date';
-            $scope.alertClass="bg-danger updateMessage-error";
+    $scope.$watchGroup(['firstTimeOfDay','secondTimeOfDay','thirdTimeOfDay','firstDate', 'secondDate', 'thirdDate'],function(){
+        if(!$scope.firstTimeOfDay||!$scope.secondTimeOfDay||!$scope.thirdTimeOfDay||!$scope.firstDate||!$scope.secondDate||!$scope.thirdDate){
+            $scope.disabledButton=true;
         }else{
+            $scope.disabledButton=false;
+        }
+    });
+    $scope.requestChange=function(){
             objectToSend={};
             objectToSend.AppointmentSerNum=$scope.app.AppointmentSerNum;
-            objectToSend.StartDate=$filter('formatDateToFirebaseString')($scope.startDate);
-            objectToSend.EndDate=$filter('formatDateToFirebaseString')($scope.endDate);
-            objectToSend.TimeOfDay=$scope.timeOfDay;
+            objectToSend.StartDate=$filter('formatDateToFirebaseString')($scope.firstDate);
+            objectToSend.EndDate=$filter('formatDateToFirebaseString')($scope.secondDate);
+            objectToSend.TimeOfDay=$scope.firstTimeOfDay;
             console.log(objectToSend);
             Appointments.setChangeRequest(parameters.AppointmentSerNum, 1);
             RequestToServer.sendRequest('AppointmentChange',objectToSend);
-            $scope.alertMessage='Request to change appointment has been sent';
-            $scope.alertClass="bg-success updateMessage-success";
-            $scope.disabledButton=true;
+            $scope.alertMessage='Request to change appointment has been submitted';
+            $scope.alertClass="bg-success updateMessage-success"
+            $scope.showAlert=true;
+            $scope.changeSubmitted=true;
 
-        }
-    }
+    };
 }]);
 
 

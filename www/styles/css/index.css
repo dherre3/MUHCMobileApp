@@ -194,7 +194,7 @@ img
 .menu-notification {
   display: inline-block;
   margin-top: 12px;
-  font-size: 14px;
+   
   height: 16px;
   line-height: 16px;
   min-width: 16px;
@@ -1155,5 +1155,13 @@ p{
   background-color:white;
   color:black;
   margin:2px 2px 2px 2px;
+}
+
+.iconHomeView{
+  margin-top:5px;
+  font-size:18px;
+  font-weight: 600;
+  color: #2B6197;
+  text-align: center;
 }
 
