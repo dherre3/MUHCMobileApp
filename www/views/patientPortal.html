@@ -4,12 +4,12 @@
 
 <ons-page ng-controller="PatientPortalController">
   <ons-toolbar >
-    <div ng-hide="searchingMask" class="left">
-      <ons-toolbar-button ng-click="menu.toggle()">
+    <div  class="left">
+      <ons-toolbar-button ng-hide="searchingMask" ng-click="menu.toggle()">
         <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon><div class="notification menu-notification">{{TotalNumberOfNews}}</div>
       </ons-toolbar-button>
     </div>
-    <div ng-hide="searchingMask"  class="center">Messages</div>
+    <div class="center">Messages</div>
     <div class="right" ng-show="searchingMask" ><ons-toolbar-button ng-click="closeSearchMask()">Cancel</div>
   </ons-toolbar>
   <ons-pull-hook ng-hide="searchingMask" ng-action="load($done)" var="loader">
@@ -30,6 +30,7 @@
 <!--List Of Conversations Mobile View-->
 <div class="alert-dialog-mask" style="z-index:1231231" ng-show="searchingMask"></div>
 <div class="visible-xs" ng-controller="ListOfConversationMobileController" style="height:100vh" >
+  
   <div class="navigation-bar" style="width:100%" >
   <div  class="navigation-bar__left" >
   <ui-select reset-search-input="true" style="z-index:12312312;margin-left:3vw;margin-top:1vh;width:94vw;min-width: 200px;"  ng-model="person.selected" theme="bootstrap" ng-disabled="disabled">
