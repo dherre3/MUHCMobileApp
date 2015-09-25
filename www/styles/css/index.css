@@ -784,11 +784,8 @@ ul.checkout-bar a {
 */
 
 #bottomMessage {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    margin:0;
-    padding:0;
+  margin-top: 30vh;
+  padding: 0;
 }
 /*
 
@@ -1150,11 +1147,20 @@ p{
 .my-home-profile{
   width:100%;
   padding:10px;
-  border:1px solid rgba(0, 0, 0, 0.1);;
+  border:1px solid rgba(0, 0, 0, 0.1);
   border-radius:4px;
   background-color:white;
   color:black;
   margin:2px 2px 2px 2px;
+}
+.my-message-container{
+  width:100vw;
+  padding:10px;
+  border:1px solid rgba(0, 0, 0, 0.1);
+  border-radius:4px;
+  background-color:white;
+  color:black;
+  margin-left:1px;
 }
 
 .iconHomeView{
