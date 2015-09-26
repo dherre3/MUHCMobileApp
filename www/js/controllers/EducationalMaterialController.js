@@ -5,7 +5,13 @@ $scope.openPDF=function(){
 	var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 	//file:///data/data/com.example.hello/files/pdfs
 	var ref = window.open('./pdfs/radiotherapy_journey.pdf', '_blank', 'location=yes');
-}
+};
+
+$scope.openVideo=function(){
+
+    var ref = window.open('https://www.youtube.com/watch?v=2dPfuxb1H8E', '_blank', 'location=yes');
+
+};
 /*var options = {
     date: new Date(),
     mode: 'date', // or 'time'
