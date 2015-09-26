@@ -210,6 +210,7 @@
   <ons-page ng-controller="AppointmentListController">
  <div>
  <div align="center">
+       <div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background-color:#5CE68A;display:inline-block;border:1px solid #000;"></div>&nbsp;<strong>Past</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background:#3399ff;border:1px solid #000;display:inline-block"></div>&nbsp;<strong>Today</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;border:1px solid #000;background:grey;display:inline-block"></div>&nbsp;<strong>Upcoming</strong></div>
   <div class="navigation-bar">
       <div class="navigation-bar__center">
         <div class="button-bar" style="width:230px;margin:0 auto;margin-top:7px">
@@ -244,13 +245,14 @@
               </ons-col>
 
               <ons-col class="plan-right">
-                <div class="plan-name-calendar">{{app.ScheduledStartTime|date:"dd/MM/yyyy 'at' h:mm a"}}</div>
+                {{app.AppointmentType}}
                 <div class="plan-info">
                  <div >
-                    {{app.AppointmentType}}
+                 <i class="fa fa-calendar" style="color:#2B6197"></i>&nbsp;{{app.ScheduledStartTime|date:"EEEE, MMM d 'at' h:mm a"}}
+                    
                   </div>
                   <div>
-                    <ons-icon icon="ion-person" size="90%">&nbsp;</ons-icon>{{app.ResourceName}}
+                    <i class="ion-person iconHomeView"></i>&nbsp;{{app.ResourceName}}
                   </div>
                 </div>
               </ons-col>
@@ -276,9 +278,11 @@
   <div class="panel-body" style="text-align: left;padding:5% 2% 5% 2%;">
       <br />
     
-      <div align="center"><strong><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})">{{app.AppointmentType}}</a></strong><br>
-     {{app.ResourceName}}<br> 
+      <div align="center">
       {{app.ScheduledStartTime|date:"EEEE MMMM d, yyyy"}}<br>
+      <strong>{{app.AppointmentType}} </strong><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconHomeView"></i></a><br>
+     {{app.ResourceName}}<br> 
+      
       <strong>Time: </strong>{{app.ScheduledStartTime|date:"h:mm a"}}<br>
       <strong>Location: </strong> {{app.Location}}</div>
      <br>
