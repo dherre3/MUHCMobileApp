@@ -51,8 +51,8 @@ $scope.estimatedTime='3 days';
     $scope.finishedTreatment=false;
     var stages=UserPlanWorkflow.getPlanWorkflow();
     var nextStageIndex=UserPlanWorkflow.getNextStageIndex();
-    var startColor='#3399ff';
-    var endColor='#5CE68A';
+    var startColor='#5CE68A';
+    var endColor='#3399ff';
 
     if(nextStageIndex==-1){
         if(stages.length!=0){
@@ -69,8 +69,8 @@ $scope.estimatedTime='3 days';
             }
             });
             circle.animate(1, {
-                from: {color: startColor},
-                to: {color: endColor}
+                from: {color: endColor},
+                to: {color: startColor}
             });
         }else{
             $scope.noTreatmentPlan=true;

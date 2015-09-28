@@ -16,8 +16,10 @@
  </div>
     <div class='container' style="margin-top:1vh" ng-controller="TreatmentPlanStatusController">
     <div ng-show="noTreatmentPlan" class="btn my-home-profile">
+    <div class="my-home-profile">
     <div  class="plan-info" align="center">
         <p>No treatment plan available</p>
+     </div>
      </div>
      </div>
      <div ng-hide="noTreatmentPlan">
@@ -40,9 +42,12 @@
       <strong>Stage {{outOf}} </strong><br>
           {{percentage}}% Completed
           <div  align="middle" style="margin-left:5px">
-          <span class="profile-name">In progress<br> </span>
-          {{currentStage}} 
-          <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"<i class="ion-help-circled iconHomeView"></i></a>
+            <i class="ion-loop iconStatusBox"></i> <strong>In progress<br> </strong>
+            {{currentStage}} 
+            <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
+            <strong><i class="ion-clock iconStatusBox"></i> Completion Date</strong><br>
+            Oct 3 <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
+            <span style="color:grey">(Estimated)</span>
           </div>
         </div> 
         </div>
@@ -51,56 +56,17 @@
         </ons-row>
       </div>
       </div>
-      <div class="btn my-home-profile" ng-click="navigatorHome.pushPage('pageWelcomeMessage.html', { animation : 'slide' } )" style="margin:5px 0 5px 0;width:100%;padding:10px">
-      <div style="width:100%">
-        <ons-row >
-        <ons-col width="30px">
-          <div align="right" >
-            <i class="ion-loop iconHomeView"></i>
-          </div>
-        </ons-col>
-        <ons-col>
-        <div  align="middle" style="margin-left:5px">
-          <span class="profile-name">In progress<br> </span>
-          {{currentStage}}
-        </div>
-        </ons-col>
-        <ons-col width="3px">
-        <div align="right" style="margin-top:8px">
-                <i class="ion-chevron-right" style="font-size:20px;opacity:0.2"></i>
-                </div>
-        </ons-col>
-        </ons-row>
-      </div>
-      </div>
-       <div class="btn my-home-profile" ng-click="navigatorHome.pushPage('pageWelcomeMessage.html', { animation : 'slide' } )" style="margin:5px 0 5px 0;width:100%;padding:10px">
-      <div style="width:100%">
-        <ons-row >
-        <ons-col width="30px">
-          <div align="right" >
-            <i class="ion-clock iconHomeView"></i>
-          </div>
-        </ons-col>
-        <ons-col>
-        <div  align="middle" style="margin-left:5px">
-          <span class="profile-name">Plan Completion Date</span><br>
-          Oct 3 <span style="color:grey">(Estimated)</span>
-          
-        </div>
-        </ons-col>
-        <ons-col width="3px">
-        <div align="right" style="margin-top:8px">
-                <i class="ion-chevron-right" style="font-size:20px;opacity:0.2"></i>
-                </div>
-        </ons-col>
-        </ons-row>
-      </div>
-      </div>
+    
       </div>
      </div>
 
       <div style="padding-right:1%;padding-left:1%;" align="center" ng-controller="TreatmentPlanStagesController">
    <div class="my-home-profile">
+   <ons-row>
+   <ons-col width="30px"><i class="ion-map iconHomeView"></i></ons-col>
+   <ons-col><span class="profile-name">Treatment Plan</span>
+   </ons-row>
+   
     <div class="navigation-bar">
       <div class="navigation-bar__center">
         <div class="button-bar" style="width:200px;margin:0 auto;margin-top:7px">
@@ -139,7 +105,7 @@
                 </ons-col>
                 <ons-col width="6px" class="plan-center" ng-style="{ 'background-color': getStyle($index) }"></ons-col>
                 <ons-col class="plan-right">
-                       <span style="text-align:left"><strong>{{$index+1}}</strong></span> <div class="plan-name">{{app.Name}}</div>
+                       <div class="plan-name"> <span style="text-align:left"><strong>{{$index+1}}</strong></span>  {{app.Name}}</div>
                     <div class="plan-info">
                         <div ng-show="app.Type=='Appointment'">
                             <ons-icon icon="fa-calendar " style="color:#2B6197"></ons-icon>&nbsp;{{app.Date|date:"EEEE, MMM d 'at' h:mm a"}}
