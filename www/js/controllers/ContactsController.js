@@ -40,5 +40,9 @@ myApp.controller('ContactIndividualDoctorController',['$scope',function($scope){
  }else{
     $scope.header='Doctor';
  }
+ $scope.goToConversation=function(doctor){
+    param=doctor;
+    menu.setMainPage('views/patientPortal.html',{param: doctor},{closedMenu:true});
+ };
 
 }]);

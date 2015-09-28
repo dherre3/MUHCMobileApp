@@ -22,11 +22,17 @@ var myApp=angular.module('MUHCApp')
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
         RequestToServer.sendRequest('Refresh');
         $state.go('loading');
-    }   
+    }
+    $scope.signup={};
+
     //Creating reference to firebase link 
-    $scope.submit = function (email, password) {
-        signin(email, password);
+    $scope.submit = function () {
+        $scope.signup.password='12345';
+        $scope.signup.email='muhc.app.mobile@gmail.com';
+        signin('muhc.app.mobile@gmail.com', '12345');
+
     };
+
     function signin(email, password){
         var myDataRef = new Firebase('https://luminous-heat-8715.firebaseio.com');
         var username = email;

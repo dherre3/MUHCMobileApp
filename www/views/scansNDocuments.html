@@ -22,20 +22,32 @@
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
-        <div  align="center" style="margin-top:3vw">
-         <div  ng-repeat="photo in photoAlbum"  style="padding:0;margin:0" class="col-md-4 col-sm-6 col-xs-12 col-lg-3">
-            <div  align="center" style="width:100%;height:300px;margin:2px 0 2px 0"  class="thumbnail">
-            <a href ng-click="openImage(photo.Content)">
-                <img width="90%" height="90%" style="max-width:300px;max-height:240px" ng-src="{{photo.Content}}" alt="{{photo.Name}}">
-          <div class="caption">
-            <h5>{{photo.Name}}</h5>
-          <p>{{photo.Description}}</p>
-           
+ <div style="margin-top:10px">
+          <ul class="list list--inset" ng-repeat="photo in photoAlbum" style="margin-top:5px" ng-click="openImage(photo.Content)">
+  <li class="list__item list--inset__item list__item--chevron">
+    <div style="padding:8px;">
+      <ons-row >
+        <ons-col width="30px">
+          <div align="right" >
+            <i class="ion-document-text iconHomeView"></i>
           </div>
-          </a>
+        </ons-col>
+        <ons-col>
+        <div  align="middle" style="margin-left:5px">
+           <div class="name" >
+                {{photo.Name}}
+              </div>
+          <div class="desc">
+                Oct, 3 2015
+                <div style=" color:grey;">{{photo.Description}}</div>
+              </div>
+              </div>
+        </ons-col>
+        </ons-row>
         </div>
-        </div>
-        </div>
+  </li>
+</ul>
+</div>
 </ons-page>
 <ons-template id="pageDocument.html">
   <ons-page ng-controller="SingleDocumentController">

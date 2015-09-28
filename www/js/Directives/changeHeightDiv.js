@@ -1,8 +1,5 @@
 angular.module('MUHCApp').directive('heightChange', function() {
   return function(scope, element, attrs) {
-    var start=document.documentElement.clientHeight-80;
-    console.log(start);
-  	element.css('height', start +'px');
     scope.$watch(attrs.heightChange, function(newValue, oldValue) {
     	var change=newValue;
     	var changeHeight=element[0].offsetHeight+change;

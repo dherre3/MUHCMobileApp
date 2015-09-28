@@ -44,23 +44,56 @@ myApp.controller('TreatmentPlanStagesController',['$rootScope','$scope','$timeou
 
 }]);
 myApp.controller('TreatmentPlanStatusController',['$rootScope','$scope','UserPlanWorkflow',function($rootScope,$scope,UserPlanWorkflow){
+
+
+
 $scope.estimatedTime='3 days';
     $scope.finishedTreatment=false;
     var stages=UserPlanWorkflow.getPlanWorkflow();
     var nextStageIndex=UserPlanWorkflow.getNextStageIndex();
+    var startColor='#3399ff';
+    var endColor='#5CE68A';
 
     if(nextStageIndex==-1){
         if(stages.length!=0){
             $scope.completed=true;
             $scope.percentage=100;
             $scope.outOf=stages.length +' out of '+ stages.length;
+            var circle = new ProgressBar.Circle('#progressStatus', {
+                color: endColor,
+                duration: 2000,
+                easing: 'easeInOut',
+                strokeWidth: 5,
+                step: function(state, circle) {
+                circle.path.setAttribute('stroke', state.color);
+            }
+            });
+            circle.animate(1, {
+                from: {color: startColor},
+                to: {color: endColor}
+            });
         }else{
             $scope.noTreatmentPlan=true;
         }
+           
     }else{
         $scope.currentStage=UserPlanWorkflow.getNextStage().Name;
         $scope.lastFinished=stages[nextStageIndex-1].Name;
         $scope.percentage=Math.floor((100*nextStageIndex)/stages.length);
         $scope.outOf=nextStageIndex +' out of '+ stages.length;
+        var circle = new ProgressBar.Circle('#progressStatus', {
+            color: endColor,
+            duration: 2000,
+            easing: 'easeInOut',
+            strokeWidth: 5,
+            step: function(state, circle) {
+                circle.path.setAttribute('stroke', state.color);
+            }
+        });
+        circle.animate($scope.percentage/100, {
+            from: {color: startColor},
+            to: {color: endColor}
+        });
     }
+
 }]);

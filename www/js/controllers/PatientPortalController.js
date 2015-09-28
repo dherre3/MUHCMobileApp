@@ -222,7 +222,19 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
 
      };
 
-      $scope.messages=Messages.getUserMessages(); 
+      var messages=Messages.getUserMessages(); 
+
+     //if request comes from contact page.
+    $scope.messages=messages;
+    if(param!=null){
+      for(var i=0;i<messages.length;i++)
+      {
+        if(messages[i].UserSerNum==param.DoctorSerNum){
+          goToConversation(i);
+          break;
+        }
+      }
+    }
      $scope.$watch('person.selected', function(){
         console.log($scope.person.selected);
         if($scope.person.selected!==undefined&&$scope.initialized){
@@ -244,23 +256,25 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
         }
     });
 
-     
+     function goToConversation(index){
+       $rootScope.searchingMask=false;
+        $scope.person.selected=undefined;
+        if($scope.messages[index].ReadStatus==0){
+          for (var i = 0; i < $scope.messages[index].Messages.length; i++) {
+              console.log($scope.messages[index].Messages[i]);
+              RequestToServer.sendRequest('MessageRead',$scope.messages[index].Messages[i].MessageSerNum);
+              $scope.messages[index].Messages[i].ReadStatus=1;
+          };
+        }
+        $scope.messages[index].ReadStatus=1;
+        Messages.changeConversationReadStatus($scope.selectedIndex);
+        Messages.changeConversationReadStatus($scope.selectedIndex);
+        myNavigatorMessages.pushPage("pageMessage.html", { param: index }, {animation:'slide'});
+     }
 
 
         $scope.personClicked=function(index){
-          $rootScope.searchingMask=false;
-          $scope.person.selected=undefined;
-          if($scope.messages[index].ReadStatus==0){
-            for (var i = 0; i < $scope.messages[index].Messages.length; i++) {
-                console.log($scope.messages[index].Messages[i]);
-                RequestToServer.sendRequest('MessageRead',$scope.messages[index].Messages[i].MessageSerNum);
-                $scope.messages[index].Messages[i].ReadStatus=1;
-            };
-          }
-          $scope.messages[index].ReadStatus=1;
-          Messages.changeConversationReadStatus($scope.selectedIndex);
-          Messages.changeConversationReadStatus($scope.selectedIndex);
-          myNavigatorMessages.pushPage("pageMessage.html", { param: index }, {animation:'slide'});
+            goToConversation(index);
         };
     
 

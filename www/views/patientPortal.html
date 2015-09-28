@@ -184,10 +184,6 @@
       </div>
       
       </div>
-  
-
-  
-
 <div>
     <br>
   <form class="form-group">
@@ -214,15 +210,23 @@
 </div>
 </ons-page>
 
+
+
+
+
+
+
+
+
+
 <ons-template id="pageMessage.html">
   <ons-page ng-controller="MessagePageController">
     <ons-toolbar>
       <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center">{{conversationName}}</div>
     </ons-toolbar>
-    <div>
-     <div class="panel panel-default"  >
-  <div class="panel-body">
+<div style="height:100vh;width:100vw">
+     <div class="my-message-container"  >
 
    <div style="overflow-y:scroll" height-change="heightContainer" scroll-glue-bottom="glue">
  
@@ -264,46 +268,46 @@
       
   </div>
   </div>
-  </div>
-   <div class="panel panel-default" id="bottomMessage">
-  <div class="panel-body" style="margin:0;padding:0;">
-<form>
+  <div class="my-message-container" style="margin:0;padding:0;">
 <div align="center" class="container" >
-<br>
-      <div class="col-xs-12">   
-      </div>
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <p ng-show="showAttachment" style="text-align:left"><i class="ion-paperclip"></i> Attachment</p>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+  <div class="row">  
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div> 
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0;margin-top:20px">
         <textarea  style="width:100%;max-height:150px" id="textareaDesktop" ng-model="newMessageMobile" class="textarea" row="1" msd-elastic placeholder="Message">
         </textarea>
-      
       </div>
- <div class="col-xs-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
   </div>
-  <ons-row>
-    <ons-col width="40px">
-    <div align="left">
-        <span class="btn btn-default btn-file">
-          <ons-icon icon="ion-paperclip"></ons-icon><input type="file" id="browseBtn" accept=".gif, .jpg, .png, .doc, .pdf|audio/*|video/*|image/*"/ fileread="upload.Document">
-        </span>
+  <div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+        <div align="left">
+            <span class="btn btn-default btn-file">
+              <ons-icon icon="ion-paperclip"></ons-icon><input type="file" id="browseBtn" accept=".gif, .jpg, .png, .doc, .pdf|audio/*|video/*|image/*"/ fileread="upload.Document">
+            </span>
+        </div>
     </div>
-    </ons-col>
-    <ons-col>
-    <div ng-show="showAttachment" align="left">
-      <p style="text-align:left">Attachment</p>
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+        <div  align="left">
+          &nbsp;
+        </div>
+     </div>
+     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+          <div align="center">
+        <button type="submit" class="button button--quiet" ng-disabled="sendButtonDisabled" ng-click="submitMessage()">Send</button>
+        </div>
     </div>
-    </ons-col>
-    <ons-col>
-      <div align="right">
-    <button type="submit" class="button button--quiet" ng-disabled="sendButtonDisabled" ng-click="submitMessage()">Send</button>
-    </div>
-    </ons-col>
-    </ons-row>
-  </div>
-  </form>
-   </div>
-   </div>
   </div>
 
+  </div>
+   </div>
+</div>
   </ons-page>
 </ons-template>
 </ons-navigator>
