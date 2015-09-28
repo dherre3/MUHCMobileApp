@@ -283,7 +283,7 @@ img
 }
 
 .profile-name {
-  margin: 10px 0 0 0;
+  margin: -3px 0 0 0;
   font-weight: 600;
   font-size: 17px;
 }
@@ -1134,11 +1134,7 @@ p{
   border: inset 1px rgba(0, 0, 0, 0.3);
 }
 
-.profile-name {
-  font-size: 18px;
-  padding: 0px 0 2px 0;
-  margin-top:-3px;
-}
+
 
 .profile-email {
   font-size: 15px;
@@ -1189,4 +1185,11 @@ p{
   font-size:12px;
   width:140px;
   height:115px;
+}
+.iconStatusBox{
+  margin-top:5px;
+  font-size:13px;
+  font-weight: 600;
+  color: #2B6197;
+  text-align: center;
 }
