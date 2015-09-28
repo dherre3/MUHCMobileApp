@@ -15,14 +15,11 @@
           <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
         </span>
       </ons-pull-hook>
-          <div class="container" ng-hide="noNotifications">
-<a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
-        <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
-        </alert>
-        <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
-        </alert></a>
- </div>
-
+<div class="container">
+  <alert align="center" ng-show="showAlert" ng-model="alert" type="success" close="showAlert=false">
+   <i class="ion-information-circled"></i> This demo version does not use real patient images or data.
+  </alert>
+</div>
       <div class="container" align="center">
         <img ng-src="./img/muhc-logo-text.png" >
       </div>
