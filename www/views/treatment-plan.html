@@ -131,7 +131,7 @@
             <ons-row>
                 <ons-col width="50px" class="plan-left">
 
-                    <span style="text-align:left"><strong>{{$index+1}}</strong></span>
+                 
                     <div class="plan-date" ng-show="app.Status=='Past'"><img ng-src="./img/checkedbox.png" width="20px" height="20px"></div>
                     <div class="plan-duration" ng-show="app.Status=='Future'||app.Status=='Next'">
                         <img ng-src="./img/uncheckedbox.png" width="20px" height="20px">
@@ -139,7 +139,7 @@
                 </ons-col>
                 <ons-col width="6px" class="plan-center" ng-style="{ 'background-color': getStyle($index) }"></ons-col>
                 <ons-col class="plan-right">
-                    <div class="plan-name">{{app.Name}}</div>
+                       <span style="text-align:left"><strong>{{$index+1}}</strong></span> <div class="plan-name">{{app.Name}}</div>
                     <div class="plan-info">
                         <div ng-show="app.Type=='Appointment'">
                             <ons-icon icon="fa-calendar " style="color:#2B6197"></ons-icon>&nbsp;{{app.Date|date:"EEEE, MMM d 'at' h:mm a"}}

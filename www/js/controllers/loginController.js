@@ -146,3 +146,17 @@ var myApp=angular.module('MUHCApp')
         }   
     }
 }]);
+
+/**
+
+@@ -22,11 +22,17 @@ var myApp=angular.module('MUHCApp')
+        UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
+        RequestToServer.sendRequest('Refresh');
+        $state.go('loading');
+    }  
+    //Creating reference to firebase link 
+    $scope.submit = function (email, password) {
+        signin(email, password);
+        }
+
+    **/
