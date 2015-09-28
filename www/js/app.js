@@ -239,4 +239,3 @@ myApp.run(function ($rootScope, $state, $stateParams,$q, $rootScope,$translate) 
 });
 });
 var param={};
-

@@ -21,7 +21,7 @@
      </div>
      </div>
      <div ng-hide="noTreatmentPlan">
-     <div class="my-home-profile" style="margin:5px 0 5px 0;width:100%;padding:10px">
+     <div class="my-home-profile" style="margin:5px 0 5px 0;width:100%;padding:10px;height:240px;">
       <div style="width:100%">
         <ons-row >
         <ons-col width="30px">
@@ -31,8 +31,21 @@
         </ons-col>
         <ons-col>
         <div  align="middle" style="margin-left:3px">
-          <span class="profile-name">Status<br> </span> <strong>Stage {{outOf}} </strong>
-            <progressbar style="width:100%" class="progress-striped" value="percentage" type="{{type}}">{{percentage}}% completed <i ng-show="showWarning">!!! Watch out !!!</i></progressbar> 
+       <span class="profile-name" >Status<br> </span> 
+        <div class="progressStatus" id="progressStatus">
+        
+        </div>
+        <div align="center">
+        <div class="progressStatusTextBox">
+      <strong>Stage {{outOf}} </strong><br>
+          {{percentage}}% Completed
+          <div  align="middle" style="margin-left:5px">
+          <span class="profile-name">In progress<br> </span>
+          {{currentStage}} 
+          <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"<i class="ion-help-circled iconHomeView"></i></a>
+          </div>
+        </div> 
+        </div>
         </div>
         </ons-col>
         </ons-row>
@@ -117,6 +130,8 @@
         <ons-list-item  class="plan" modifier="tappable" ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})" ng-repeat="app in stages">
             <ons-row>
                 <ons-col width="50px" class="plan-left">
+
+                    <span style="text-align:left"><strong>{{$index+1}}</strong></span>
                     <div class="plan-date" ng-show="app.Status=='Past'"><img ng-src="./img/checkedbox.png" width="20px" height="20px"></div>
                     <div class="plan-duration" ng-show="app.Status=='Future'||app.Status=='Next'">
                         <img ng-src="./img/uncheckedbox.png" width="20px" height="20px">

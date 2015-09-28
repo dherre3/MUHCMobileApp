@@ -22,13 +22,14 @@
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
+ <div style="margin-top:10px">
           <ul class="list list--inset" ng-repeat="photo in photoAlbum" style="margin-top:5px" ng-click="openImage(photo.Content)">
   <li class="list__item list--inset__item list__item--chevron">
     <div style="padding:8px;">
       <ons-row >
         <ons-col width="30px">
           <div align="right" >
-            <i class="fa fa-hospital-o iconHomeView"></i>
+            <i class="ion-document-text iconHomeView"></i>
           </div>
         </ons-col>
         <ons-col>
@@ -46,6 +47,7 @@
         </div>
   </li>
 </ul>
+</div>
 </ons-page>
 <ons-template id="pageDocument.html">
   <ons-page ng-controller="SingleDocumentController">
