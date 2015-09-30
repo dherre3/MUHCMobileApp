@@ -30,7 +30,6 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         *
         *
         */
-       
         function homePageInit(){
         $scope.dateToday=new Date();
         var date;
@@ -61,6 +60,7 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();
         $scope.ProfileImage=Patient.getProfileImage();
+        $scope.Status=Patient.getStatus();
     }
         homePageInit();
         $scope.load = function($done) {

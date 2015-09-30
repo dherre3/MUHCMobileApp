@@ -6,6 +6,15 @@
   <ons-template id="menu.html">
     <ons-page modifier="menu-page">
       <ons-toolbar modifier="transparent"></ons-toolbar>
+      <div class="container">
+       <div class="col-xs-4" >
+         <img width="50px" height="50px" src="img/opal.png">
+         </div>
+         <div class="col-xs-8" style="padding:0">
+       <span style="color:grey">MUHC Oncology Patient App</span>
+       </div>
+      </div>
+      <hr>
       <ons-list class="menu-list" >
           <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/home.html', {closeMenu: true})">
         <ons-icon icon="fa-home" fixed-width="true"></ons-icon>

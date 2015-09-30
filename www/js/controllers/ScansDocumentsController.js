@@ -1,9 +1,6 @@
  var myApp = angular.module('MUHCApp');
   myApp.controller('ScansDocumentController',['Patient','Documents','UpdateUI', '$scope','$timeout','UserPreferences', function (Patient,Documents, UpdateUI,$scope,$timeout, UserPreferences) {
-        $scope.closeAlert = function () {
-   
-        $rootScope.showAlert=false;
-    };
+
     $scope.photoAlbum=Documents.getPhotos();
     console.log($scope.photoAlbum);
     if(UserPreferences.getLanguage()=='EN'){
