@@ -60,6 +60,7 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();
         $scope.ProfileImage=Patient.getProfileImage();
+        $scope.Status=Patient.getStatus();
     }
         homePageInit();
         $scope.load = function($done) {

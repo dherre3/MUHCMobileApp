@@ -20,9 +20,9 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 '6':{'Name':'Ready For \t Physics QA','Date':'2015-09-21T09:15:00Z','Description':'stage6','Type':'Task'},
                 '7':{'Name':'Ready For \t Treatment','Date':'2015-09-31T09:15:00Z','Description':'stage7','Type':'Task'}
             });
+            UserPreferences.setUserPreferences(dataUserObject.Patient.Language,dataUserObject.Patient.EnableSMS);
             Doctors.setUserContacts(dataUserObject.Doctors);
             Patient.setUserFields(dataUserObject.Patient, dataUserObject.Diagnosis);
-            UserPreferences.setUserPreferences(dataUserObject.Patient.Language,dataUserObject.Patient.EnableSMS);
             Appointments.setUserAppointments(dataUserObject.Appointments);
             setUpForNews().then( Notifications.setUserNotifications(dataUserObject.Notifications));
             function setUpForNews(){
