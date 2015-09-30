@@ -60,6 +60,7 @@ myApp.controller('NotificationsController', ['RequestToServer','Notifications', 
     }
 
     $scope.goToNotification=function(index,notification){
+            console.log(notification.Type);
             if(notification.ReadStatus==='0'){
                 RequestToServer.sendRequest('NotificationRead',notification.NotificationSerNum);
                 Notifications.setNotificationReadStatus(index);
@@ -71,8 +72,11 @@ myApp.controller('NotificationsController', ['RequestToServer','Notifications', 
 
                 var app=Appointments.getAppointmentBySerNum(notification.TypeSerNum);
                 myNavigator.pushPage('./templates/appointments/individual-appointment.html', {param:app},{ animation : 'slide' } );
-            }else if(notification.Type==='Document'){
-                menu.setMainPage('views/scansNDocuments.html', {closeMenu: true});
+            }else if(notification.Type==='Image'){
+                console.log('doing it');
+                var doc=Documents.getDocumentBySerNum(notification.TypeSerNum);
+                myNavigator.pushPage('./templates/documents/individual-document.html',{param:doc},{ animation : 'slide' } );
+               // menu.setMainPage('views/scansNDocuments.html', {closeMenu: true});
             }
         }
 }]);

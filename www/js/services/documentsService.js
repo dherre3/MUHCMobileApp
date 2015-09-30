@@ -85,6 +85,14 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 		},
 		getPhotos:function(){
 			return this.Photos;
+		},
+		getDocumentBySerNum:function(serNum)
+		{
+			for (var i = 0; i < this.Photos.length; i++) {
+				if(this.Photos[i].DocumentSerNum==serNum){
+					return this.Photos[i];
+				}
+			};
 		}
 
 	};

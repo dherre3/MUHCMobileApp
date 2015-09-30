@@ -1,3 +1,4 @@
+
  var myApp = angular.module('MUHCApp');
   myApp.controller('ScansDocumentController',['Patient','Documents','UpdateUI', '$scope','$timeout','UserPreferences', function (Patient,Documents, UpdateUI,$scope,$timeout, UserPreferences) {
 
@@ -33,13 +34,8 @@
           app.carousel.setActiveCarouselItemIndex(3);
         }
       });
-$scope.openImage=function(img){
-  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
-  if(app){
-     var ref = window.open(img, '_blank', 'location=yes');
-  }else{
-     window.open(img);
-  }
+$scope.goToDocument=function(img){
+  myNavigator.pushPage('./templates/documents/individual-document.html',{param:img});
 }
 var options = {
   animation: 'slide', // What animation to use
@@ -139,19 +135,20 @@ $scope.clickBack=function(){
 
  myApp.controller('SingleDocumentController',['Documents', '$timeout', '$scope', function(Documents, $timeout,$scope){
   console.log('Simgle Document Controller');
-  var page = myNavigatorDocuments.getCurrentPage();
-
+  var page = myNavigator.getCurrentPage();
   var image=page.options.param;
   console.log(image);
-  $scope.header=image.Name;
-  $scope.imageContent=image.Content;
-  var gesturableImg = new ImgTouchCanvas({
-            canvas: document.getElementById('mycanvas'),
-            path: $scope.imageContent
-        });
+  $scope.documentObject=image;
+  $scope.openDocument=function(){
+  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
+  if(app){
+     var ref = window.open(image.Content, '_blank', 'location=yes');
+  }else{
+     window.open(image.Content);
+  }
+}
   /*var gesturableImg = new ImgTouchCanvas({
           canvas: document.getElementById('mycanvas2'),
           path: "./img/D-RC_ODC_16June2015_en_FNL.png"
       });*/
-
 }]);

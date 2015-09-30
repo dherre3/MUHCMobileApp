@@ -1,4 +1,4 @@
-<ons-navigator title="Navigator" var="myNavigatorDocuments">
+
 <ons-page ng-controller="ScansDocumentController">
     <ons-toolbar>
         <div class="left">
@@ -28,7 +28,7 @@
   </alert>
 </div>
  <div style="margin-top:10px">
-          <ul class="list list--inset" ng-repeat="photo in photoAlbum" style="margin-top:5px" ng-click="openImage(photo.Content)">
+          <ul class="list list--inset" ng-repeat="photo in photoAlbum" style="margin-top:5px" ng-click="goToDocument(photo)">
   <li class="list__item list--inset__item list__item--chevron">
     <div style="padding:8px;">
       <ons-row >
@@ -54,6 +54,7 @@
 </ul>
 </div>
 </ons-page>
+<!--
 <ons-template id="pageDocument.html">
   <ons-page ng-controller="SingleDocumentController">
     <ons-toolbar>
@@ -61,11 +62,11 @@
       <div class="center">{{header}}</div>
     </ons-toolbar>
      <div class="panel panel-default">
-  <div  style="width: 100%; height: 100%"> <!-- set desired position and size to that div -->
+  <div  style="width: 100%; height: 100%"> 
         <canvas id="mycanvas" style="width: 90%; height: 500px"></canvas>
     </div>
   </div>
      
   </ons-page>
 </ons-template>
-</ons-navigator>
+</ons-navigator>-->

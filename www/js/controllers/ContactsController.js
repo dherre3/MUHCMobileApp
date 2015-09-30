@@ -14,9 +14,10 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
     console.log($scope.oncologists);
     $scope.goDoctorContact=function(doctor){
         if(doctor===undefined){
-            myNavigator.pushPage('page2.html', {param:$scope.primaryPhysician},{ animation : 'slide' } );
+
+            myNavigator.pushPage('templates/contacts/individual-contact.html', {param:$scope.primaryPhysician},{ animation : 'slide' } );
         }else{
-            myNavigator.pushPage('page2.html', {param:doctor},{ animation : 'slide' } );
+            myNavigator.pushPage('templates/contacts/individual-contact.html', {param:doctor},{ animation : 'slide' } );
         }   
     };
 }]);
@@ -29,7 +30,7 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
 * the {@link MUHCApp.controller:HomeController HomeController} view.
 *
 **/
-myApp.controller('ContactIndividualDoctorController',['$scope',function($scope){
+myApp.controller('ContactIndividualDoctorController',['$scope','$q',function($scope,$q){
  
  var page = myNavigator.getCurrentPage();
  $scope.doctor=page.options.param;
@@ -42,7 +43,17 @@ myApp.controller('ContactIndividualDoctorController',['$scope',function($scope){
  }
  $scope.goToConversation=function(doctor){
     param=doctor;
-    menu.setMainPage('views/patientPortal.html',{param: doctor},{closedMenu:true});
+    function goToMessage(){
+        var r=$q.defer();
+        myNavigator.popPage({animation:'none'});
+        r.resolve(true);
+        return r.promise;
+    }
+    goToMessage().then(function(){
+        menu.setMainPage('views/patientPortal.html',{param: doctor},{closedMenu:true});
+    });
+    
+    
  };
 
 }]);

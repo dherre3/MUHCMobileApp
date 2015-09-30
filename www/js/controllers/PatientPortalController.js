@@ -230,6 +230,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
       for(var i=0;i<messages.length;i++)
       {
         if(messages[i].UserSerNum==param.DoctorSerNum){
+          param=null;
           goToConversation(i);
           break;
         }
@@ -250,7 +251,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
             $scope.messages[$scope.selectedIndex].ReadStatus=1;
             Messages.changeConversationReadStatus($scope.selectedIndex);
             Messages.changeConversationReadStatus($scope.selectedIndex);
-            myNavigatorMessages.pushPage("pageMessage.html", { param: index }, {animation:'slide'});
+            myNavigator.pushPage("templates/messages/mobile-message-page.html", { param: index }, {animation:'slide'});
             $scope.person.selected=undefined;
           })
         }
@@ -269,7 +270,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
         $scope.messages[index].ReadStatus=1;
         Messages.changeConversationReadStatus($scope.selectedIndex);
         Messages.changeConversationReadStatus($scope.selectedIndex);
-        myNavigatorMessages.pushPage("pageMessage.html", { param: index }, {animation:'slide'});
+        myNavigator.pushPage("templates/messages/mobile-message-page.html", { param: index }, {animation:'slide'});
      }
 
 
@@ -295,7 +296,7 @@ myApp.controller('MessagePageController',function(RequestToServer,$filter, Patie
   };
  
 //Obtaining Index of current message
- var page = myNavigatorMessages.getCurrentPage();
+ var page = myNavigator.getCurrentPage();
  var parameters=page.options.param;
 //Setting the scroll to last message, and initializing the conversation parameters
  $scope.glue=false;

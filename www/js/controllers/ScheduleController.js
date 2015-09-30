@@ -337,7 +337,7 @@ myApp.controller('AppointmentMapController',['$timeout', '$scope',function($time
   }]);
 
 myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer', 'Appointments', '$cordovaDatePicker','$filter', function($timeout, $scope, RequestToServer, Appointments,$cordovaDatePicker, $filter){
-    var page = myNavigatorAppointments.getCurrentPage();
+    var page = myNavigator.getCurrentPage();
     var parameters=page.options.param;
     $scope.today=(new Date()).setHours(0,0,0);
     console.log(parameters);
