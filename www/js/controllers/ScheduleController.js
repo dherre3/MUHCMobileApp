@@ -306,7 +306,7 @@ myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appoi
     function ($scope, $timeout, Appointments) {
         $scope.alreadyCheckedIn=true;
         //Information of current appointment
-        var page = myNavigatorAppointments.getCurrentPage();
+        var page = myNavigator.getCurrentPage();
         var parameters=page.options.param; 
 
         //Variables to show wheather the checkin is allowed for the day and whether there could be a change request

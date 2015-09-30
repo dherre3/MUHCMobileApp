@@ -25,7 +25,6 @@ myApp.service('Notifications',['$rootScope','$filter','RequestToServer', functio
             if(notifications===undefined){
                 setNotificationsNumberAlert();
                return;
-
             }
             var notificationsKeys=Object.keys(notifications);
             for (var i = 0; i < notificationsKeys.length; i++) {

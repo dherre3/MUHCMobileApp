@@ -14,9 +14,9 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
     console.log($scope.oncologists);
     $scope.goDoctorContact=function(doctor){
         if(doctor===undefined){
-            myNavigatorContacts.pushPage('page2.html', {param:$scope.primaryPhysician},{ animation : 'slide' } );
+            myNavigator.pushPage('page2.html', {param:$scope.primaryPhysician},{ animation : 'slide' } );
         }else{
-            myNavigatorContacts.pushPage('page2.html', {param:doctor},{ animation : 'slide' } );
+            myNavigator.pushPage('page2.html', {param:doctor},{ animation : 'slide' } );
         }   
     };
 }]);
@@ -31,7 +31,7 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
 **/
 myApp.controller('ContactIndividualDoctorController',['$scope',function($scope){
  
- var page = myNavigatorContacts.getCurrentPage();
+ var page = myNavigator.getCurrentPage();
  $scope.doctor=page.options.param;
  if($scope.doctor.PrimaryFlag===1){
     $scope.header='Primary Physician';

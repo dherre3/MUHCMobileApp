@@ -46,6 +46,7 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 					imageToPhotoObject.ImageHospitalName_FR=documents[keysDocuments[i]].ImageHospitalName_FR;
 					imageToPhotoObject.ImageHospitalDescription_EN=documents[keysDocuments[i]].ImageHospitalDescription_EN;
 					imageToPhotoObject.ImageHospitalDescription_FR=documents[keysDocuments[i]].ImageHospitalDescription_FR;
+					imageToPhotoObject.DocumentSerNum=documents[keysDocuments[i]].ImageSerNum;
 					imageToPhotoObject.PathFileSystem=documents[keysDocuments[i]].PathFileSystem;
 					imageToPhotoObject.NameFileSystem=documents[keysDocuments[i]].NameFileSystem;
 					imageToPhotoObject.Content=documents[keysDocuments[i]].Content;

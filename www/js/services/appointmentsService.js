@@ -223,6 +223,13 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
         this.calendar[year] = calendarYear;
 
         },
+        getAppointmentBySerNum:function(serNum){
+            for (var i = 0; i < this.UserAppointmentsArray.length; i++) {
+                if(this.UserAppointmentsArray[i].AppointmentSerNum==serNum){
+                    return this.UserAppointmentsArray[i];
+                }
+            };
+        },
         /**
         *@ngdoc method
         *@name getUserAppointment
