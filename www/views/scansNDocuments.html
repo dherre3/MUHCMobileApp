@@ -22,6 +22,11 @@
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
+ <div class="container">
+  <alert align="center" ng-show="showAlertDoc" ng-model="alert" type="success" close="closeAlertDocs()">
+   <i class="ion-information-circled"></i> This demo version does not use real patient images or data.
+  </alert>
+</div>
  <div style="margin-top:10px">
           <ul class="list list--inset" ng-repeat="photo in photoAlbum" style="margin-top:5px" ng-click="openImage(photo.Content)">
   <li class="list__item list--inset__item list__item--chevron">
