@@ -284,7 +284,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
   }]);
 
 
-myApp.controller('MessagePageController',function(RequestToServer,$filter, Patient,Messages,UpdateUI,$timeout,$scope){
+myApp.controller('MessagePageController',function(RequestToServer,$filter, Patient,Messages,UpdateUI,$timeout,$scope,Doctors){
 
  $scope.getStyle=function(index){
     
@@ -318,6 +318,7 @@ myApp.controller('MessagePageController',function(RequestToServer,$filter, Patie
 $scope.messageAttachmentOpener=function(mes){
   var ref = window.open(mes.Attachment, '_blank', 'location=yes');
 };
+
 $scope.$watch('upload.Document',function(){
 
   if($scope.upload){
@@ -383,7 +384,15 @@ $scope.submitMessage=function(){
     console.log($scope.messages);
   });
 
-}
+};
+
+
+$scope.goToContact=function(){
+  var doctor=Doctors.getDoctorBySerNum($scope.messages[$scope.selectedIndex].UserSerNum);
+  console.log(doctor);
+  myNavigator.pushPage('./templates/contacts/individual-contact.html',{param:{doctor:doctor,
+    flagInConversation:1}});
+};
 });
 
 

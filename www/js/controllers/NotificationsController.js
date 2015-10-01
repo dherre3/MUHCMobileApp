@@ -1,5 +1,5 @@
 var myApp = angular.module('MUHCApp');
-myApp.controller('NotificationsController', ['RequestToServer','Notifications', 'UpdateUI', '$scope', '$timeout','$rootScope', 'UserPreferences', 'Appointments', 'Documents', function (RequestToServer, Notifications, UpdateUI, $scope,$timeout,$rootScope, UserPreferences, Appointments, Documents) {
+myApp.controller('NotificationsController', ['RequestToServer','Notifications', 'UpdateUI', '$scope', '$timeout','$rootScope', 'UserPreferences', 'Appointments', 'Documents','Notes', function (RequestToServer, Notifications, UpdateUI, $scope,$timeout,$rootScope, UserPreferences, Appointments, Documents, Notes) {
     //Clear Number of Notifications in menu once inside the notification center.
      $rootScope.showAlert=false;
      $rootScope.Notifications='';
@@ -66,8 +66,8 @@ myApp.controller('NotificationsController', ['RequestToServer','Notifications', 
                 Notifications.setNotificationReadStatus(index);
             }
             if(notification.Type==='Note'){
-
-                menu.setMainPage('views/notes.html', {closeMenu: true});
+                var note=Notes.getNoteBySerNum(notification.TypeSerNum);
+                myNavigator.pushPage('./templates/notes/single-note.html', {param:note},{ animation : 'slide' } );
             }else if(notification.Type==='Appointment'){
 
                 var app=Appointments.getAppointmentBySerNum(notification.TypeSerNum);

@@ -15,9 +15,10 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
     $scope.goDoctorContact=function(doctor){
         if(doctor===undefined){
 
-            myNavigator.pushPage('templates/contacts/individual-contact.html', {param:$scope.primaryPhysician},{ animation : 'slide' } );
+            myNavigator.pushPage('templates/contacts/individual-contact.html', {param:{doctor:$scope.primaryPhysician,
+                flagInConversation:0}},{ animation : 'slide' } );
         }else{
-            myNavigator.pushPage('templates/contacts/individual-contact.html', {param:doctor},{ animation : 'slide' } );
+            myNavigator.pushPage('templates/contacts/individual-contact.html', {param:{doctor:doctor,flagInConversation:0}},{ animation : 'slide' } );
         }   
     };
 }]);
@@ -33,7 +34,13 @@ myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctor
 myApp.controller('ContactIndividualDoctorController',['$scope','$q',function($scope,$q){
  
  var page = myNavigator.getCurrentPage();
- $scope.doctor=page.options.param;
+ var parameters=page.options.param;
+ if(parameters.flagInConversation==1){
+    $scope.showMessageInApp=false;
+ }else{
+    $scope.showMessageInApp=true;
+ }
+ $scope.doctor=parameters.doctor;
  if($scope.doctor.PrimaryFlag===1){
     $scope.header='Primary Physician';
  }else if($scope.doctor.OncologistFlag===1){

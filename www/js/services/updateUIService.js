@@ -1,7 +1,7 @@
 var myApp=angular.module('MUHCApp');
 
 
-myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork) {
+myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes) {
     function updateAllServices(dataUserObject,mode){
         function setDocuments(){
             var setDocProm=$q.defer();
@@ -25,6 +25,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
             Patient.setUserFields(dataUserObject.Patient, dataUserObject.Diagnosis);
             Appointments.setUserAppointments(dataUserObject.Appointments);
             setUpForNews().then( Notifications.setUserNotifications(dataUserObject.Notifications));
+            Notes.setNotes(dataUserObject.Notes);
             function setUpForNews(){
                 var r=$q.defer();
                 Messages.setUserMessages(dataUserObject.Messages);

@@ -1,4 +1,4 @@
-<ons-page>
+<ons-page ng-controller="NotesController">
   <ons-toolbar>
     <div class="left">
       <ons-toolbar-button ng-click="menu.toggle()">
@@ -9,14 +9,38 @@
   </ons-toolbar>
   <div class="container" ng-hide="noNotifications">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
-        <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
+        <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert>
-        <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
+        <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
-  <ons-row style="margin-top: 100px; text-align: center;">
-    <ons-col>
-      <p style="color: #999; font-size: 13px;">Section for patient to write notes and store photos that they can show to their physician or just keep for themselves. Stored locally on the phone only.</p>
-    </ons-col>
-  </ons-row>
+
+          <ul class="list list--inset" ng-repeat="note in Notes" style="margin-top:5px" ng-click="goToNote(note)">
+  <li class="list__item list--inset__item list__item--chevron">
+    <div style="padding:8px;">
+      <ons-row >
+        <ons-col width="30px">
+          <div align="right" >
+            <i class="ion-android-bookmark iconHomeView"></i>
+          </div>
+        </ons-col>
+        <ons-col>
+        <div  align="middle" style="margin-left:5px">
+           <div class="profile-name" >
+                {{note.Title}}
+              </div>
+          <div class="desc">
+                <div style=" color:grey;">{{note.Content|limitTo:20}}...</div>
+              </div>
+              </div>
+        </ons-col>
+        <ons-col width="30px">
+           <div class="location" align="right" style="font-size:12px;margin-left:-10px;margin-top:-15px">
+               {{note.DateAdded|dateEmail}}
+              </div>
+        </ons-col>
+        </ons-row>
+        </div>
+  </li>
+</ul>
 </ons-page>
