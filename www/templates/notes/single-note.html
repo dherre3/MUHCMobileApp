@@ -2,6 +2,7 @@
     <ons-toolbar >
       <div class="left"><ons-back-button>Back</ons-back-button></div>
       <div class="center">Note</div>
+      <div class="right"><ons-toolbar-button ng-click="myNavigator.pushPage('./templates/notes/edit-note.html',{param:{Type:'edit',Note: Note}})">Edit</ons-toolbar-button></div>
     </ons-toolbar>
     <!--<div class="container jumbotron" style="text-align: left;padding:5% 2% 5% 2%">-->
     <div class='container' style="margin-top:3vh">
@@ -16,4 +17,7 @@
      </div>
      </div>
      </div>
+<div class="bottom-bar">
+  <div class="bottom-bar__line-height" style="text-align:center">Bottom Toolbar</div>
+</div>
   </ons-page>

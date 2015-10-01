@@ -20,18 +20,6 @@ myApp.controller('NotesController',['Notes','UserPreferences','$scope', function
 		//Retrive notes from service
 		$scope.Notes=Notes.getNotes();
 		//Retrieve Language
-		var language=UserPreferences.getLanguage();
-		for (var i = 0; i < $scope.Notes.length; i++) {
-			//Update fields in notes to show appropiately
-			if(language=='EN'){
-				$scope.Notes[i].Content=$scope.Notes[i].Content_EN;
-				$scope.Notes[i].Title=$scope.Notes[i].Title_EN;
-			}else{
-				$scope.Notes[i].Content=$scope.Notes[i].Content_FR;
-				$scope.Notes[i].Title=$scope.Notes[i].Title_FR;
-			}
-			
-		};
 	}
 
 	//Go to specific page for note
@@ -49,7 +37,7 @@ myApp.controller('NotesController',['Notes','UserPreferences','$scope', function
 
 }]);
 
-myApp.controller('SingleNoteController',['Notes', '$scope','UserPreferences', function(Notes,$scope,UserPreferences){
+myApp.controller('SingleNoteController',['Notes', '$scope', function(Notes,$scope){
 	initSingleNote();
 	
 
@@ -66,16 +54,62 @@ myApp.controller('SingleNoteController',['Notes', '$scope','UserPreferences', fu
 		console.log(param);
 		//Set the note fields
 		$scope.Note=param;
-		//Pick the appropiate language for the note
-		var language=UserPreferences.getLanguage();
-		if(language=='EN'){
-			$scope.Note.Content=$scope.Note.Content_EN;
-			$scope.Note.Title=$scope.Note.Title_EN;
-		}else{
-			$scope.Note.Content=$scope.Note.Content_FR;
-			$scope.Note.Title=$scope.Note.Title_FR;
-		}
 		
 	}
+	
+}]);
+
+myApp.controller('EditNoteController',['Notes', '$scope','UserPreferences', '$q',function(Notes,$scope,UserPreferences,$q){
+	var parameter=myNavigator.getCurrentPage().options.param;
+	console.log(parameter);
+	if(parameter.Type=='create'){
+		$scope.Type='Create';
+		$scope.fieldsFilled=false;
+		$scope.NoteTitle='';
+		$scope.NoteContent='';
+		$scope.$watchGroup(['NoteTitle','NoteContent'],function(){
+			if($scope.NoteTitle==''||$scope.NoteContent==''){
+				$scope.fieldsFilled=false;
+			}else{
+				$scope.fieldsFilled=true;
+			}
+		});
+		
+	}else{
+		$scope.Type='Edit';
+		$scope.note=parameter.Note;
+		console.log(parameter.Note);
+		$scope.fieldsFilled=true;
+		$scope.NoteTitle=$scope.note.Title;
+		$scope.NoteContent=$scope.note.Content;
+		$scope.$watchGroup(['NoteTitle','NoteContent'],function(){
+			if($scope.NoteTitle==''||$scope.NoteContent==''){
+				$scope.fieldsFilled=false;
+			}else{
+				$scope.fieldsFilled=true;
+			}
+		});
+
+	}
+
+	$scope.editNote=function(){
+		if(parameter.Type=='create'){
+			objectToAdd={};
+			objectToAdd.Title=$scope.NoteTitle;
+			objectToAdd.Content=$scope.NoteContent;
+			objectToAdd.DateAdded=new Date();
+			Notes.addNewNote(objectToAdd);
+			$scope.fieldsFilled=true;
+			myNavigator.popPage();
+		}else{
+			console.log('swag');
+			console.log($scope.note);
+			$scope.note.Title=$scope.NoteTitle;
+			$scope.note.Content=$scope.NoteContent;
+			Notes.editNote($scope.note);
+			myNavigator.popPage();
+		}
+	}
+	
 	
 }]);

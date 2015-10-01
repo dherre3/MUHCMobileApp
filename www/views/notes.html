@@ -6,6 +6,8 @@
       </ons-toolbar-button>
     </div>
     <div class="center">Notes</div>
+    <div class="right"><ons-toolbar-button ng-click="myNavigator.pushPage('./templates/notes/edit-note.html',{
+    param:{Type:'create'}})"><ons-icon icon="ion-plus-round" size="28px" fixed-width="false"></ons-icon></ons-toolbar-button></div>
   </ons-toolbar>
   <div class="container" ng-hide="noNotifications">
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
@@ -14,14 +16,19 @@
         <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
+<div class="container" ng-show="noNotes">
+<div align="center">
+<p style="color:grey">Add, edit, and remove personal notes and reminder!</p>
+</div>
 
-          <ul class="list list--inset" ng-repeat="note in Notes" style="margin-top:5px" ng-click="goToNote(note)">
+</div>
+<ul class="list list--inset" ng-repeat="note in Notes" style="margin-top:5px" ng-click="goToNote(note)">
   <li class="list__item list--inset__item list__item--chevron">
     <div style="padding:8px;">
       <ons-row >
         <ons-col width="30px">
           <div align="right" >
-            <i class="ion-android-bookmark iconHomeView"></i>
+            <i class="fa fa-pencil iconHomeView"></i>
           </div>
         </ons-col>
         <ons-col>
@@ -35,7 +42,7 @@
               </div>
         </ons-col>
         <ons-col width="30px">
-           <div class="location" align="right" style="font-size:12px;margin-left:-10px;margin-top:-15px">
+           <div class="location" align="right" style="font-size:12px;margin-left:-10px;margin-top:-15px;text-align:right">
                {{note.DateAdded|dateEmail}}
               </div>
         </ons-col>
@@ -43,4 +50,5 @@
         </div>
   </li>
 </ul>
+
 </ons-page>
