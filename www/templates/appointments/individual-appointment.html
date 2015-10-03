@@ -26,14 +26,14 @@
      </div>-->
     <!--</div>-->
      <ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
-     <ons-list-item ng-show="appointmentToday" modifier="chevron" ng-click="menu.setMainPage('views/checkin.html',{closedMenu:true})" >
+     <ons-list-item ng-show="appointmentToday" modifier="chevron" ng-click="goToCheckIn()" >
           <ons-icon icon="fa fa-check-square-o"></ons-icon>&nbsp;<span style="color:black">Check In</span>
         </ons-list-item>
 
-        <ons-list-item modifier="chevron" ng-click="myNavigatorAppointments.pushPage('pageMap.html', {param:type},{ animation : 'slide' } )" >
+        <ons-list-item modifier="chevron" ng-click="myNavigator.pushPage('pageMap.html', {param:type},{ animation : 'slide' } )" >
           <ons-icon icon="ion-map"></ons-icon>&nbsp;<span style="color:black">Show Location in Map</span>
         </ons-list-item>
-        <ons-list-item ng-show="futureAppointment" modifier="chevron" ng-click="myNavigatorAppointments.pushPage('pageRequestChange.html', {param:app},{ animation : 'slide' } )" >
+        <ons-list-item ng-show="futureAppointment" modifier="chevron" ng-click="myNavigator.pushPage('templates/appointments/request-change-appointment.html', {param:app},{ animation : 'slide' } )" >
           <ons-icon icon="ion-shuffle"></ons-icon>&nbsp;<span style="color:black">Request Change</span>
         </ons-list-item>
 

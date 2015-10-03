@@ -1,6 +1,6 @@
   <ons-page ng-controller="EditNoteController">
     <ons-toolbar >
-      <div class="left"><ons-back-button>Back</ons-back-button></div>
+      <div class="left"><ons-back-button ng-hide="showWaiting">Back</ons-back-button></div>
       <div class="center">{{Type}} Note</div>
     </ons-toolbar>
     <!--<div class="container jumbotron" style="text-align: left;padding:5% 2% 5% 2%">-->
@@ -26,6 +26,8 @@
 		</li>
    	</ul>
 <br>
-   		<button class="button button--large" ng-click="editNote()" ng-disabled="!fieldsFilled">{{Type}} Note</button><br>
+   		<button class="button button--large" ng-click="editNote()" ng-disabled="!fieldsFilled||showWaiting">{{Type}} Note</button><br>
+
+   		<div align="center" ng-show="showWaiting"><ons-icon icon="ion-ios-reload" size="40px" spin="true"></ons-icon></div>
      </div>
   </ons-page>

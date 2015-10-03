@@ -1,5 +1,5 @@
 angular.module('MUHCApp')
-	.service('Notes',['$filter','RequestToServer', function($filter,RequestToServer){
+	.service('Notes',['$filter','RequestToServer','$timeout', function($filter,RequestToServer,$timeout){
 		return{
 			setNotes:function(notes){
 				this.Notes=[];
@@ -34,7 +34,9 @@ angular.module('MUHCApp')
 				objectToBackEnd.Content=note.Content;
 				objectToBackEnd.DateAdded=$filter('formatDateToFirebaseString')(note.DateAdded);
 				RequestToServer.sendRequest('NewNote',objectToBackEnd);
+				RequestToServer.sendRequest('Refresh');
 				console.log(this.Notes);
+
 
 			},
 			editNote:function(newNote){
@@ -51,6 +53,20 @@ angular.module('MUHCApp')
 						return;
 					}
 				};
+			},
+			deleteNote:function(note){
+				var copyNotes=[];
+				var j=0;
+				for (var i = 0; i < this.Notes.length; i++) {
+					if(this.Notes[i].NoteSerNum!=note.NoteSerNum){
+						copyNotes[j]=this.Notes[i];
+						j++;
+					}
+				};
+				objectToBackEnd={};
+				objectToBackEnd.NoteSerNum=note.NoteSerNum;
+				RequestToServer.sendRequest('DeleteNote',objectToBackEnd);
+				this.Notes=copyNotes;
 			}
 
 

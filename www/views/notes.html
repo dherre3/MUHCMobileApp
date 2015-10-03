@@ -21,11 +21,11 @@
 <p style="color:grey">Add, edit, and remove personal notes and reminder!</p>
 </div>
 
-</div>
 <ul class="list list--inset" ng-repeat="note in Notes" style="margin-top:5px" ng-click="goToNote(note)">
   <li class="list__item list--inset__item list__item--chevron">
     <div style="padding:8px;">
-      <ons-row >
+    <ons-gesture-detector  ng-swipeleft="doSomething($index)">
+      <ons-row id="section{{$index}}">
         <ons-col width="30px">
           <div align="right" >
             <i class="fa fa-pencil iconHomeView"></i>
@@ -48,6 +48,8 @@
         </ons-col>
         </ons-row>
         </div>
+        </ons-gesture-detector>
+      
   </li>
 </ul>
 

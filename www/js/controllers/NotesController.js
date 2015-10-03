@@ -6,10 +6,25 @@ var myApp=angular.module('MUHCApp')
 *@requires UserPreferences
 *@description Sets up the notes for the user.
 */
-myApp.controller('NotesController',['Notes','UserPreferences','$scope', function(Notes, UserPreferences,$scope){
+myApp.controller('NotesController',['Notes','UserPreferences','$scope', '$timeout', function(Notes, UserPreferences,$scope,$timeout){
 	initNotes();
+	myNavigator.on('postpop',function(){
+		$timeout(function(){
+			$scope.Notes=Notes.getNotes();
+		});
+
+	});
+	$scope.doSomething=function(index){
+		console.log('adasds'+ index);
+		
 
 
+	}
+	$scope.onSwipeLeft=function()
+	{
+		  console.log('Swipe left is boom.');
+	}
+	
 	/*
 	*@ngdocs method
 	*@name MUHCApp.NotesController.initNotes
@@ -37,10 +52,10 @@ myApp.controller('NotesController',['Notes','UserPreferences','$scope', function
 
 }]);
 
-myApp.controller('SingleNoteController',['Notes', '$scope', function(Notes,$scope){
+myApp.controller('SingleNoteController',['Notes', '$scope', '$timeout', function(Notes,$scope,$timeout){
 	initSingleNote();
 	
-
+	$scope.deleteNoteAlert=false;
 	/*
 	*@ngdocs method
 	*@name MUHCApp.NotesController.initSingleNote
@@ -54,17 +69,26 @@ myApp.controller('SingleNoteController',['Notes', '$scope', function(Notes,$scop
 		console.log(param);
 		//Set the note fields
 		$scope.Note=param;
+		console.log($scope.Note.NoteSerNum);
 		
 	}
-	
+
+	$scope.deleteNote=function(){
+		Notes.deleteNote($scope.Note);
+		$scope.deleteNoteAlert=false;
+// Called when finishing transition animation
+		myNavigator.popPage();
+		
+	};
 }]);
 
-myApp.controller('EditNoteController',['Notes', '$scope','UserPreferences', '$q',function(Notes,$scope,UserPreferences,$q){
+myApp.controller('EditNoteController',['Notes', '$scope','UserPreferences', '$q','UpdateUI','$timeout', function(Notes,$scope,UserPreferences,$q, UpdateUI,$timeout){
 	var parameter=myNavigator.getCurrentPage().options.param;
 	console.log(parameter);
 	if(parameter.Type=='create'){
 		$scope.Type='Create';
 		$scope.fieldsFilled=false;
+		$scope.showWaiting=false;
 		$scope.NoteTitle='';
 		$scope.NoteContent='';
 		$scope.$watchGroup(['NoteTitle','NoteContent'],function(){
@@ -94,15 +118,22 @@ myApp.controller('EditNoteController',['Notes', '$scope','UserPreferences', '$q'
 
 	$scope.editNote=function(){
 		if(parameter.Type=='create'){
+			$scope.showWaiting=true;
 			objectToAdd={};
 			objectToAdd.Title=$scope.NoteTitle;
 			objectToAdd.Content=$scope.NoteContent;
 			objectToAdd.DateAdded=new Date();
 			Notes.addNewNote(objectToAdd);
+			$timeout(function(){
+				UpdateUI.UpdateUserFields().then(function(){
+					$scope.showWaiting=false;
+					myNavigator.popPage();
+				});
+			},3000);
+			
 			$scope.fieldsFilled=true;
-			myNavigator.popPage();
+			
 		}else{
-			console.log('swag');
 			console.log($scope.note);
 			$scope.note.Title=$scope.NoteTitle;
 			$scope.note.Content=$scope.NoteContent;

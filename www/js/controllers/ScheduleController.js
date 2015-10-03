@@ -302,8 +302,8 @@ function ($scope,$timeout, Appointments) {
         }
     };
 }]);
-myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appointments', 
-    function ($scope, $timeout, Appointments) {
+myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appointments', '$q',
+    function ($scope, $timeout, Appointments, $q) {
         $scope.alreadyCheckedIn=true;
         //Information of current appointment
         var page = myNavigator.getCurrentPage();
@@ -311,7 +311,7 @@ myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appoi
 
         //Variables to show wheather the checkin is allowed for the day and whether there could be a change request
         var today=new Date();
-        if(parameters.ScheduledStartTime.getMonth()===today.getMonth()&&parameters.ScheduledStartTime.getDate()===today.getDate()&&parameters.ScheduledStartTime.getFullYear()===today.getFullYear()&&today>parameters.ScheduledStartTime&&$scope.alreadyCheckedIn){
+        if(parameters.ScheduledStartTime.getMonth()===today.getMonth()&&parameters.ScheduledStartTime.getDate()===today.getDate()&&parameters.ScheduledStartTime.getFullYear()===today.getFullYear()&&today<parameters.ScheduledStartTime&&parameters.Checkin=='0'){
             //If User has not already been checked in, and if time is before appointment.
                 $scope.appointmentToday=true;
         }else if(today>parameters.ScheduledStartTime){
@@ -325,6 +325,19 @@ myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appoi
             $scope.app=parameters;
 
         });
+        $scope.goToCheckIn=function(){
+            console.log('boom');
+            function promise(){
+                var r=$q.defer();
+                myNavigator.popPage();
+                r.resolve(true);
+                return r.promise;
+            }
+            promise().then(function(){
+               menu.setMainPage('views/checkin.html',{closedMenu:true}); 
+           });
+            
+        }
         
 }]);
 myApp.controller('AppointmentMapController',['$timeout', '$scope',function($timeout,$scope){
