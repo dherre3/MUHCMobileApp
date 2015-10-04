@@ -100,7 +100,7 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
                 }
 
             };
-            if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length-1;
+            if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length;
             
         },
         /**

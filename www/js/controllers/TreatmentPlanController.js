@@ -77,10 +77,18 @@ $scope.estimatedTime='3 days';
         }
            
     }else{
-        $scope.currentStage=UserPlanWorkflow.getNextStage().Name;
-        $scope.lastFinished=stages[nextStageIndex-1].Name;
-        $scope.percentage=Math.floor((100*nextStageIndex)/stages.length);
-        $scope.outOf=nextStageIndex +' out of '+ stages.length;
+        if(nextStageIndex==stages.length){
+            $scope.outOf=nextStageIndex +' out of '+ stages.length;
+            $scope.treatmentPlanCompleted=true;
+            $scope.percentage=100;
+            $scope.completionDate=stages[nextStageIndex-1].Date;
+            endColor='#5CE68A';
+        }else{
+            $scope.currentStage=stages[nextStageIndex].Name;
+            $scope.treatmentPlanCompleted=false;
+            $scope.percentage=Math.floor((100*(nextStageIndex))/stages.length);
+            $scope.outOf=nextStageIndex +' out of '+ stages.length;
+        }
         var circle = new ProgressBar.Circle('#progressStatus', {
             color: endColor,
             duration: 2000,

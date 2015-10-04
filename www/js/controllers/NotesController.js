@@ -16,13 +16,9 @@ myApp.controller('NotesController',['Notes','UserPreferences','$scope', '$timeou
 	});
 	$scope.doSomething=function(index){
 		console.log('adasds'+ index);
-		
 
 
-	}
-	$scope.onSwipeLeft=function()
-	{
-		  console.log('Swipe left is boom.');
+
 	}
 	
 	/*
@@ -34,6 +30,11 @@ myApp.controller('NotesController',['Notes','UserPreferences','$scope', '$timeou
 	function initNotes(){
 		//Retrive notes from service
 		$scope.Notes=Notes.getNotes();
+		$timeout(function(){
+			$scope.Notes=Notes.getNotes();
+		})
+		
+		console.log($scope.Notes);
 		//Retrieve Language
 	}
 

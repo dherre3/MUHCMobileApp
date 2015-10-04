@@ -41,7 +41,7 @@
         <div class="progressStatusTextBox">
       <strong>Stage {{outOf}} </strong><br>
           {{percentage}}% Completed
-          <div  align="middle" style="margin-left:5px">
+          <div ng-show="!treatmentPlanCompleted" align="middle" style="margin-left:5px">
             <i class="ion-loop iconStatusBox"></i> <strong>In progress<br> </strong>
             {{currentStage}} 
             <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
@@ -49,6 +49,8 @@
             Oct 3 <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
             <span style="color:grey">(Estimated)</span>
           </div>
+          <div ng-show='treatmentPlanCompleted' align="middle" style="margin-left:5px">
+          <p><i class="ion-checkmark-circled iconStatusBox"></i> Treatment plan completed on <br><strong>{{completionDate|date: 'EEE MMM d, yyyy'}}</strong></p>
         </div> 
         </div>
         </div>
