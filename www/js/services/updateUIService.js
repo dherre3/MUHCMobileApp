@@ -219,9 +219,9 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
             if(app){
                 if($cordovaNetwork.isOnline()){
-                    return updateUIOnline();
+                    return UpdateSectionOnline(section);
                 }else{
-                    return updateUIOffline();
+                    return UpdateSectionOffline(section);
                 }
             }else{
                 //Computer check if online
