@@ -5,7 +5,7 @@
 angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state', '$scope','UpdateUI', 'UserAuthorizationInfo','UserPreferences', '$q','Patient', 'Messages', function ($rootScope,$state, $scope, UpdateUI, UserAuthorizationInfo, UserPreferences, $q, Patient, Messages) {
 		console.log('Im doing it');
 		modal.show();
-	    var updateUI=UpdateUI.UpdateUserFields();
+	    var updateUI=UpdateUI.UpdateSection('All');
 	    updateUI.then(function(){
 	    	$rootScope.refresh=true;
         	modal.hide();

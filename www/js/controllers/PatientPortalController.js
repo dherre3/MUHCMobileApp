@@ -9,13 +9,13 @@ myApp.controller('PatientPortalController',function(UpdateUI, RequestToServer, $
   $scope.sendButtonDisabled=true;
   $scope.newMessage='';
  function loadInfo(){
-           var dataVal= UpdateUI.UpdateUserFields();
-           dataVal.then(function(data){
+           var dataVal= UpdateUI.UpdateSection('Messages');
+           dataVal.then(function(){
                 $timeout(function(){
                   $scope.messages=Messages.getUserMessages();
                   $scope.conversation=$scope.messages[$scope.selectedIndex].Messages;
                   $rootScope.NumberOfNewMessages='';       
-                });
+                },10);
 }, function(error){console.log(error);});
 
         };

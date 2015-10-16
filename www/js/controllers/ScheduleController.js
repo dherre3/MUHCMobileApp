@@ -21,7 +21,6 @@ function ($rootScope, UserPreferences, Appointments,$cordovaCalendar,$scope) {
     };
     addEventsToNativeCalendar();
     
-   
     /**
     *@ngdoc method
     *@name addEventsToCalendar

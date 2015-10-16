@@ -1,7 +1,7 @@
 var myApp=angular.module('MUHCApp');
 
 
-myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes) {
+myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage) {
     function updateAllServices(dataUserObject,mode){
         function setDocuments(){
             var setDocProm=$q.defer();
@@ -81,7 +81,114 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         r.resolve(true);
         return r.promise;
     }
+    function UpdateSectionOffline(section)
+    {
+        var r=$q.defer();
+        var data='';
+        if(section!='UserPreferences'){
+            data=LocalStorage.ReadLocalStorage(section);
+        }else{
+            data=LocalStorage.ReadLocalStorage('Patient');
+        }
+        switch(section){
+            case 'All':
+                updateAllServices(data,'Offline');
 
+                break;
+            case 'Doctors':
+                Doctors.setUserContacts(data);
+                break;
+            case 'Patient':
+                Patient.setUserFields(data);
+                break;
+            case 'Appointments':
+                Appointments.setUserAppointments(data);
+                break;
+            case 'Messages':
+                Messages.setUserMessages(data);
+                break;
+            case 'Documents':
+                Documents.setDocuments(data,'Offline');
+                break;
+            case 'UserPreferences':
+                UserPreferences.setUserPreferences(data.Language,data.EnableSMS);
+                break;
+            case 'Notifications':
+                Notifications.setUserNotifications(data);
+                break;
+            case 'Notes':
+                Notes.setNotes(data);
+                break;
+            case 'UserPlanWorkflow':
+            //To be done eventually!!!
+            break;
+        }
+        r.resolve(true);
+        return r.promise;
+    }
+    function UpdateSectionOnline(section)
+    {
+        var r=$q.defer();
+        var ref= new Firebase('https://luminous-heat-8715.firebaseio.com/users/');
+        var pathToSection=''
+        var username=UserAuthorizationInfo.getUserName();
+
+        if(section!=='UserPreferences'){
+            pathToSection=username+'/'+section;
+        }else{
+           pathToSection=username+'/'+'Patient';
+        }
+        if(section=='All')
+        {
+            pathToSection=username;
+        }
+        
+        ref.child(pathToSection).on('value',function(snapshot){
+            var data=snapshot.val();
+            if(data!=undefined){
+                EncryptionService.decryptData(data);
+                LocalStorage.WriteToLocalStorage(section,data);
+                switch(section){
+                    case 'All':
+                        updateAllServices(data, 'Online');
+                    case 'Doctors':
+                        console.log(data);
+                        Doctors.setUserContacts(data);
+                        break;
+                    case 'Patient':
+                        Patient.setUserFields(data);
+                        break;
+                    case 'Appointments':
+                        Appointments.setUserAppointments(data);
+                        break;
+                    case 'Messages':
+                        Messages.setUserMessages(data);
+                        break;
+                    case 'Documents':
+                        Documents.setDocuments(data,'Online');
+                        break;
+                    case 'UserPreferences':
+                        UserPreferences.setUserPreferences(data.Language,data.EnableSMS);
+                        break;
+                    case 'Notifications':
+                        Notifications.setUserNotifications(data);
+                        break;
+                    case 'Notes':
+                        Notes.setNotes(data);
+                        break;
+                    case 'UserPlanWorkflow':
+                    //To be done eventually!!!
+                    break;
+                }
+                console.log(data);
+                //ref.child(pathToSection).off();
+                
+                r.resolve(true); 
+            }
+        });
+
+        return r.promise;
+    }
     return {
         UpdateUserFields:function(){
             //Check if its a device or a computer
@@ -102,8 +209,32 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                     console.log('offline website'); 
                     return updateUIOffline();
                 }
-            }  
-    }
+             }
+        },
+
+        UpdateSection:function(section)
+        {
+
+            var r=$q.defer();
+            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
+            if(app){
+                if($cordovaNetwork.isOnline()){
+                    return updateUIOnline();
+                }else{
+                    return updateUIOffline();
+                }
+            }else{
+                //Computer check if online
+                if(navigator.onLine){
+                    console.log('online website');
+                    return UpdateSectionOnline(section);
+                }else{
+                    console.log('offline website'); 
+                    return UpdateSectionOffline(section);
+                }
+             }
+        }  
+   
     };
         
 }]);

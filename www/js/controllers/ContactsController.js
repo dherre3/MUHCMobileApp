@@ -7,11 +7,29 @@
 * the {@link MUHCApp.controller:HomeController HomeController} view.
 *
 **/
-myApp.controller('ContactsController',['$scope','Doctors',function($scope,Doctors){   
+myApp.controller('ContactsController',['$scope','Doctors','$timeout','UpdateUI', function($scope,Doctors,$timeout,UpdateUI){   
     $scope.oncologists=Doctors.getOncologists();
     $scope.primaryPhysician=Doctors.getPrimaryPhysician();
     $scope.otherDoctors=Doctors.getOtherDoctors();
     console.log($scope.oncologists);
+    $scope.load = function($done) {
+      $timeout(function() {
+        loadInfo();
+        $done();
+      }, 1000);
+    };
+
+    function loadInfo(){
+       var dataVal= UpdateUI.UpdateSection('Doctors').
+       then(function(){
+      
+        $timeout(function(){
+                $scope.oncologists=Doctors.getOncologists();
+                $scope.primaryPhysician=Doctors.getPrimaryPhysician();
+                $scope.otherDoctors=Doctors.getOtherDoctors();
+        },10)
+       });
+   }
     $scope.goDoctorContact=function(doctor){
         if(doctor===undefined){
 
