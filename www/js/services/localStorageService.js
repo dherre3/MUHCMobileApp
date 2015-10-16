@@ -3,7 +3,7 @@ myApp.service('LocalStorage',['UserAuthorizationInfo', function(UserAuthorizatio
 	return {
 		WriteToLocalStorage:function(section, data)
 		{
-			if(section=='all')
+			if(section=='All')
 			{
 				 window.localStorage.setItem(UserAuthorizationInfo.UserName, JSON.stringify(data));
 			}else if(section=='Documents')

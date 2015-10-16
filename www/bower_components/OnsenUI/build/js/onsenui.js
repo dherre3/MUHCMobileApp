@@ -1,4 +1,4 @@
-/*! onsenui - v1.3.2 - 2015-05-12 */
+/*! onsenui - v1.3.11 - 2015-09-28 */
 // Copyright (c) Microsoft Open Technologies, Inc.  All rights reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 // JavaScript Dynamic Content shim for Windows Store apps
 (function () {
@@ -681,7 +681,7 @@
 		this.touchStartY = touch.pageY;
 
 		// Prevent phantom clicks on fast double-tap (issue #36)
-		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+		if ((event.timeStamp - this.lastClickTime) < this.tapDelay && (event.timeStamp - this.lastClickTime) > -1) {
 			event.preventDefault();
 		}
 
@@ -765,7 +765,7 @@
 		}
 
 		// Prevent phantom clicks on fast double-tap (issue #36)
-		if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+		if ((event.timeStamp - this.lastClickTime) < this.tapDelay && (event.timeStamp - this.lastClickTime) > -1) {
 			this.cancelNextClick = true;
 			return true;
 		}
@@ -4964,7 +4964,7 @@ module.run(['$templateCache', function($templateCache) {
   $templateCache.put('templates/back_button.tpl',
     '<span \n' +
     '  class="toolbar-button--quiet {{modifierTemplater(\'toolbar-button--*\')}}" \n' +
-    '  ng-click="$root.ons.findParentComponentUntil(\'ons-navigator\', $event).popPage()" \n' +
+    '  ng-click="$root.ons.findParentComponentUntil(\'ons-navigator\', $event).popPage({cancelIfRunning: true})"\n' +
     '  ng-show="showBackButton"\n' +
     '  style="height: 44px; line-height: 0; padding: 0 10px 0 0; position: relative;">\n' +
     '  \n' +
@@ -5456,7 +5456,6 @@ window.ons = (function(){
   waitDeviceReady();
   waitOnsenUILoad();
   initAngularModule();
-  changeHammerDefault();
 
   return ons;
 
@@ -5501,11 +5500,6 @@ window.ons = (function(){
 
       ons.$compile = $compile;
     }]);
-  }
-
-  //Change the default touchAction of Hammer.js, needed for Windows Phone app
-  function changeHammerDefault() {
-    Hammer.defaults.behavior.touchAction = 'none';
   }
 
   function initKeyboardEvents() {
@@ -5591,7 +5585,7 @@ window.ons = (function(){
         var module = angular.module(name, deps);
 
         var doc = window.document;
-        if (doc.readyState == 'loading' || doc.readyState == 'uninitialized') {
+        if (doc.readyState == 'loading' || doc.readyState == 'uninitialized' || doc.readyState == 'interactive') {
           doc.addEventListener('DOMContentLoaded', function() {
             angular.bootstrap(doc.documentElement, [name]);
           }, false);
@@ -5774,8 +5768,10 @@ window.ons = (function(){
           }
           alertDialog.html(el.html());
 
+          var parentScope;
           if (options.parentScope) {
-            ons.$compile(alertDialog)(options.parentScope.$new());
+            parentScope = options.parentScope.$new();
+            ons.$compile(alertDialog)(parentScope);
           }
           else {
             ons.compile(alertDialog[0]);
@@ -5783,6 +5779,10 @@ window.ons = (function(){
 
           if (el.attr('disabled')) {
             alertDialog.attr('disabled', 'disabled');
+          }
+
+          if (parentScope) {
+            alertDialog.data('ons-alert-dialog')._parentScope = parentScope;
           }
 
           return  alertDialog.data('ons-alert-dialog');
@@ -5820,8 +5820,10 @@ window.ons = (function(){
           }
           dialog.html(el.html());
 
+          var parentScope;
           if (options.parentScope) {
-            ons.$compile(dialog)(options.parentScope.$new());
+            parentScope = options.parentScope.$new();
+            ons.$compile(dialog)(parentScope);
           }
           else {
             ons.compile(dialog[0]);
@@ -5847,6 +5849,10 @@ window.ons = (function(){
               })(parentStyle, childStyle);
 
               child.setAttribute('style', newStyle);
+            }
+
+            if (parentScope) {
+              e.component._parentScope = parentScope;
             }
 
             deferred.resolve(e.component);
@@ -5887,8 +5893,10 @@ window.ons = (function(){
           }
           popover.html(el.html());
 
+          var parentScope;
           if (options.parentScope) {
-            ons.$compile(popover)(options.parentScope.$new());
+            parentScope = options.parentScope.$new();
+            ons.$compile(popover)(parentScope);
           }
           else {
             ons.compile(popover[0]);
@@ -5914,6 +5922,10 @@ window.ons = (function(){
               })(parentStyle, childStyle);
   
               child.setAttribute('style', newStyle);
+            }
+
+            if (parentScope) {
+              e.component._parentScope = parentScope;
             }
 
             deferred.resolve(e.component);
@@ -6077,7 +6089,12 @@ limitations under the License.
        * Destroy alert dialog.
        */
       destroy: function() {
-        this._scope.$destroy();
+        if (this._parentScope) {
+          this._parentScope.$destroy();
+          this._parentScope = null;
+        } else {
+          this._scope.$destroy();
+        }
       },
 
       _destroy: function() {
@@ -7084,7 +7101,7 @@ limitations under the License.
           if (!waitForAction) {
             this._scrollToKillOverScroll();
           }
-        } else if (this._lastDragEvent !== null) {
+        } else {
           this._startMomemtumScroll(event);
         }
         this._lastDragEvent = null;
@@ -7110,7 +7127,7 @@ limitations under the License.
       },
 
       _startMomemtumScroll: function(event) {
-        if (this._lastDragEvent !== null) {
+        if (this._lastDragEvent) {
           var velocity = this._getScrollVelocity(this._lastDragEvent);
           var duration = 0.3;
           var scrollDelta = duration * 100 * velocity;
@@ -7181,18 +7198,18 @@ limitations under the License.
        * @return {Array}
        */
       _getCarouselItemElements: function() {
-        if (this._carouselItemElements && this._carouselItemElements.length) {
-          return this._carouselItemElements;
-        }
+        var nodeList = this._element[0].children,
+          rv = [];
 
-        var nodeList = this._element[0].querySelectorAll('ons-carousel-item');
-
-        this._carouselItemElements = [];
         for (var i = nodeList.length; i--; ) {
-          this._carouselItemElements.unshift(nodeList[i]);
+          rv.unshift(nodeList[i]);
         }
 
-        return this._carouselItemElements;
+        rv = rv.filter(function(item) {
+          return item.nodeName.toLowerCase() === 'ons-carousel-item';
+        });
+
+        return rv;
       },
 
       /**
@@ -7443,6 +7460,10 @@ limitations under the License.
         return this._deviceBackButtonHandler;
       },
 
+      _getMaskColor: function() {
+        return this._element[0].getAttribute('mask-color') || 'rgba(0, 0, 0, 0.2)';
+      },
+
       /**
        * Show dialog.
        *
@@ -7467,6 +7488,8 @@ limitations under the License.
 
             this._element.css('display', 'block');
             this._mask.css('opacity', 1);
+
+            this._mask.css('backgroundColor', this._getMaskColor());
 
             if (options.animation) {
               animation = DialogView._animatorDict[options.animation];
@@ -7532,7 +7555,12 @@ limitations under the License.
        * Destroy dialog.
        */
       destroy: function() {
-        this._scope.$destroy();
+        if (this._parentScope) {
+          this._parentScope.$destroy();
+          this._parentScope = null;
+        } else {
+          this._scope.$destroy();
+        }
       },
 
       _destroy: function() {
@@ -8816,13 +8844,12 @@ limitations under the License.
         this._itemHeightSum = [];
         this._maxIndex = 0;
 
-        this._doorLock = new DoorLock();
         this._delegate = this._getDelegate();
 
         this._renderedElements = {};
         this._addEventListeners();
 
-        this._scope.$watch(this._onChange.bind(this));
+        this._scope.$watch(this._countItems.bind(this), this._onChange.bind(this));
 
         this._scope.$on('$destroy', this._destroy.bind(this));
         this._onChange();
@@ -8883,6 +8910,10 @@ limitations under the License.
           if (this._delegate.configureItemScope) {
             this._delegate.configureItemScope(item.index, currentItem.scope);
           }
+
+          // Fix position.
+          var element = this._renderedElements[item.index].element;
+          element[0].style.top = item.top + 'px';
 
           return;
         }
@@ -8978,10 +9009,25 @@ limitations under the License.
         }
       },
 
+      _recalculateItemHeightSum: function() {
+        var sums = this._itemHeightSum;
+
+        for (var i = 0, sum = 0; i < Math.min(sums.length, this._countItems()); i++) {
+          sum += this._getItemHeight(i);
+          sums[i] = sum;
+        }
+      },
+
       _getItemsInView: function() {
         var topOffset = this._getTopOffset(),
           topPosition = topOffset,
           cnt = this._countItems();
+
+        if (cnt !== this._itemCount){
+          this._recalculateItemHeightSum();
+          this._maxIndex = cnt - 1;
+        }
+        this._itemCount = cnt;
 
         var startIndex = this._calculateStartIndex(topPosition);
         startIndex = Math.max(startIndex - 30, 0);
@@ -8990,14 +9036,9 @@ limitations under the License.
           topPosition += this._itemHeightSum[startIndex - 1];
         }
 
-        if (cnt < this._itemHeightSum.length){
-          this._itemHeightSum = new Array(cnt);
-          this._maxIndex = cnt - 1;
-        }
-
         var items = [];
         for (var i = startIndex; i < cnt && topPosition < 4 * window.innerHeight; i++) {
-          var h = this._getItemHeight();
+          var h = this._getItemHeight(i);
 
           if (i >= this._itemHeightSum.length) {
             this._itemHeightSum = this._itemHeightSum.concat(new Array(100));
@@ -9033,19 +9074,7 @@ limitations under the License.
       },
 
       _onChange: function() {
-        if (this._doorLock._waitList.length > 0) {
-          return;
-        }
-
-        this._doorLock.waitUnlock(function() {
-          var unlock = this._doorLock.lock();
-
-          setTimeout(function() {
-            unlock();
-          }, 200);
-
-          this._render();
-        }.bind(this));
+        this._render();
       },
 
       _findPageContent: function() {
@@ -9064,15 +9093,55 @@ limitations under the License.
         return e;
       },
 
+      _debounce: function(func, wait, immediate) {
+        var timeout;
+        return function() {
+          var context = this, args = arguments;
+          var later = function() {
+            timeout = null;
+            if (!immediate) {
+              func.apply(context, args);
+            }
+          };
+          var callNow = immediate && !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) {
+            func.apply(context, args);
+          }
+        };
+      },
+
+      _doubleFireOnTouchend: function(){
+        this._render();
+        this._debounce(this._render.bind(this), 100);
+      },
+
       _addEventListeners: function() {
-        this._boundOnChange = this._onChange.bind(this);
+        if (ons.platform.isIOS()) {
+          this._boundOnChange = this._debounce(this._onChange.bind(this), 30);
+        } else {
+          this._boundOnChange = this._onChange.bind(this);
+        }
 
         this._pageContent.addEventListener('scroll', this._boundOnChange, true);
+
+        if (ons.platform.isIOS()) {
+          this._pageContent.addEventListener('touchmove', this._boundOnChange, true);
+          this._pageContent.addEventListener('touchend', this._doubleFireOnTouchend, true);
+        }
+
         $document[0].addEventListener('resize', this._boundOnChange, true);
       },
 
       _removeEventListeners: function() {
         this._pageContent.removeEventListener('scroll', this._boundOnChange, true);
+
+        if (ons.platform.isIOS()) {
+          this._pageContent.removeEventListener('touchmove', this._boundOnChange, true);
+          this._pageContent.removeEventListener('touchend', this._doubleFireOnTouchend, true);
+        }
+
         $document[0].removeEventListener('resize', this._boundOnChange, true);
       },
 
@@ -9399,7 +9468,7 @@ limitations under the License.
       this.element.on(this._pointerEvents, this._blockEvents);
     },
 
-    _pointerEvents: 'touchstart touchend touchmove click',
+    _pointerEvents: 'touchmove',
 
     /**
      * @return {PageView}
@@ -9575,8 +9644,8 @@ limitations under the License.
           throw new Error('options must be an object. You supplied ' + options);
         }
 
-        if (this.pages.length === 0) {
-          return this.pushPage.apply(this, arguments);
+        if (index === this.pages.length) {
+          return this.pushPage.apply(this, [].slice.call(arguments, 1));
         }
 
         this._doorLock.waitUnlock(function() {
@@ -9644,6 +9713,10 @@ limitations under the License.
         }
 
         options = options || {};
+
+        if (options.cancelIfRunning && this._isPushing) {
+          return;
+        }
 
         if (options && typeof options != 'object') {
           throw new Error('options must be an object. You supplied ' + options);
@@ -9826,9 +9899,12 @@ limitations under the License.
        */
       _emitPrePopEvent: function() {
         var isCanceled = false;
+        var leavePage = this.getCurrentPage();
         var prePopEvent = {
           navigator: this,
-          currentPage: this.getCurrentPage(),
+          currentPage: leavePage,
+          leavePage: leavePage,
+          enterPage: this.pages[this.pages.length - 2],
           cancel: function() {
             isCanceled = true;
           }
@@ -9846,6 +9922,10 @@ limitations under the License.
        */
       popPage: function(options) {
         options = options || {};
+
+        if (options.cancelIfRunning && this._isPopping) {
+          return;
+        }
 
         this._doorLock.waitUnlock(function() {
           if (this.pages.length <= 1) {
@@ -10888,7 +10968,12 @@ limitations under the License.
        * Destroy the popover and remove it from the DOM tree.
        */
       destroy: function() {
-        this._scope.$destroy();
+        if (this._parentScope) {
+          this._parentScope.$destroy();
+          this._parentScope = null;
+        } else {
+          this._scope.$destroy();
+        }
       },
 
       _destroy: function() {
@@ -12406,6 +12491,10 @@ limitations under the License.
         }.bind(this), 400);
 
         scope.$on('$destroy', this._destroy.bind(this));
+
+        if (!attrs.swipeable) {
+          this.setSwipeable(true);
+        }
       },
 
       getDeviceBackButtonHandler: function() {
@@ -12676,6 +12765,10 @@ limitations under the License.
           case 'swipeleft':
             event.gesture.preventDefault();
 
+            if (this._logic.isClosed() && !this._isInsideSwipeTargetArea(event)) {
+              return;
+            }
+
             if (this._isRightMenu) {
               this.open();
             } else {
@@ -12687,6 +12780,10 @@ limitations under the License.
 
           case 'swiperight':
             event.gesture.preventDefault();
+
+            if (this._logic.isClosed() && !this._isInsideSwipeTargetArea(event)) {
+              return;
+            }
 
             if (this._isRightMenu) {
               this.close();
@@ -13562,7 +13659,7 @@ limitations under the License.
         var previousTabItem = this._tabItems[this.getActiveTabIndex()];
         var selectedTabItem = this._tabItems[index];
 
-        if((typeof selectedTabItem.noReload !== 'undefined' || typeof selectedTabItem.isPersistent()) &&
+        if ((typeof selectedTabItem.noReload !== 'undefined' || selectedTabItem.isPersistent()) &&
             index === this.getActiveTabIndex()) {
           this.emit('reactive', {
             index: index,
@@ -13714,13 +13811,13 @@ limitations under the License.
        * @param {Object} options
        * @param {Object} options.animation
        */
-      _switchPage: function(element, scope, options) {
+      _switchPage: function(element, options) {
         if (this._currentPageElement) {
           var oldPageElement = this._currentPageElement;
           var oldPageScope = this._currentPageScope;
 
           this._currentPageElement = element;
-          this._currentPageScope = scope;
+          this._currentPageScope = element.data('_scope');
 
           this._getAnimatorOption(options).apply(element, oldPageElement, function() {
             if (options._removeElement) {
@@ -13738,7 +13835,7 @@ limitations under the License.
 
         } else {
           this._currentPageElement = element;
-          this._currentPageScope = scope;
+          this._currentPageScope = element.data('_scope');
 
           if (options.callback instanceof Function) {
             options.callback();
@@ -13761,7 +13858,7 @@ limitations under the License.
 
         pageScope.$evalAsync();
 
-        this._switchPage(pageContent, pageScope, options);
+        this._switchPage(pageContent, options);
       },
 
       /**
@@ -13773,7 +13870,7 @@ limitations under the License.
         options = options || {};
 
         element.css('display', 'block');
-        this._switchPage(element, element.scope(), options);
+        this._switchPage(element, options);
       },
 
       /**
@@ -16613,7 +16710,7 @@ limitations under the License.
       replace: false,
       transclude: false,
       scope: false,
-      compile: function(element, attrs) {
+      link: function(scope, element, attrs) {
         if (!attrs.onsLoadingPlaceholder.length) {
           throw Error('Must define page to load.');
         }
@@ -16634,7 +16731,7 @@ limitations under the License.
             newElement.css('display', 'none');
 
             element.append(newElement);
-            ons.compile(newElement[0]);
+            $compile(newElement)(scope);
 
             for (var i = element[0].childNodes.length - 1; i >= 0; i--){
               var e = element[0].childNodes[i];
@@ -17196,7 +17293,10 @@ limitations under the License.
 
             element.data('ons-navigator', navigator);
 
+            element.data('_scope', scope);
+
             scope.$on('$destroy', function() {
+              element.data('_scope', undefined);
               navigator._events = undefined;
               element.data('ons-navigator', undefined);
               element = null;
@@ -17364,7 +17464,10 @@ limitations under the License.
       pageBackground.addClass(modifierTemplater('page--*__background'));
       pageBackground = null;
 
+      element.data('_scope', scope);
+
       $onsen.cleaner.onDestroy(scope, function() {
+        element.data('_scope', undefined);
         page._events = undefined;
         $onsen.removeModifierMethods(page);
         element.data('ons-page', undefined);
@@ -18682,7 +18785,10 @@ limitations under the License.
           $onsen.declareVarAttribute(attrs, slidingMenu);
           element.data('ons-sliding-menu', slidingMenu);
 
-          scope.$on('$destroy', function(){
+          element.data('_scope', scope);
+
+          scope.$on('$destroy', function() {
+            element.data('_scope', undefined);
             slidingMenu._events = undefined;
             element.data('ons-sliding-menu', undefined);
           });
@@ -19057,8 +19163,10 @@ limitations under the License.
           $onsen.registerEventHandlers(splitView, 'update presplit precollapse postsplit postcollapse destroy');
 
           element.data('ons-split-view', splitView);
+          element.data('_scope', scope);
 
           scope.$on('$destroy', function() {
+            element.data('_scope', undefined);
             splitView._events = undefined;
             element.data('ons-split-view', undefined);
           });
@@ -21086,6 +21194,10 @@ limitations under the License.
             }
 
             container[names[names.length - 1]] = object;
+
+            if (container[names[names.length -1]] !== object) {
+              throw new Error('Cannot set var="' + object._attrs.var + '" because it will overwrite a read-only variable.');
+            }
           }
 
           if (ons.componentBase) {
@@ -21866,7 +21978,8 @@ window.ons.notification = (function() {
     dialogEl.append(footerEl);
 
     angular.element(document.body).append(dialogEl);
-    ons.compile(dialogEl[0]);
+
+    ons.$compile(dialogEl)(dialogEl.injector().get('$rootScope'));
     var alertDialog = dialogEl.data('ons-alert-dialog');
 
     if (buttonLabels.length <= 2) {

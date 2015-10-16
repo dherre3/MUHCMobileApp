@@ -146,6 +146,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         ref.child(pathToSection).on('value',function(snapshot){
             var data=snapshot.val();
             if(data!=undefined){
+                console.log(data);
                 EncryptionService.decryptData(data);
                 LocalStorage.WriteToLocalStorage(section,data);
                 switch(section){
