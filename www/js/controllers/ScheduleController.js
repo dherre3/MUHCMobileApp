@@ -81,7 +81,7 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
         });
 
     });
-    //$scope.$watch('calendarMode',function(){});
+
     $scope.getStyle=function(index){
         var today=(new Date());
         var dateAppointment=$scope.calendarDayAppointments[index].ScheduledStartTime;

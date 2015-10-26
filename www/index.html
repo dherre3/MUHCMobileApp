@@ -61,6 +61,16 @@
    <!--Text area auto grow-->
    <script src="bower_components/angular-elastic-master/elastic.js"/></script>
 
+   <!--New idea for calendar-->
+    <script src="lib/bower_components/moment/min/moment.min.js"/></script>
+    <link rel="stylesheet" href="lib/bower_components/ion.calendar/css/ion.calendar.css">
+   <script src="lib/bower_components/ion.calendar/js/ion.calendar.min.js"/></script>
+   
+   <script src="lib/bower_components/ion.calendar/js/moment-with-locales.min.js"/></script>
+   <link href="lib/bower_components/ion.calendar/css/ion.calendar.css">
+
+
+
    <!--Library to use ui-calendar plugin in desktop view-->
 <!--<link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>-->
 <!-- jquery, moment, and angular have to get included before fullcalendar--> 
@@ -81,16 +91,16 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>My App</title>  
+  <title>OPAL</title>  
+
+  <!--Libraries for OnsenUI-->
   <link rel="stylesheet" href="bower_components/OnsenUI/build/css/onsen-css-components-blue-basic-theme.css">  
   <link rel="stylesheet" href="bower_components/OnsenUI/build/css/onsenui.css"/>
+  <script src="bower_components/OnsenUI/build/js/onsenui.js"></script>
+
 
   <link rel="stylesheet" href="styles/css/app.css"/>
   <link rel="stylesheet" href="styles/css/index.css"/>
-
-
-  <!--<script src="lib/onsen/js/angular/angular.js"></script> -->
-  <script src="bower_components/OnsenUI/build/js/onsenui.js"></script>
 
   <script src="cordova.js"></script>
 
@@ -111,6 +121,7 @@
   </script>
 </head>
 <body id='boots' ng-app="MUHCApp">
+<!--Loading Modal for the initial loading screen-->
 <ons-modal var="modal">
         <ons-icon icon="ion-load-c" spin="true"></ons-icon>
         <br><br>
