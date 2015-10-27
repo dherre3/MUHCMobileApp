@@ -1,8 +1,7 @@
 var myApp=angular.module('MUHCApp');
 myApp.controller('MapsController',['$timeout', '$scope',function($timeout,$scope){
-
   $scope.showMap=function(str){
-    var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
+    var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
     if(app){
        var ref = window.open(str, '_blank', 'location=yes');
     }else{

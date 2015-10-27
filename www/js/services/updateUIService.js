@@ -12,13 +12,13 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         }
         setDocuments().then(function(){
             UserPlanWorkflow.setUserPlanWorkflow({
-                '1':{'Name':'Consult \t Appointment','Date':'2015-08-20T09:15:00Z','Description':'stage1','Type': 'Appointment'},
-                '2':{'Name':'Ct-Sim','Date':'2015-08-26T09:15:00Z','Description':'stage2','Type':'Appointment'},
-                '3':{'Name':'Ready For \t Contour','Date':'2015-09-23T09:15:00Z','Description':'stage3','Type':'Task'},
-                '4':{'Name':'Ready For \t Dose Calculation','Date':'2015-09-20T09:15:00Z','Description':'stage4','Type':'Task'},
-                '5':{'Name':'Ready for \t MD Contour','Date':'2015-09-20T10:15:00Z','Description':'stage5','Type':'Task'},
-                '6':{'Name':'Ready For \t Physics QA','Date':'2015-09-21T09:15:00Z','Description':'stage6','Type':'Task'},
-                '7':{'Name':'Ready For \t Treatment','Date':'2015-09-31T09:15:00Z','Description':'stage7','Type':'Task'}
+                '1':{'Name':'CT for Radiotherapy Planning','Date':'2015-10-19T09:00:00Z','Description':'stage1','Type': 'Appointment'},
+                '2':{'Name':'Physician Plan Preparation','Date':'2015-10-21T09:15:00Z','Description':'stage2','Type':'Task'},
+                '3':{'Name':'Calculation of Dose','Date':'2015-10-23T09:15:00Z','Description':'stage3','Type':'Task'},
+                '4':{'Name':'Physician Review','Date':'2015-10-26T09:15:00Z','Description':'stage4','Type':'Task'},
+                '5':{'Name':'Quality Control','Date':'2015-10-28T10:15:00Z','Description':'stage5','Type':'Task'},
+                '6':{'Name':'Scheduling','Date':'2015-10-30T09:15:00Z','Description':'stage6','Type':'Task'},
+                '7':{'Name':'First Treatment','Date':'2015-11-02T09:15:00Z','Description':'stage6','Type':'Task'}
             });
             UserPreferences.setUserPreferences(dataUserObject.Patient.Language,dataUserObject.Patient.EnableSMS);
             Doctors.setUserContacts(dataUserObject.Doctors);
@@ -55,20 +55,20 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 function setUpServicesLocalStorage(){
                     updateAllServices(firebaseData,'Online');
                     var imageKeys=Object.keys(firebaseData.Images);
-                    window.localStorage.setItem(UserAuthorizationInfo.UserName, JSON.stringify(firebaseData)); 
+                    window.localStorage.setItem(UserAuthorizationInfo.UserName, JSON.stringify(firebaseData));
                 }
-                
+
                 decryptPromise().then( setUpServicesLocalStorage());
                 r.resolve(true);
             }
-            
+
         },function(error){
 
             r.reject(error);
-            
+
             });
 
-    
+
     }
     return r.promise;
     }
@@ -142,7 +142,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         {
             pathToSection=username;
         }
-        
+
         ref.child(pathToSection).on('value',function(snapshot){
             var data=snapshot.val();
             if(data!=undefined){
@@ -183,8 +183,8 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 }
                 console.log(data);
                 //ref.child(pathToSection).off();
-                
-                r.resolve(true); 
+
+                r.resolve(true);
             }
         });
 
@@ -194,7 +194,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         UpdateUserFields:function(){
             //Check if its a device or a computer
             var r=$q.defer();
-            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
+            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if(app){
                 if($cordovaNetwork.isOnline()){
                     return updateUIOnline();
@@ -207,7 +207,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                     console.log('online website');
                     return updateUIOnline();
                 }else{
-                    console.log('offline website'); 
+                    console.log('offline website');
                     return updateUIOffline();
                 }
              }
@@ -217,7 +217,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         {
 
             var r=$q.defer();
-            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
+            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if(app){
                 if($cordovaNetwork.isOnline()){
                     return UpdateSectionOnline(section);
@@ -230,12 +230,12 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                     console.log('online website');
                     return UpdateSectionOnline(section);
                 }else{
-                    console.log('offline website'); 
+                    console.log('offline website');
                     return UpdateSectionOffline(section);
                 }
              }
-        }  
-   
+        }
+
     };
-        
+
 }]);

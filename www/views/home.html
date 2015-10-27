@@ -24,7 +24,6 @@
         <img ng-src="./img/muhc-logo-text.png" >
       </div>
       <div class="container">
-
        <ons-row class="profile-wrapper" >
         <ons-col width="60px" class="profile-image-wrapper" >
           <img ng-src="{{ProfileImage}}" class="profile-image-home">
@@ -94,7 +93,7 @@
            <div ng-show="!noAppointments">
                   <div align="center"> <span class="profile-name">{{titleAppointmentsHome}}</span><br> </div>
 
-                    {{appointmentShown.ScheduledStartTime|date:"EEEE, MMMM d 'at' h:mm a"}}<br>
+                    {{appointmentShown.ScheduledStartTime|formatDateAppointmentTask}}<br>
                     {{appointmentShown.AppointmentType}}
 
                  <!-- <select ng-model="locale" class="form-control"
@@ -124,11 +123,3 @@
 
     </div>
     </ons-page>
-      <!--<ons-list modifier="inset" style="margin-top: 10px" class="prop-desc">
-       <ons-list-item modifier="chevron" ng-click="menu.setMainPage('views/schedule.html', {closeMenu: true})">
-          <i class="fa fa-check-square-o" ></i>&nbsp;{{"GO_TO_APPOINTMENTS_TAP"|translate}}
-        </ons-list-item>
-        <ons-list-item modifier="chevron" ng-click="myNavigator.pushPage('page1.html', { animation : 'slide' } );" >
-          <ons-icon icon="ion-android-people"></ons-icon>&nbsp;<span style="color:black">{{"CONTACT_DOCTORS_TAP"|translate}}</span>
-        </ons-list-item>
-      </ons-list>-->

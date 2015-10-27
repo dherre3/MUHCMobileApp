@@ -107,10 +107,15 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                 var min=Infinity;
                 //Format date to javascript date
                 var index=-1;
+                var numberOfSessions=0;
                 for (var i = 0; i < keysArray.length; i++) {
                     appointments[keysArray[i]].ScheduledStartTime = $filter('formatDate')(appointments[keysArray[i]].ScheduledStartTime);
                     appointments[keysArray[i]].ScheduledEndTime =  $filter('formatDate')(appointments[keysArray[i]].ScheduledEndTime);
                     this.UserAppointmentsArray[i] = appointments[keysArray[i]];
+                    if(appointments[keysArray[i]].AppointmentType=='Daily Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType=='First Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType=='Final Radiotherapy Treatment Session')
+                    {
+                      numberOfSessions++;
+                    }
 
                     //Sort them by upcoming, past categories. Today's appointment array can be past or upcoming
                     var today = new Date();
@@ -147,10 +152,20 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
 
 
                 //Sort Appointments chronologically most recent first
-                this.UserAppointmentsArray = $filter('orderBy')(this.UserAppointmentsArray, 'ScheduledStartTime', true);
+                this.UserAppointmentsArray = $filter('orderBy')(this.UserAppointmentsArray, 'ScheduledStartTime', false);
                 this.PastAppointments=$filter('orderBy')(this.PastAppointments, 'ScheduledStartTime',true);
                 this.TodayAppointments=$filter('orderBy')(this.TodayAppointments, 'ScheduledStartTime',false);
                 this.FutureAppointments=$filter('orderBy')(this.FutureAppointments, 'ScheduledStartTime',false);
+
+                var sessionNumber = 1;
+                for (var i = 0; i < this.UserAppointmentsArray.length; i++) {
+                  if(this.UserAppointmentsArray[i].AppointmentType=='Daily Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType=='Final Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType=='First Radiotherapy Treatment Session')
+                  {
+                    this.UserAppointmentsArray[i].sessionNumber="Session "+sessionNumber+ " of "+ numberOfSessions;
+                    sessionNumber++;
+                  }
+
+                }
                 console.log(this.UserAppointmentsArray);
                 if(this.NextAppointment.hasOwnProperty('Index')){
                     for (var i = 0; i < keysArray.length; i++) {

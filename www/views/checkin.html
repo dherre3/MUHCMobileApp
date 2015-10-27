@@ -15,8 +15,8 @@
         </alert></a>
  </div>
     <div align="center" style="margin-top:25vh;width:100%" class="container" >
-      <p ng-hide="noFutureAppointments" align="center" style="color: #999; font-size: 13px;">The Date and Time Of Your Next Appointment is: {{nextAppointmentDate|date}} at {{nextAppointmentDate|date:'h:mm a'}}</p>
-      <p align="center" ng-show="noFutureAppointments" style="color: #999; font-size: 13px;">The Date and Time Of Your Last Appointment was: {{lastAppointmentDate|date}} at {{lastAppointmentDate|date:'h:mm a'}}</p>
+      <p ng-hide="noFutureAppointments" align="center" style="color: #999; font-size: 13px;">The Date and Time Of Your Next Appointment is: {{nextAppointmentDate|formatDateAppointmentTask}}</p>
+      <p align="center" ng-show="noFutureAppointments" style="color: #999; font-size: 13px;">The Date and Time Of Your Last Appointment was: {{lastAppointmentDate|formatDateAppointmentTask}}</p>
       <ons-icon ng-show="sameDay && !infoReady" icon="spinner" size="40px" spin="true"  fixed-width="true"></ons-icon>
       <button type="button" ng-show="infoReady" ng-disabled="disableButton" ng-click="checkInButton()" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-ok"></i>&nbsp;Check-In</button>
       <p ng-show="sameDay && !checkInAllowed && !firebaseCheckInUpdated &&infoReady">Today is your appointment date, check in allowed once you are in the vecinity of the cancer center.</p>

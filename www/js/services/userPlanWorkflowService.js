@@ -17,7 +17,7 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
     *@ngdoc property
     *@name CurrentTaskOrAppointmentIndex
     *@propertyOf MUHCApp.services:UserPlanWorkflow
-    *@description Contains index of current stage in the TasksAndAppointmentsArray 
+    *@description Contains index of current stage in the TasksAndAppointmentsArray
     */
     function setTimeBetweenStages(array){
         if(array.length==0) return;
@@ -30,14 +30,14 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
             }
         };
     }
-    
+
 
     return{
         /**
         *@ngdoc method
         *@name setUserPlanWorkflow
         *@methodOf MUHCApp.services:UserPlanWorkflow
-        *@param {Object} tasksAndAppointments Object contains user's plan workflow. 
+        *@param {Object} tasksAndAppointments Object contains user's plan workflow.
         *@description Obtains plan workflow object from Firebase through the {@link MUHCApp.services:UpdateUI UpdateUI} service. Defines the TasksAndAppointmentsArray
         *by organizing the stages chronologically. Sets the current stage by finding the min time between today and the available stages, and setting CurrentTaskOrAppointmentIndex.
         **/
@@ -57,14 +57,14 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
                 var date=$filter('formatDate')(tasksAndAppointments[keysArray[i]].Date);
                 console.log(date);
                 tasksAndAppointments[keysArray[i]].Date=date;
-                //console.log(date.getDate());     
-                var sta=null;    
+                //console.log(date.getDate());
+                var sta=null;
                 if(date>today){
                     sta='Future';
                     tasksAndAppointments[keysArray[i]].Status=sta;
                     this.FutureStages.push(tasksAndAppointments[keysArray[i]]);
                     var tmp=min;
-                    min=Math.min(min,date-today);  
+                    min=Math.min(min,date-today);
                     if(tmp!==min){
                         index=i;
                     }
@@ -90,18 +90,18 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
                     var dateDiffStage=(this.TasksAndAppointmentsArray[i].Date - this.TasksAndAppointmentsArray[i-1].Date)/(1000*60*60*24);
                     this.TasksAndAppointmentsArray[i].StageLength=dateDiffStage;
                 }
-                if(index!==-1&&flag==0){                
+                if(index!==-1&&flag==0){
                     var diff=this.TasksAndAppointmentsArray[i].Date-today;
-                    if(diff>0&&diff===min){          
+                    if(diff>0&&diff===min){
                         this.TasksAndAppointmentsArray[i].Status='Next';
-                        this.CurrentTaskOrAppointmentIndex=i;
+                        this.CurrentTaskOrAppointmentIndex=i+1;
                         flag=1;
                     }
                 }
 
             };
             if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length;
-            
+
         },
         /**
         *@ngdoc method
@@ -132,7 +132,7 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
 
                     if(timeFrame==='Day'){
                         var dateDiff=(this.TasksAndAppointmentsArray[i+1].Date - this.TasksAndAppointmentsArray[i].Date)/(1000*60*60*24);
-                        this.timeDiff[i]={Stages: this.TasksAndAppointmentsArray[i].Name +'-'+ this.TasksAndAppointmentsArray[i+1].Name, TimeDiffInDays:dateDiff};                
+                        this.timeDiff[i]={Stages: this.TasksAndAppointmentsArray[i].Name +'-'+ this.TasksAndAppointmentsArray[i+1].Name, TimeDiffInDays:dateDiff};
                     }else if(timeFrame==='Hour'){
                          var dateDiff=(this.TasksAndAppointmentsArray[i+1].Date - this.TasksAndAppointmentsArray[i].Date)/(1000*60*60);
                         this.timeDiff[i]={Stages: this.TasksAndAppointmentsArray[i].Name +'-'+ this.TasksAndAppointmentsArray[i+1].Name, TimeDiffInDays:dateDiff};
@@ -141,7 +141,7 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
 
                 return this.timeDiff;
         }
-            
+
        },
        /**
         *@ngdoc method

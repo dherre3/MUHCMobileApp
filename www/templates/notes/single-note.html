@@ -6,11 +6,11 @@
     </ons-toolbar>
     <!--<div class="container jumbotron" style="text-align: left;padding:5% 2% 5% 2%">-->
     <div class='container' style="margin-top:3vh">
-    <div align="center" style="color:grey;">{{Note.DateAdded|date:"EEEE MMMM d, yyyy"}}<br><strong>{{Note.Title}} </strong></div>
-    
+    <div align="center" style="color:grey;">{{Note.DateAdded|formatDateAppointmentTask}}<br><strong>{{Note.Title}} </strong></div>
+
     <hr>
     <div class="panel panel-default">
-  <div class="panel-body" style="text-align: left;padding:5% 2% 5% 2%;">    
+  <div class="panel-body" style="text-align: left;padding:5% 2% 5% 2%;">
       <div align="center">
      {{Note.Content}}
      </div>

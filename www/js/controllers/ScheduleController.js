@@ -10,7 +10,7 @@ var myApp = angular.module('MUHCApp');
 *@requires MUHCApp.services.UpdateUI
 *@requires MUHCApp.services.Appointments
 *@description
-*Controller manages the logic in the schedule appointment main view, it as as "child" controllers, 
+*Controller manages the logic in the schedule appointment main view, it as as "child" controllers,
 */
 myApp.controller('ScheduleController', ['$rootScope', 'UserPreferences', 'Appointments','$cordovaCalendar','$scope',
 
@@ -20,19 +20,19 @@ function ($rootScope, UserPreferences, Appointments,$cordovaCalendar,$scope) {
         $rootScope.showAlert = false;
     };
     addEventsToNativeCalendar();
-    
+
     /**
     *@ngdoc method
     *@name addEventsToCalendar
     *@methodOf MUHCApp.controller:ScheduleController
-    *@description  If its a device checks to see if the user authorized access to calendar device feature, if the user has not 
+    *@description  If its a device checks to see if the user authorized access to calendar device feature, if the user has not
                    defined it (first time), it prompts the user, otherwise it checks through the {@link Appointments.}whether it
-                   they have been added. 
+                   they have been added.
     **/
 
     function addEventsToNativeCalendar(){
           //Check for device or website
-        var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
+        var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
         if(app){
             var nativeCalendarOption=window.localStorage.getItem('NativeCalendar')
             if(!nativeCalendarOption){
@@ -61,8 +61,8 @@ function ($rootScope, UserPreferences, Appointments,$cordovaCalendar,$scope) {
     }
     }
 
-    //Set up a watch in case appointments change  
-    
+    //Set up a watch in case appointments change
+
 }]);
 
 //Logic for the calendar controller view
@@ -73,6 +73,8 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
         $scope.dt = new Date();
     };
     $scope.today();
+
+    $scope.todayDate=new Date();
 
     $scope.calendarDayAppointments=lookForCalendarDate($scope.dt);
     $scope.$watch('dt',function(){
@@ -90,7 +92,7 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
             return '#3399ff';
 
         }else if(dateAppointment>today){
-            return 'grey';
+            return '#D3D3D3';
 
 
         }else{
@@ -123,15 +125,15 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
                     $scope.noAppointments=true;
                });
                     return null;
-                }            
+                }
             }else{
                 $timeout(function(){
                     $scope.noAppointments=true;
                });
                 return null;
             }
-            
-            
+
+
         }else if(mode==='month'){
             var year=date.getFullYear();
             var month=date.getMonth()+1;
@@ -153,7 +155,7 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
                });
                 return null;
             }
-            
+
 
 
 
@@ -210,7 +212,7 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
             var today=(new Date());
             if(dayToCheck.setHours(0,0,0,0)===today.setHours(0,0,0,0)){//===today.getDate()&&dateToCheck.getMonth()===today.getMonth()&&dateToCheck.getFullYear()===today.getFullYear()){
                     return 'today';
-            }else if(lookForCalendarDate(dayToCheck,mode)){            
+            }else if(lookForCalendarDate(dayToCheck,mode)){
                 var dateAppointment=dayToCheck;
                  if(dateAppointment>today){
                     return 'full';
@@ -246,24 +248,23 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
 myApp.controller('AppointmentListController', ['$scope','$timeout','Appointments',
 
 function ($scope,$timeout, Appointments) {
-
     //Initializing choice
     if(Appointments.getTodaysAppointments().length!==0){
         $scope.radioModel = 'Today';
     }else {
         $scope.radioModel = 'All';
     }
-    
+
 
     //Today's date
     $scope.today=new Date();
-   
+
     //Sets up appointments to display based on the user option selected
     $scope.$watch('radioModel',function(){
         $timeout(function(){
             selectAppointmentsToDisplay();
         });
-        
+
     });
 
      //Function to select whether the today, past, or upming buttons are selected
@@ -293,7 +294,7 @@ function ($scope,$timeout, Appointments) {
             return '#3399ff';
 
         }else if(dateAppointment>today){
-            return 'grey';
+            return '#D3D3D3';
 
 
         }else{
@@ -306,10 +307,11 @@ myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appoi
         $scope.alreadyCheckedIn=true;
         //Information of current appointment
         var page = myNavigator.getCurrentPage();
-        var parameters=page.options.param; 
+        var parameters=page.options.param;
 
         //Variables to show wheather the checkin is allowed for the day and whether there could be a change request
         var today=new Date();
+        $scope.today=today;
         if(parameters.ScheduledStartTime.getMonth()===today.getMonth()&&parameters.ScheduledStartTime.getDate()===today.getDate()&&parameters.ScheduledStartTime.getFullYear()===today.getFullYear()&&today<parameters.ScheduledStartTime&&parameters.Checkin=='0'){
             //If User has not already been checked in, and if time is before appointment.
                 $scope.appointmentToday=true;
@@ -333,11 +335,11 @@ myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appoi
                 return r.promise;
             }
             promise().then(function(){
-               menu.setMainPage('views/checkin.html',{closedMenu:true}); 
+               menu.setMainPage('views/checkin.html',{closedMenu:true});
            });
-            
+
         }
-        
+
 }]);
 myApp.controller('AppointmentMapController',['$timeout', '$scope',function($timeout,$scope){
   var gesturableImg = new ImgTouchCanvas({
@@ -409,14 +411,14 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
             endDate: endDateMost
         }).then(function (result) {
             console.log(result);
-            
+
         }, function (err) {
-            
+
 
         });*/
             //loopAsychAppointments(0,appointments);
             //Checks whether the app is allowed to add the events by prompting the user, only asks for the first event trying to be added i.e.
-            //flagAlreadyAddedEvents, flagNoAccess disallows the operation to continue at the next iteration. 
+            //flagAlreadyAddedEvents, flagNoAccess disallows the operation to continue at the next iteration.
             /*function loopAsychAppointments(index,appointments){
                 console.log(index);
                 if(index>appointments.length-1){
@@ -437,7 +439,7 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
                             endDate: endDate
                         }).then(function (result) {
                             //console.log(result);
-                            if(!result[0]){       
+                            if(!result[0]){
                                 //console.log(appointments);
                                 //console.log(index);
                                 var startDate=appointments[index].Date;
@@ -467,7 +469,7 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
                         loopAsychAppointments(index+1,appointments);
                         return;
                         }, function (err) {
-                            
+
 
                         });
 
@@ -485,7 +487,7 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
                 var title=appointments[i].Type;
                 var location=appointments[i].Location;
                 var notes='Source: ' +appointments[i].Resource+', Description: '+ appointments[i].Description;
-                 
+
                /* $cordovaCalendar.findEvent({
                     title: title,
                     location: location,
@@ -497,7 +499,7 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
                      if(result.length===0){
                         console.log('I will try to add the appointment now!');
                         flagAlreadyAddedEvents++;
-                        if(flagAlreadyAddedEvents==1){  
+                        if(flagAlreadyAddedEvents==1){
                             navigator.notification.confirm(message, confirmCallback, 'Access Calendar', ["Don't allow",'Ok'] );
                         }
 
@@ -528,9 +530,9 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
                                 'Error',            // title
                                 'OK'                  // buttonName
                             );
-              
+
                   });
-               
+
                 };
                 if(appCalendarAdded>0){
                             navigator.notification.alert(

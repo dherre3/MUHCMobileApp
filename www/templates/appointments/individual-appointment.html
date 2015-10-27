@@ -8,14 +8,12 @@
     <div class="panel panel-default">
   <div class="panel-body" style="text-align: left;padding:5% 2% 5% 2%;">
       <br />
-    
+
       <div align="center">
-      {{app.ScheduledStartTime|date:"EEEE MMMM d, yyyy"}}<br>
       <strong>{{app.AppointmentType}} </strong><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconHomeView"></i></a><br>
-     {{app.ResourceName}}<br> 
-      
-      <strong>Time: </strong>{{app.ScheduledStartTime|date:"h:mm a"}}<br>
-      <strong>Location: </strong> {{app.Location}}</div>
+      {{app.ScheduledStartTime|formatDateAppointmentTask}}<br>
+     {{app.ResourceName}}<br>
+      <i class="icon ion-ios-location iconHomeView"></i> {{app.Location}}</div>
      <br>
      <br>
      </div>
@@ -30,13 +28,13 @@
           <ons-icon icon="fa fa-check-square-o"></ons-icon>&nbsp;<span style="color:black">Check In</span>
         </ons-list-item>
 
-        <ons-list-item modifier="chevron" ng-click="myNavigator.pushPage('pageMap.html', {param:type},{ animation : 'slide' } )" >
+        <ons-list-item modifier="chevron" ng-click="myNavigator.popPage({animation:'slide'});menu.setMainPage('views/maps.html', {param:app.Location},{ animation : 'slide' } )" >
           <ons-icon icon="ion-map"></ons-icon>&nbsp;<span style="color:black">Show Location in Map</span>
         </ons-list-item>
         <ons-list-item ng-show="futureAppointment" modifier="chevron" ng-click="myNavigator.pushPage('templates/appointments/request-change-appointment.html', {param:app},{ animation : 'slide' } )" >
           <ons-icon icon="ion-shuffle"></ons-icon>&nbsp;<span style="color:black">Request Change</span>
         </ons-list-item>
 
-        
+
       </ons-list>
   </ons-page>
