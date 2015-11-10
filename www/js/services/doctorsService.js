@@ -2,15 +2,15 @@ var myApp=angular.module('MUHCApp');
 myApp.service('Doctors',function($filter){
     return{
         setUserContacts:function(doctors)
-        {   
+        {
             this.Doctors=[];
             this.Oncologists=[];
             this.OtherDoctors=[];
             this.PrimaryPhysician={};
-            if(doctors!==undefined){
+            if(doctors!==undefined&&doctors){
                 var doctorKeyArray=Object.keys(doctors);
                 for (var i = 0; i < doctorKeyArray.length; i++) {
-                   
+
                    if(doctors[doctorKeyArray[i]].PrimaryFlag==1){
                         this.PrimaryPhysician=doctors[doctorKeyArray[i]];
                    }else if(doctors[doctorKeyArray[i]].OncologistFlag==1)

@@ -1,6 +1,6 @@
 
 var myApp=angular.module('MUHCApp')
-    
+
     /**
 *@ngdoc controller
 *@name MUHCApp.controller:LoginController
@@ -25,7 +25,7 @@ var myApp=angular.module('MUHCApp')
     }
     $scope.signup={};
 
-    //Creating reference to firebase link 
+    //Creating reference to firebase link
     $scope.submit = function () {
         $scope.signup.password='12345';
         $scope.signup.email='muhc.app.mobile@gmail.com';
@@ -34,10 +34,10 @@ var myApp=angular.module('MUHCApp')
     };
 
     function signin(email, password){
-        var myDataRef = new Firebase('https://luminous-heat-8715.firebaseio.com');
+        var myDataRef = new Firebase('https://luminous-heat-8715.firebaseio.com/');
         var username = email;
         var password = password;
-        
+
        // window.localStorage.setItem('pass', password);
        // console.log(window.localStorage.getItem('pass'));
         /**
@@ -60,7 +60,7 @@ var myApp=angular.module('MUHCApp')
                 userId = authData.uid;
                 //Obtaining fields links for patient's firebase
 
-                
+
                 var patientLoginRequest='request/'+userId;
                 var patientDataFields='Users/'+userId;
 
@@ -75,16 +75,16 @@ var myApp=angular.module('MUHCApp')
                         UserName:authData.uid,
                         Password:$scope.signup.password,
                         Expires:authData.expires,
-                        Email:$scope.signup.email                   
+                        Email:$scope.signup.email
                 }
 
                 $rootScope.refresh=true;
                 window.localStorage.setItem('UserAuthorizationInfo', JSON.stringify(authenticationToLocalStorage));
                 window.localStorage.setItem('pass', $scope.signup.password);
-                
+
                 console.log(UserAuthorizationInfo.getUserAuthData());
-                //Telling the app to delete all the fields once there is a firebase disconnect, or a page refresh 
-                //firebase i.e. the user logs out. 
+                //Telling the app to delete all the fields once there is a firebase disconnect, or a page refresh
+                //firebase i.e. the user logs out.
                 //myDataRef.child(patientDataFields).onDisconnect().set({Logged:false});
                 myDataRef.child(patientLoginRequest).onDisconnect().update({LogIn:false});
                 //console.log(UserAuthorizationInfo.UserToken);
@@ -143,7 +143,7 @@ var myApp=angular.module('MUHCApp')
             //$('<div/>').text(text).appendTo($('#addMe'));
             $('#addMe')[0].scrollTop = $('#addMe')[0].scrollHeight;
         }
-        }   
+        }
     }
 }]);
 
@@ -153,8 +153,8 @@ var myApp=angular.module('MUHCApp')
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
         RequestToServer.sendRequest('Refresh');
         $state.go('loading');
-    }  
-    //Creating reference to firebase link 
+    }
+    //Creating reference to firebase link
     $scope.submit = function (email, password) {
         signin(email, password);
         }

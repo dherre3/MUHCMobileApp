@@ -46,61 +46,65 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
             this.FutureStages=[];
             this.PastStages=[];
             this.CurrentTaskOrAppointmentIndex=-1;
+            if(typeof tasksAndAppointments!=='undefined'&&tasksAndAppointments){
+              var keysArray=Object.keys(tasksAndAppointments);
+              var min=Infinity;
+              var index=-1;
+              var today=new Date();
+              for (var i=0;i<keysArray.length;i++) {
 
-            var keysArray=Object.keys(tasksAndAppointments);
-            var min=Infinity;
-            var index=-1;
-            var today=new Date();
-            for (var i=0;i<keysArray.length;i++) {
+                  //console.log(tasksAndAppointments[keysArray[i]]);
+                  var date=$filter('formatDate')(tasksAndAppointments[keysArray[i]].Date);
+                  console.log(date);
+                  tasksAndAppointments[keysArray[i]].Date=date;
+                  //console.log(date.getDate());
+                  var sta=null;
+                  if(date>today){
+                      sta='Future';
+                      tasksAndAppointments[keysArray[i]].Status=sta;
+                      this.FutureStages.push(tasksAndAppointments[keysArray[i]]);
+                      var tmp=min;
+                      min=Math.min(min,date-today);
+                      if(tmp!==min){
+                          index=i;
+                      }
+                  }else{
+                      sta='Past';
+                      tasksAndAppointments[keysArray[i]].Status=sta;
+                      this.PastStages.push(tasksAndAppointments[keysArray[i]]);
+                  }
+                  (this.TasksAndAppointmentsArray).push(tasksAndAppointments[keysArray[i]]);
+              };
 
-                //console.log(tasksAndAppointments[keysArray[i]]);
-                var date=$filter('formatDate')(tasksAndAppointments[keysArray[i]].Date);
-                console.log(date);
-                tasksAndAppointments[keysArray[i]].Date=date;
-                //console.log(date.getDate());
-                var sta=null;
-                if(date>today){
-                    sta='Future';
-                    tasksAndAppointments[keysArray[i]].Status=sta;
-                    this.FutureStages.push(tasksAndAppointments[keysArray[i]]);
-                    var tmp=min;
-                    min=Math.min(min,date-today);
-                    if(tmp!==min){
-                        index=i;
-                    }
-                }else{
-                    sta='Past';
-                    tasksAndAppointments[keysArray[i]].Status=sta;
-                    this.PastStages.push(tasksAndAppointments[keysArray[i]]);
-                }
-                (this.TasksAndAppointmentsArray).push(tasksAndAppointments[keysArray[i]]);
-            };
+              this.TasksAndAppointmentsArray=$filter('orderBy')(this.TasksAndAppointmentsArray,'Date');
+              this.FutureStages=$filter('orderBy')(this.FutureStages,'Date');
+              this.PastStages=$filter('orderBy')(this.PastStages,'Date');
 
-            this.TasksAndAppointmentsArray=$filter('orderBy')(this.TasksAndAppointmentsArray,'Date');
-            this.FutureStages=$filter('orderBy')(this.FutureStages,'Date');
-            this.PastStages=$filter('orderBy')(this.PastStages,'Date');
+              setTimeBetweenStages(this.FutureStages);
+              setTimeBetweenStages(this.PastStages);
 
-            setTimeBetweenStages(this.FutureStages);
-            setTimeBetweenStages(this.PastStages);
+              var flag=0;
+              this.TasksAndAppointmentsArray[0].StageLength=-1;
+              for (var i = 0; i < this.TasksAndAppointmentsArray.length; i++) {
+                  if(i>0){
+                      var dateDiffStage=(this.TasksAndAppointmentsArray[i].Date - this.TasksAndAppointmentsArray[i-1].Date)/(1000*60*60*24);
+                      this.TasksAndAppointmentsArray[i].StageLength=dateDiffStage;
+                  }
+                  if(index!==-1&&flag==0){
+                      var diff=this.TasksAndAppointmentsArray[i].Date-today;
+                      if(diff>0&&diff===min){
+                          this.TasksAndAppointmentsArray[i].Status='Next';
+                          this.CurrentTaskOrAppointmentIndex=i+1;
+                          flag=1;
+                      }
+                  }
 
-            var flag=0;
-            this.TasksAndAppointmentsArray[0].StageLength=-1;
-            for (var i = 0; i < this.TasksAndAppointmentsArray.length; i++) {
-                if(i>0){
-                    var dateDiffStage=(this.TasksAndAppointmentsArray[i].Date - this.TasksAndAppointmentsArray[i-1].Date)/(1000*60*60*24);
-                    this.TasksAndAppointmentsArray[i].StageLength=dateDiffStage;
-                }
-                if(index!==-1&&flag==0){
-                    var diff=this.TasksAndAppointmentsArray[i].Date-today;
-                    if(diff>0&&diff===min){
-                        this.TasksAndAppointmentsArray[i].Status='Next';
-                        this.CurrentTaskOrAppointmentIndex=i+1;
-                        flag=1;
-                    }
-                }
+              };
+              if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length;
+            }else{
+              this.CurrentTaskOrAppointmentIndex=0;
+            }
 
-            };
-            if(index==-1) this.CurrentTaskOrAppointmentIndex=keysArray.length;
 
         },
         /**

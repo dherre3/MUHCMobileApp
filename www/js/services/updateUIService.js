@@ -37,7 +37,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
 
     function updateUIOnline(){
         var r = $q.defer();
-        var firebaseLink = new Firebase('https://luminous-heat-8715.firebaseio.com/users/' + UserAuthorizationInfo.getUserName());
+        var firebaseLink = new Firebase('https://luminous-heat-8715.firebaseio.com/dev/users/' + UserAuthorizationInfo.getUserName());
         obtainDataLoop();
        function obtainDataLoop(){
         firebaseLink.once('value', function (snapshot) {
@@ -129,7 +129,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
     function UpdateSectionOnline(section)
     {
         var r=$q.defer();
-        var ref= new Firebase('https://luminous-heat-8715.firebaseio.com/users/');
+        var ref= new Firebase('https://luminous-heat-8715.firebaseio.com/dev/users/');
         var pathToSection=''
         var username=UserAuthorizationInfo.getUserName();
 
@@ -149,6 +149,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 console.log(data);
                 EncryptionService.decryptData(data);
                 LocalStorage.WriteToLocalStorage(section,data);
+
                 switch(section){
                     case 'All':
                         updateAllServices(data, 'Online');
@@ -182,7 +183,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                     break;
                 }
                 console.log(data);
-                //ref.child(pathToSection).off();
+                ref.child(pathToSection).off();
 
                 r.resolve(true);
             }

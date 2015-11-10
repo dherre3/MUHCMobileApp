@@ -13,7 +13,7 @@ angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state'
 
 	    });
 	    setTimeout(function() {
-	    	if(typeof Messages.getUserMessages()=='undefined'||Messages.getUserMessages().length==0){
+	    	if(typeof Patient.getFirstName()=='undefined'){
 	    		$state.go('logOut');
 	    	}
 	    }, 10000);

@@ -228,6 +228,21 @@ img
   background: #eee;
   display:inline-block;
 }
+
+
+/*
+
+*Checkin button
+
+*/
+.btn-circle.btn-xl {
+  width: 100px;
+  height: 100px;
+  padding: 5px 16px;
+  font-size: 18px;
+  line-height: 1.00;
+  border-radius: 50px;
+}
 /*Onsen's carouse;*/
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 /*onsen notificatins page*/

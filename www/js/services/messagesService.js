@@ -35,9 +35,9 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
         setUserMessages:function(messages){
 
             //Initializing the array of conversations
-
-             this.UserConversationsArray = [];       
-             $rootScope.NumberOfNewMessages=0;      
+            console.log(messages);
+             this.UserConversationsArray = [];
+             $rootScope.NumberOfNewMessages=0;
              if (messages === undefined) return -1;
             //Iterating through each conversation
             this.ConversationsObject={};
@@ -52,7 +52,7 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                 conversation.UserSerNum=doctors[i].DoctorSerNum;
                 this.ConversationsObject[doctors[i].DoctorSerNum]=conversation;
             };
-           
+            console.log(this.ConversationsObject);
             for (var i = 0; i < keysArray.length; i++) {
                 var Message={};
                 var message=messages[keysArray[i]];
@@ -61,14 +61,14 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                     Message.MessageContent=message.MessageContent;
                     Message.Date=$filter('formatDate')(message.MessageDate);
                     Message.ReadStatus=1;
-                    Message.MessageSerNum=message.MessageSerNum;  
+                    Message.MessageSerNum=message.MessageSerNum;
                     this.ConversationsObject[message.ReceiverSerNum].Messages.push(Message);
                 }else if(message.ReceiverSerNum===Patient.getUserSerNum()){
                     Message.Role='0';
                     Message.MessageContent=message.MessageContent;
                     Message.Date=$filter('formatDate')(message.MessageDate);
                     Message.ReadStatus=message.ReadStatus;
-                    Message.MessageSerNum=message.MessageSerNum;  
+                    Message.MessageSerNum=message.MessageSerNum;
                     this.ConversationsObject[message.SenderSerNum].Messages.push(Message);
                 }
             }
@@ -84,7 +84,7 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                 }
                 this.UserConversationsArray.push(this.ConversationsObject[keysArrayConvo[i]]);
 
-                
+
             };
             console.log(this.UserConversationsArray);
         },

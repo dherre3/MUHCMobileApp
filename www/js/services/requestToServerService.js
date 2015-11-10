@@ -11,6 +11,7 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
             var userID=UserAuthorizationInfo.UserName;
             var encryptedRequestType=EncryptionService.encryptData(typeOfRequest);
             content= EncryptionService.encryptData(content);
+            console.log(content);
             if(typeOfRequest=='Login'||typeOfRequest=='Refresh'||typeOfRequest=='Logout')
             {
               Ref.push({ 'Request' : encryptedRequestType, 'UserID': userID })

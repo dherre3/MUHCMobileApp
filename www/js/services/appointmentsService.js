@@ -44,6 +44,17 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
     *@description Contains the appointment calendar object organized in a {year}->{months}->{day}->[Array Of Appointments That Day] format
     *
     **/
+      function findAppointmentIndexInArray(array, serNum)
+      {
+        for (var i = 0; i < array.length; i++) {
+          if(array[i].AppointmentSerNum==serNum)
+          {
+            return i;
+          }
+        }
+        return -1;
+
+      }
         function findAppointmentInNativeCalendar(app)
         {
             var r=$q.defer();
@@ -243,6 +254,23 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
         this.calendar[year] = calendarYear;
 
         },
+        isThereNextAppointment:function(){
+          if(this.FutureAppointments.length==0)
+          {
+            return false;
+          }else{
+            return true;
+          }
+        },
+        isThereAppointments:function()
+        {
+          if(this.UserAppointmentsArray.length==0)
+          {
+            return false;
+          }else{
+            return true;
+          }
+        },
         getAppointmentBySerNum:function(serNum){
             for (var i = 0; i < this.UserAppointmentsArray.length; i++) {
                 if(this.UserAppointmentsArray[i].AppointmentSerNum==serNum){
@@ -313,12 +341,13 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
         *@description Returns the calendar object.
         **/
         getLastAppointmentCompleted:function(){
-          if(this.UserAppointmentsArray.length==0) return -1;
-          return this.UserAppointmentsArray[this.UserAppointmentsArray.length-1];
+          if(this.PastAppointments.length==0) return -1;
+          return this.PastAppointments[0];
         },
-        getLastAppointmentCompletedIndex:function(){
-          if(this.UserAppointmentsArray.length==0) return -1;
-          return this.UserAppointmentsArray.length-1;
+        getUpcomingAppointment:function()
+        {
+          if(this.FutureAppointments.length==0) return -1;
+          return this.FutureAppointments[0];
         },
         getUserCalendar:function(){
             return this.calendar;
@@ -330,6 +359,15 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                     this.UserAppointmentsArray[i].ChangeRequest=value;
                 }
             }
+        },
+        checkinNextAppointment:function()
+        {
+          this.FutureAppointments[0].Checkin='1';
+          var nextAppointmentSerNum=this.FutureAppointments[0].AppointmentSerNum;
+          var index=findAppointmentIndexInArray(this.TodayAppointments, nextAppointmentSerNum);
+          this.TodayAppointments[index].Checkin='1'
+          this.UserAppointmentsArray[this.NextAppointment.Index].Checkin='1';
+
         },
         checkAndAddAppointmentsToCalendar:function(){
             var appointments=this.UserAppointmentsArray;

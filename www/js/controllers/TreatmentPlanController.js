@@ -54,10 +54,9 @@ $scope.estimatedTime='3 days';
     var startColor='#5CE68A';
     var endColor='#3399ff';
 
-    if(nextStageIndex==stages.length){
+
         if(stages.length==0){
             $scope.noTreatmentPlan=true;
-        }
 
     }else{
         if(nextStageIndex==stages.length){

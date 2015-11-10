@@ -18,7 +18,7 @@
 *Manages the logic of the home screen after log in, instatiates
 */
 var myApp = angular.module('MUHCApp');
-myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient','UpdateUI', '$timeout','$filter','$cordovaNetwork','UserPlanWorkflow','$rootScope', 'tmhDynamicLocale','$translate', '$translatePartialLoader', function ($state,Appointments, $scope, Patient,UpdateUI,$timeout,$filter,$cordovaNetwork,UserPlanWorkflow, $rootScope,tmhDynamicLocale, $translate, $translatePartialLoader) {
+myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$scope','Patient','UpdateUI', '$timeout','$filter','$cordovaNetwork','UserPlanWorkflow','$rootScope', 'tmhDynamicLocale','$translate', '$translatePartialLoader', function ($state,Appointments,CheckinService, $scope, Patient,UpdateUI,$timeout,$filter,$cordovaNetwork,UserPlanWorkflow, $rootScope,tmhDynamicLocale, $translate, $translatePartialLoader) {
        /**
         * @ngdoc method
         * @name load
@@ -30,7 +30,25 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         *
         *
         */
+
         function homePageInit(){
+        if(CheckinService.haveNextAppointmentToday())
+        {
+          if(!CheckinService.isAlreadyCheckedin())
+          {
+              if(CheckinService.isAllowedToCheckin())
+              {
+                $scope.enableCheckin=true;
+              }else{
+                $scope.enableCheckin=false;
+              }
+          }else{
+            $scope.enableCheckin=false;
+          }
+        }else{
+          $scope.enableCheckin=false;
+        }
+
         $scope.dateToday=new Date();
         var date;
         var nextAppointment=Appointments.getNextAppointment();
@@ -64,6 +82,11 @@ myApp.controller('HomeController', ['$state','Appointments', '$scope','Patient',
         $scope.LastName = Patient.getLastName();
         $scope.ProfileImage=Patient.getProfileImage();
         $scope.Status=Patient.getStatus();
+    }
+    $scope.checkin=function(){
+      CheckinService.checkinToAppointment();
+      $scope.alert.message='You have successfully checked in to your appointment, proceed to waiting room';
+      $scope.enableCheckin=false;
     }
         homePageInit();
         $scope.load = function($done) {
