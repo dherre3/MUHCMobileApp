@@ -1,12 +1,10 @@
 var myApp=angular.module('MUHCApp');
 myApp.controller('FeedbackController',['Patient', 'RequestToServer','$scope', function(Patient, RequestToServer, $scope){
-
 	$scope.suggestionText='';
 	$scope.FirstName=Patient.getFirstName();
 	$scope.LastName=Patient.getLastName();
 	$scope.profilePicture=Patient.getProfileImage();
 	$scope.enabledSend=false;
-
 	$scope.$watch('feedbackText',function(){
 		if($scope.feedbackText==''||!$scope.feedbackText)
 		{

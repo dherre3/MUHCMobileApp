@@ -4,6 +4,9 @@ myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$s
 
   function documentsInit() {
     $scope.documents = Documents.getDocuments();
+    if($scope.documents.length==0){
+      $scope.noDocuments=true;
+    }
     if (UserPreferences.getLanguage() == 'EN') {
       for (var i = 0; i < $scope.documents.length; i++) {
         $scope.documents[i].Name = $scope.documents[i].DocumentHospitalName_EN;

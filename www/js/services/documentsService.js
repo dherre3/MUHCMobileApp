@@ -4,6 +4,8 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 		setDocuments:function(documents, mode){
 			console.log(documents);
 			this.Photos=[];
+			documents=undefined;
+			if(!documents) return;
 			if(mode==='Online'){
 				var keysDocuments=Object.keys(documents);
 				for (var i = 0; i < keysDocuments.length; i++) {

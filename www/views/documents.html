@@ -34,6 +34,9 @@
     </alert>
   </div>
   <div style="margin-top:10px">
+    <div style="color:grey" ng-show="noDocuments" align="center">
+      No patient documents available!
+    </div>
     <ul class="list list--inset" ng-repeat="document in documents" style="margin-top:5px" ng-click="myNavigator.pushPage('./templates/documents/individual-document.html',{param:document});">
       <li class="list__item list--inset__item list__item--chevron">
         <div style="padding:8px;">
