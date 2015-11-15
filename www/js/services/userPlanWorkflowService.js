@@ -171,6 +171,15 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
         },
         getPastStages:function(){
             return this.PastStages;
+        },
+        isCompleted:function()
+        {
+          if(this.FutureStages.length==0)
+          {
+            return true;
+          }else{
+            return false;
+          }
         }
     };
 

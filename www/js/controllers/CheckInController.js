@@ -1,7 +1,7 @@
 angular.module('MUHCApp')
-    .controller('CheckInController', ['$scope', 'CheckinService','$timeout','Appointments', '$filter', function ($scope, CheckinService,$timeout,Appointments,$filter) {
+    .controller('CheckInController', ['$scope', 'CheckinService','$timeout','Appointments', '$filter', 'RequestToServer', function ($scope, CheckinService,$timeout,Appointments,$filter,RequestToServer) {
       $scope.alert={};
-
+      console.log(RequestToServer.getIdentifier());
 
       if(Appointments.isThereNextAppointment())
       {

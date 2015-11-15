@@ -67,7 +67,7 @@
         </ons-col>
         <ons-col>
         <div  align="middle" style="margin-left:5px">
-          <span class="profile-name">{{'STATUS'|translate}}<br> </span>{{Status}}
+          <span class="profile-name">{{'STATUS'|translate}}<br> </span>{{status}}
         </div>
         </ons-col>
         <ons-col width="3px">
@@ -90,11 +90,11 @@
         <ons-col >
 
          <div align="center" style="margin-left:5px">
-           <div ng-show="!noAppointments">
+           <div ng-show="!noAppointments" style="text-overflow:ellipsis">
                   <div align="center"> <span class="profile-name">{{titleAppointmentsHome}}</span><br> </div>
 
                     {{appointmentShown.ScheduledStartTime|formatDateAppointmentTask}}<br>
-                    {{appointmentShown.AppointmentType}}
+                    {{appointmentShown.AppointmentType_EN}}
 
                  <!-- <select ng-model="locale" class="form-control"
                     ng-change="updateLocale(locale)"

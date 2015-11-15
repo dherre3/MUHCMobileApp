@@ -1,16 +1,17 @@
 var myApp=angular.module('MUHCApp');
 
 
-myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage) {
+myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage','RequestToServer',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage,RequestToServer) {
     function updateAllServices(dataUserObject,mode){
-        function setDocuments(){
+        function setDocuments(dataUserObject){
             var setDocProm=$q.defer();
-            Documents.setDocuments(dataUserObject.Images,mode);
+            console.log(dataUserObject.Documents);
+            Documents.setDocuments(dataUserObject.Documents,mode);
             setDocProm.resolve(true);
             return setDocProm.promise;
 
         }
-        setDocuments().then(function(){
+        setDocuments(dataUserObject).then(function(){
             UserPlanWorkflow.setUserPlanWorkflow({
                 '1':{'Name':'CT for Radiotherapy Planning','Date':'2015-10-19T09:00:00Z','Description':'stage1','Type': 'Appointment'},
                 '2':{'Name':'Physician Plan Preparation','Date':'2015-10-21T09:15:00Z','Description':'stage2','Type':'Task'},
@@ -37,7 +38,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
 
     function updateUIOnline(){
         var r = $q.defer();
-        var firebaseLink = new Firebase('https://luminous-heat-8715.firebaseio.com/dev/users/' + UserAuthorizationInfo.getUserName());
+        var firebaseLink = new Firebase('https://brilliant-inferno-7679.firebaseio.com/users/' + UserAuthorizationInfo.getUserName()+ '\/'+RequestToServer.getIdentifier());
         obtainDataLoop();
        function obtainDataLoop(){
         firebaseLink.once('value', function (snapshot) {
@@ -129,27 +130,27 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
     function UpdateSectionOnline(section)
     {
         var r=$q.defer();
-        var ref= new Firebase('https://luminous-heat-8715.firebaseio.com/dev/users/');
+        var ref= new Firebase('https://brilliant-inferno-7679.firebaseio.com/Users/');
         var pathToSection=''
         var username=UserAuthorizationInfo.getUserName();
-
+        var deviceId=RequestToServer.getIdentifier();
+        console.log(deviceId);
         if(section!=='UserPreferences'){
-            pathToSection=username+'/'+section;
+            pathToSection=username+'/'+deviceId+'/'+section;
         }else{
-           pathToSection=username+'/'+'Patient';
+           pathToSection=username+'/'+deviceId+'/'+'Patient';
         }
         if(section=='All')
         {
-            pathToSection=username;
+            pathToSection=username+'/'+deviceId;
         }
-
+        console.log(pathToSection);
         ref.child(pathToSection).on('value',function(snapshot){
             var data=snapshot.val();
             if(data!=undefined){
                 console.log(data);
-                EncryptionService.decryptData(data);
+                data=EncryptionService.decryptData(data);
                 LocalStorage.WriteToLocalStorage(section,data);
-
                 switch(section){
                     case 'All':
                         updateAllServices(data, 'Online');
@@ -183,6 +184,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                     break;
                 }
                 console.log(data);
+                ref.child(pathToSection).set(null);
                 ref.child(pathToSection).off();
 
                 r.resolve(true);

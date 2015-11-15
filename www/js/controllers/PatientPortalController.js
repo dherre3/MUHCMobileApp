@@ -14,23 +14,23 @@ myApp.controller('PatientPortalController',function(UpdateUI, RequestToServer, $
                 $timeout(function(){
                   $scope.messages=Messages.getUserMessages();
                   $scope.conversation=$scope.messages[$scope.selectedIndex].Messages;
-                  $rootScope.NumberOfNewMessages='';       
+                  $rootScope.NumberOfNewMessages='';
                 },10);
 }, function(error){console.log(error);});
 
         };
          $scope.load = function($done) {
-          RequestToServer.sendRequest('Refresh');
+          RequestToServer.sendRequest('Refresh','Messages');
           $timeout(function() {
             loadInfo();
-                $done();        
+                $done();
           }, 3000);
 };
 
  $scope.messages=Messages.getUserMessages();
 
 
- 
+
 $scope.personClicked=function(index){
     var conversation=$scope.messages[index].Messages;
     $timeout(function(){
@@ -66,10 +66,10 @@ $scope.$watch('person.selected', function(){
             for (var i = 0; i < $scope.messages[$scope.selectedIndex].Messages.length; i++) {
                 console.log($scope.messages[index].Messages[i].MessageSerNum);
                 RequestToServer.sendRequest('MessageRead',$scope.messages[index].Messages[i].MessageSerNum);
-                $scope.messages[index].Messages[i].ReadStatus=1;         
+                $scope.messages[index].Messages[i].ReadStatus=1;
             };
         Messages.changeConversationReadStatus($scope.selectedIndex);
-        $scope.messages[$scope.selectedIndex].ReadStatus=1; 
+        $scope.messages[$scope.selectedIndex].ReadStatus=1;
         }
         $scope.conversation=conversation;
         $scope.glue=true;
@@ -78,7 +78,7 @@ $scope.$watch('person.selected', function(){
           for (var i = 0; i < $scope.messages[$scope.selectedIndex].Messages.length; i++) {
             console.log($scope.messages[$scope.selectedIndex].Messages[i].MessageSerNum);
               RequestToServer.sendRequest('MessageRead',$scope.messages[$scope.selectedIndex].Messages[i].MessageSerNum);
-              $scope.messages[$scope.selectedIndex].Messages[i].ReadStatus=1;         
+              $scope.messages[$scope.selectedIndex].Messages[i].ReadStatus=1;
           };
           Messages.changeConversationReadStatus($scope.selectedIndex);
           $scope.messages[$scope.selectedIndex].ReadStatus=1;
@@ -109,7 +109,7 @@ $scope.$watch('person.selected', function(){
   $scope.conversation=$scope.messages[0].Messages;
   $scope.glue=true;
   $scope.messageAttachmentOpener=function(mes){
-   var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;  
+   var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
   if(app){
      var ref = window.open(mes.Attachment, '_blank', 'location=yes');
    }else{
@@ -166,16 +166,16 @@ $scope.$watchGroup(['newMessage','upload'],function(){
     }else{
       Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessage,new Date());
     }
-    
+
     //Send message request
     RequestToServer.sendRequest('Message',objectToSend);
-    $scope.newMessage=''; 
+    $scope.newMessage='';
     $scope.glue=true;
     $scope.messages=Messages.getUserMessages();
   }
 
   $scope.getStyle=function(index){
-    
+
     if($scope.messages[index].ReadStatus===0){
         return '#3399ff';
     }else{
@@ -198,7 +198,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
 
      $scope.refreshInfo=function(val){
         if(val.length>0){
-          $rootScope.searchingMask=true; 
+          $rootScope.searchingMask=true;
           $scope.person = {};
           $scope.people = [];
           if(!$scope.messages){
@@ -222,7 +222,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
 
      };
 
-      var messages=Messages.getUserMessages(); 
+      var messages=Messages.getUserMessages();
 
      //if request comes from contact page.
     $scope.messages=messages;
@@ -277,7 +277,7 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
         $scope.personClicked=function(index){
             goToConversation(index);
         };
-    
+
 
 
 
@@ -287,14 +287,14 @@ myApp.controller('ListOfConversationMobileController',['RequestToServer','Update
 myApp.controller('MessagePageController',function(RequestToServer,$filter, Patient,Messages,UpdateUI,$timeout,$scope,Doctors){
 
  $scope.getStyle=function(index){
-    
+
     if($scope.messages[index].ReadStatus===0){
         return '#3399ff';
     }else{
         return '#ccc';
     }
   };
- 
+
 //Obtaining Index of current message
  var page = myNavigator.getCurrentPage();
  var parameters=page.options.param;
@@ -373,7 +373,7 @@ $scope.submitMessage=function(){
     Messages.addNewMessageToConversation($scope.selectedIndex,$scope.newMessageMobile,new Date());
     console.log(Messages.getUserMessages());
   }
-  
+
   //Add message to conversation
   //Send message request
   RequestToServer.sendRequest('Message',objectToSend);
@@ -394,8 +394,3 @@ $scope.goToContact=function(){
     flagInConversation:1}});
 };
 });
-
-
-
-
-

@@ -18,7 +18,7 @@
 *Manages the logic of the home screen after log in, instatiates
 */
 var myApp = angular.module('MUHCApp');
-myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$scope','Patient','UpdateUI', '$timeout','$filter','$cordovaNetwork','UserPlanWorkflow','$rootScope', 'tmhDynamicLocale','$translate', '$translatePartialLoader', function ($state,Appointments,CheckinService, $scope, Patient,UpdateUI,$timeout,$filter,$cordovaNetwork,UserPlanWorkflow, $rootScope,tmhDynamicLocale, $translate, $translatePartialLoader) {
+myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$scope','Patient','UpdateUI', '$timeout','$filter','$cordovaNetwork','UserPlanWorkflow','$rootScope', 'tmhDynamicLocale','$translate', '$translatePartialLoader','RequestToServer', function ($state,Appointments,CheckinService, $scope, Patient,UpdateUI,$timeout,$filter,$cordovaNetwork,UserPlanWorkflow, $rootScope,tmhDynamicLocale, $translate, $translatePartialLoader,RequestToServer) {
        /**
         * @ngdoc method
         * @name load
@@ -30,8 +30,28 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         *
         *
         */
+        homePageInit();
+        $scope.load = function($done) {
 
+          $timeout(function() {
+            RequestToServer.sendRequest('Refresh','All');
+            loadInfo();
+                $done();
+          }, 3000);
+        };
+
+        function loadInfo(){
+          UpdateUI.UpdateSection('All').then(function()
+          {
+            homePageInit();
+          });
+       }
         function homePageInit(){
+        if(UserPlanWorkflow.isCompleted()){
+          $scope.status='In Treatment';
+        }else{
+          $scope.status='Radiotherapy Treatment Planning';
+        }
         if(CheckinService.haveNextAppointmentToday())
         {
           if(!CheckinService.isAlreadyCheckedin())
@@ -81,31 +101,13 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();
         $scope.ProfileImage=Patient.getProfileImage();
-        $scope.Status=Patient.getStatus();
     }
     $scope.checkin=function(){
       CheckinService.checkinToAppointment();
       $scope.alert.message='You have successfully checked in to your appointment, proceed to waiting room';
       $scope.enableCheckin=false;
     }
-        homePageInit();
-        $scope.load = function($done) {
 
-          $timeout(function() {
-            loadInfo();
-                $done();
-          }, 1000);
-        };
-
-        function loadInfo(){
-           var dataVal= UpdateUI.UpdateUserFields();
-           dataVal.then(function(data){
-                $timeout(function(){
-                   homePageInit();
-
-                });
-        });
-       }
 //Sets all the variables in the view.
 
 }]);

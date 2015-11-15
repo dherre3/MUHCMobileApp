@@ -20,8 +20,12 @@ var myApp=angular.module('MUHCApp')
     if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
-        RequestToServer.sendRequest('Refresh');
-        $state.go('loading');
+        RequestToServer.setIdentifier().then(function(uuid)
+        {
+          console.log(uuid);
+            RequestToServer.sendRequest('Login');
+            $state.go('loading');
+        });
     }
     $scope.signup={};
 
@@ -57,6 +61,12 @@ var myApp=angular.module('MUHCApp')
                 clearText();
                 console.log("Login Failed!", error);
             } else {
+                RequestToServer.setIdentifier().then(function(uuid)
+                {
+                  console.log(uuid);
+                  RequestToServer.sendRequest('Login',userId);
+                  $state.go('loading');
+                });
                 userId = authData.uid;
                 //Obtaining fields links for patient's firebase
 
@@ -67,8 +77,6 @@ var myApp=angular.module('MUHCApp')
                 //Updating Patients references to signal backend to upload data
                 myDataRef.child(patientLoginRequest).update({LogIn:true});
                 UserAuthorizationInfo.setUserAuthData(authData.uid, $scope.signup.password, authData.expires);
-                RequestToServer.sendRequest('Login',userId);
-
                 //Setting The User Object for global Application Use
                 authenticationToLocalStorage={};
                 authenticationToLocalStorage={
@@ -90,7 +98,7 @@ var myApp=angular.module('MUHCApp')
                 //console.log(UserAuthorizationInfo.UserToken);
 
                 //quickWriteUp(data);
-                $state.go('loading');
+
                 console.log("Authenticated successfully with payload:", authData);
             }
         }

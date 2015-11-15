@@ -28,14 +28,14 @@ myApp.service('Notifications',['$rootScope','$filter','RequestToServer', functio
             }
             var notificationsKeys=Object.keys(notifications);
             for (var i = 0; i < notificationsKeys.length; i++) {
-                notifications[notificationsKeys[i]].DateTime=$filter('formatDate')(notifications[notificationsKeys[i]].DateTime);
+                notifications[notificationsKeys[i]].DateAdded=$filter('formatDate')(notifications[notificationsKeys[i]].DateAdded);
                 if(notifications[notificationsKeys[i]].ReadStatus==='0'){
                     $rootScope.Notifications+=1;
                 }
                 this.Notifications.push(notifications[notificationsKeys[i]]);
             };
             console.log(this.Notifications);
-            this.Notifications=$filter('orderBy')(this.Notifications,'DateTime',true);
+            this.Notifications=$filter('orderBy')(this.Notifications,'DateAdded',true);
             console.log(this.Notifications);
             setNotificationsNumberAlert();
         },
@@ -44,7 +44,7 @@ myApp.service('Notifications',['$rootScope','$filter','RequestToServer', functio
         },
         setNotificationReadStatus:function(notificationIndex){
             this.Notifications[notificationIndex].ReadStatus='1';
-            RequestToServer.sendRequest('Notification',this.Notifications[notificationIndex].NotificationSerNum);    
+            RequestToServer.sendRequest('Notification',this.Notifications[notificationIndex].NotificationSerNum);
         },
         getNotificationReadStatus:function(notificationIndex){
             return this.notifications[notificationIndex].ReadStatus;

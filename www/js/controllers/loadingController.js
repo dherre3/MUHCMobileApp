@@ -16,6 +16,6 @@ angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state'
 	    	if(typeof Patient.getFirstName()=='undefined'){
 	    		$state.go('logOut');
 	    	}
-	    }, 10000);
+	    }, 12000);
 
 }]);

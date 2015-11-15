@@ -123,7 +123,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                     appointments[keysArray[i]].ScheduledStartTime = $filter('formatDate')(appointments[keysArray[i]].ScheduledStartTime);
                     appointments[keysArray[i]].ScheduledEndTime =  $filter('formatDate')(appointments[keysArray[i]].ScheduledEndTime);
                     this.UserAppointmentsArray[i] = appointments[keysArray[i]];
-                    if(appointments[keysArray[i]].AppointmentType=='Daily Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType=='First Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType=='Final Radiotherapy Treatment Session')
+                    if(appointments[keysArray[i]].AppointmentType_EN=='Daily Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType_EN=='First Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType_EN=='Final Radiotherapy Treatment Session')
                     {
                       numberOfSessions++;
                     }
@@ -170,7 +170,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
 
                 var sessionNumber = 1;
                 for (var i = 0; i < this.UserAppointmentsArray.length; i++) {
-                  if(this.UserAppointmentsArray[i].AppointmentType=='Daily Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType=='Final Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType=='First Radiotherapy Treatment Session')
+                  if(this.UserAppointmentsArray[i].AppointmentType_EN=='Daily Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType_EN=='Final Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType_EN=='First Radiotherapy Treatment Session')
                   {
                     this.UserAppointmentsArray[i].sessionNumber="Session "+sessionNumber+ " of "+ numberOfSessions;
                     sessionNumber++;
@@ -374,7 +374,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
             for(var i=0;i<appointments.length;i++){
                 var startDate=appointments[i].ScheduledStartTime;
                 var endDate = appointments[i].ScheduledEndTime;
-                var title=appointments[i].AppointmentType;
+                var title=appointments[i].AppointmentType_EN;
                 var location=appointments[i].Location;
                 var notes='Source: ' +appointments[i].ResourceName;
                 var eventToCalendar={};

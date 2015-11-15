@@ -2,15 +2,16 @@ var myApp=angular.module('MUHCApp');
 myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFile', '$cordovaDevice','$cordovaNetwork', 'UserAuthorizationInfo','$q','$rootScope', function(UserPreferences,$cordovaFileTransfer,$cordovaFile,$cordovaDevice,$cordovaNetwork,UserAuthorizationInfo,$q,$rootScope){
 	return{
 		setDocuments:function(documents, mode){
+			console.log(documents);
 			this.Photos=[];
 			if(mode==='Online'){
 				var keysDocuments=Object.keys(documents);
-				for (var i = 0; i < keysDocuments.length; i++) {			
+				for (var i = 0; i < keysDocuments.length; i++) {
 					documents[keysDocuments[i]].Content='data:image/png;base64,'+documents[keysDocuments[i]].Content;
-					var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
+					var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 	            	if(app){
-	            		
-	 
+
+
 							var platform=$cordovaDevice.getPlatform();
 							var targetPath='';
 							if(platform==='Android'){
@@ -38,27 +39,27 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 						        console.log(err)
 						      }, function (progress) {
 						          var downloadProgress = (progress.loaded / progress.total) * 100;
-						          
+
 							    });
 					}
 					var imageToPhotoObject={};
-					imageToPhotoObject.ImageHospitalName_EN=documents[keysDocuments[i]].ImageHospitalName_EN;
-					imageToPhotoObject.ImageHospitalName_FR=documents[keysDocuments[i]].ImageHospitalName_FR;
-					imageToPhotoObject.ImageHospitalDescription_EN=documents[keysDocuments[i]].ImageHospitalDescription_EN;
-					imageToPhotoObject.ImageHospitalDescription_FR=documents[keysDocuments[i]].ImageHospitalDescription_FR;
-					imageToPhotoObject.DocumentSerNum=documents[keysDocuments[i]].ImageSerNum;
+					imageToPhotoObject.DocumentHospitalName_EN=documents[keysDocuments[i]].DocumentHospitalName_EN;
+					imageToPhotoObject.DocumentHospitalName_FR=documents[keysDocuments[i]].DocumentHospitalName_FR;
+					imageToPhotoObject.DocumentHospitalDescription_EN=documents[keysDocuments[i]].DocumentHospitalDescription_EN;
+					imageToPhotoObject.DocumentHospitalDescription_FR=documents[keysDocuments[i]].DocumentHospitalDescription_FR;
+					imageToPhotoObject.DocumentSerNum=documents[keysDocuments[i]].DocumentSerNum;
 					imageToPhotoObject.PathFileSystem=documents[keysDocuments[i]].PathFileSystem;
 					imageToPhotoObject.NameFileSystem=documents[keysDocuments[i]].NameFileSystem;
 					imageToPhotoObject.Content=documents[keysDocuments[i]].Content;
 					documents[keysDocuments[i]].Content=null;
-                    documents[keysDocuments[i]].ImagePathLocation=null;
+          documents[keysDocuments[i]].PathLocation=null;
 					this.Photos.push(imageToPhotoObject);
 
 
 				};
 			}else if(mode==='Offline'){
 					console.log('Offline in Documents');
-					var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
+					var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 	            	if(app){
 						var dataUserString=window.localStorage.getItem(UserAuthorizationInfo.UserName);
 						var dataUserObject=JSON.parse(dataUserString);
@@ -81,9 +82,9 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 
 			}
 			console.log(this.Photos);
-			
+
 		},
-		getPhotos:function(){
+		getDocuments:function(){
 			return this.Photos;
 		},
 		getDocumentBySerNum:function(serNum)

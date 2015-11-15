@@ -10,7 +10,7 @@
       <br />
 
       <div align="center">
-      <strong>{{app.AppointmentType}} </strong><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconHomeView"></i></a><br>
+      <strong>{{app.AppointmentType_EN}} </strong><a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconHomeView"></i></a><br>
       {{app.ScheduledStartTime|formatDateAppointmentTask}}<br>
      {{app.ResourceName}}<br>
       <i class="icon ion-ios-location iconHomeView"></i> {{app.Location}}</div>
@@ -31,7 +31,7 @@
         <ons-list-item modifier="chevron" ng-click="myNavigator.popPage({animation:'slide'});menu.setMainPage('views/maps.html', {param:app.Location},{ animation : 'slide' } )" >
           <ons-icon icon="ion-map"></ons-icon>&nbsp;<span style="color:black">Show Location in Map</span>
         </ons-list-item>
-        <ons-list-item ng-show="futureAppointment" modifier="chevron" ng-click="myNavigator.pushPage('templates/appointments/request-change-appointment.html', {param:app},{ animation : 'slide' } )" >
+        <ons-list-item ng-show="futureAppointment&&false" modifier="chevron" ng-click="myNavigator.pushPage('templates/appointments/request-change-appointment.html', {param:app},{ animation : 'slide' } )" >
           <ons-icon icon="ion-shuffle"></ons-icon>&nbsp;<span style="color:black">Request Change</span>
         </ons-list-item>
 
