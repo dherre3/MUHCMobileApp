@@ -4,7 +4,7 @@
 *
 **/
 var myApp=angular.module('MUHCApp');
-myApp.controller('PatientPortalController',function(UpdateUI, RequestToServer, $filter, $rootScope, UserAuthorizationInfo,$location,$anchorScroll,$timeout,$scope,Messages, Patient,$rootScope){
+myApp.controller('PatientPortalController',function(UpdateUI, RequestToServer, $filter, $rootScope, UserAuthorizationInfo,$location,$anchorScroll,$timeout,$scope,Messages, Patient,$rootScope,Doctors){
   $rootScope.NumberOfNewMessages='';
   $scope.sendButtonDisabled=true;
   $scope.newMessage='';
@@ -74,17 +74,20 @@ $scope.$watch('person.selected', function(){
         $scope.conversation=conversation;
         $scope.glue=true;
       }else{
-        if($scope.messages[$scope.selectedIndex].ReadStatus==0){
-          for (var i = 0; i < $scope.messages[$scope.selectedIndex].Messages.length; i++) {
-            console.log($scope.messages[$scope.selectedIndex].Messages[i].MessageSerNum);
-              RequestToServer.sendRequest('MessageRead',$scope.messages[$scope.selectedIndex].Messages[i].MessageSerNum);
-              $scope.messages[$scope.selectedIndex].Messages[i].ReadStatus=1;
-          };
-          Messages.changeConversationReadStatus($scope.selectedIndex);
-          $scope.messages[$scope.selectedIndex].ReadStatus=1;
+        if(!Messages.isEmpty()&&!Doctors.isEmpty())
+        {
+          if($scope.messages[$scope.selectedIndex].ReadStatus==0){
+            for (var i = 0; i < $scope.messages[$scope.selectedIndex].Messages.length; i++) {
+              console.log($scope.messages[$scope.selectedIndex].Messages[i].MessageSerNum);
+                RequestToServer.sendRequest('MessageRead',$scope.messages[$scope.selectedIndex].Messages[i].MessageSerNum);
+                $scope.messages[$scope.selectedIndex].Messages[i].ReadStatus=1;
+            };
+            Messages.changeConversationReadStatus($scope.selectedIndex);
+            $scope.messages[$scope.selectedIndex].ReadStatus=1;
+          }
+          $scope.conversation=$scope.messages[$scope.selectedIndex].Messages;
+          $scope.glue=true;
         }
-        $scope.conversation=$scope.messages[$scope.selectedIndex].Messages;
-        $scope.glue=true;
       }
     }
   });
@@ -106,7 +109,11 @@ $scope.$watch('person.selected', function(){
   }
   $scope.person.selected='';
   $scope.selectedIndex=0;
-  $scope.conversation=$scope.messages[0].Messages;
+  if($scope.messages[0])
+  {
+      $scope.conversation=$scope.messages[0].Messages;
+  }
+
   $scope.glue=true;
   $scope.messageAttachmentOpener=function(mes){
    var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;

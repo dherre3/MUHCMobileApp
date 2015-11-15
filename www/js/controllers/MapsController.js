@@ -10,7 +10,7 @@ myApp.controller('MapsController',['$timeout', '$scope',function($timeout,$scope
   }
 }]);
 
-myApp.controller('IndividualMapController',['$timeout', '$scope',function($timeout,$scope){
+/*myApp.controller('IndividualMapController',['$timeout', '$scope',function($timeout,$scope){
   var gesturableImg = new ImgTouchCanvas({
             canvas: document.getElementById('mycanvas'),
             path: "./img/D-S1_map_RadOnc-MedPhys_16June2015_en.png"
@@ -34,4 +34,4 @@ myApp.controller('IndividualMapController2',['$timeout', '$scope',function($time
         });
 
 
-  }]);
+  }]);*/

@@ -6,13 +6,14 @@ myApp.service('Doctors',function($filter){
             this.Doctors=[];
             this.Oncologists=[];
             this.OtherDoctors=[];
-            this.PrimaryPhysician={};
+            this.PrimaryPhysician=[];
             if(doctors!==undefined&&doctors){
+
                 var doctorKeyArray=Object.keys(doctors);
                 for (var i = 0; i < doctorKeyArray.length; i++) {
 
                    if(doctors[doctorKeyArray[i]].PrimaryFlag==1){
-                        this.PrimaryPhysician=doctors[doctorKeyArray[i]];
+                        this.PrimaryPhysician.push(doctors[doctorKeyArray[i]]);
                    }else if(doctors[doctorKeyArray[i]].OncologistFlag==1)
                    {
                         this.Oncologists.push(doctors[doctorKeyArray[i]]);
@@ -27,11 +28,19 @@ myApp.service('Doctors',function($filter){
 
             }
         },
+        isEmpty:function()
+        {
+          if(this.Doctors.length==0)
+          {
+            return true;
+          }else{
+            return false;
+          }
+        },
         getContacts:function(){
             return this.Doctors;
         },
         getPrimaryPhysician:function(){
-            console.log(this.PrimaryPhysician);
             return this.PrimaryPhysician;
         },
         getOncologists:function(){

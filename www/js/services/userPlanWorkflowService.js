@@ -172,6 +172,15 @@ myApp.service('UserPlanWorkflow',['$filter',function($filter){
         getPastStages:function(){
             return this.PastStages;
         },
+        isEmpty:function()
+        {
+          if(this.TasksAndAppointmentsArray.length==0)
+          {
+            return false;
+          }else{
+            return true;
+          }
+        },
         isCompleted:function()
         {
           if(this.FutureStages.length==0)

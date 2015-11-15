@@ -7,20 +7,38 @@
         </div>
         <div class="center">Treatment Plan</div>
     </ons-toolbar>
+<ons-pull-hook ng-action="load($done)" var="loader" height="100px">
+  <span ng-switch="loader.getCurrentState()">
+    <span ng-switch-when="initial"><ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon> Pull down to refresh</span>
+    <span ng-switch-when="preaction"><ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon> Release to refresh</span>
+    <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
+  </span>
+</ons-pull-hook>
 <div class="container" ng-hide="noNotifications">
+
+
 <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
         <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert>
         <alert align="center" ng-show="showAlert&&(Notifications>1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notification. <span class="hidden-xs">Go to your Notifications page under the menu on the left.</span>
         </alert></a>
  </div>
-    <div class='container' style="margin-top:1vh" ng-controller="TreatmentPlanStatusController">
+    <div class='container' style="margin-top:1vh">
     <div ng-show="noTreatmentPlan" class="btn my-home-profile">
-    <div class="my-home-profile">
-    <div  class="plan-info" align="center">
-        <p>No treatment plan available</p>
-     </div>
-     </div>
+        <div class="plan-info" style="width:100%">
+        <ons-row>
+          <ons-col width="40px">
+            <div class="">
+                <i class="ion-clipboard iconHomeView"></i>
+            </div>
+          </ons-col>
+          <ons-col>
+            <div class="">
+              No treatment plan available
+            </div>
+          </ons-col>
+        </ons-row>
+      </div>
      </div>
      <div ng-hide="noTreatmentPlan">
      <div class="my-home-profile" style="height:240px;">
@@ -67,8 +85,8 @@
       </div>
      </div>
 
-      <div ng-controller="TreatmentPlanStagesController">
-   <div class="my-home-profile" >
+      <div>
+   <div class="my-home-profile" ng-show="!noTreatmentPlan">
      <ons-row>
        <ons-col width="30px">
          <div align="right">

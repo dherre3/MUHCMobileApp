@@ -35,13 +35,17 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
         setUserMessages:function(messages){
 
             //Initializing the array of conversations
-            console.log(messages);
              this.UserConversationsArray = [];
+             this.ConversationsObject={};
              $rootScope.NumberOfNewMessages=0;
-             if (messages === undefined) return -1;
             //Iterating through each conversation
-            this.ConversationsObject={};
-            var keysArray = Object.keys(messages);
+            var keysArray =[];
+            if(messages!==undefined)
+            {
+              keysArray = Object.keys(messages);
+            }else{
+              this.emptyMessages=true;
+            }
             var doctors=Doctors.getContacts();
             for (var i = 0; i < doctors.length; i++) {
                 var conversation={}
@@ -52,7 +56,6 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                 conversation.UserSerNum=doctors[i].DoctorSerNum;
                 this.ConversationsObject[doctors[i].DoctorSerNum]=conversation;
             };
-            console.log(this.ConversationsObject);
             for (var i = 0; i < keysArray.length; i++) {
                 var Message={};
                 var message=messages[keysArray[i]];
@@ -86,6 +89,7 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
 
 
             };
+
             console.log(this.UserConversationsArray);
         },
         /**
@@ -136,6 +140,10 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
             for (var i = 0; i < this.UserConversationsArray[conversationIndex].Messages.length; i++) {
                 this.UserConversationsArray[conversationIndex].Messages[i].ReadStatus=1;
             };
+        },
+        isEmpty:function()
+        {
+          return this.emptyMessages;
         }
 
 

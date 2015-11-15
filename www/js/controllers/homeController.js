@@ -47,11 +47,17 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
           });
        }
         function homePageInit(){
-        if(UserPlanWorkflow.isCompleted()){
-          $scope.status='In Treatment';
+        if(UserPlanWorkflow.isEmpty())
+        {
+          if(UserPlanWorkflow.isCompleted()){
+            $scope.status='In Treatment';
+          }else{
+            $scope.status='Radiotherapy Treatment Planning';
+          }
         }else{
-          $scope.status='Radiotherapy Treatment Planning';
+          $scope.status='No treatment plan available!';
         }
+
         if(CheckinService.haveNextAppointmentToday())
         {
           if(!CheckinService.isAlreadyCheckedin())
@@ -69,34 +75,23 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
           $scope.enableCheckin=false;
         }
 
-        $scope.dateToday=new Date();
-        var date;
-        var nextAppointment=Appointments.getNextAppointment();
-        var lastAppointment=Appointments.getLastAppointmentCompleted();
-        if(nextAppointment.Index!=-1){
-            $scope.noAppointments=false;
-            $scope.appointmentShown=nextAppointment.Object;
-            $scope.titleAppointmentsHome='Next Appointment';
-            date=nextAppointment.Object.ScheduledStartTime;
-            var dateDay=date.getDate();
-            var dateMonth=date.getMonth();
-            var dateYear=date.getFullYear();
-
-            if(dateMonth==$scope.dateToday.getMonth()&&dateDay==$scope.dateToday.getDate()&&dateYear==$scope.dateToday.getFullYear()){
-                console.log('asdas');
-                $scope.nextAppointmentIsToday=true;
-            }else{
-                console.log('notToday');
-                $scope.nextAppointmentIsToday=false;
-            }
-        }else if(lastAppointment!=-1){
-          $scope.nextAppointmentIsToday=false;
-          $scope.appointmentShown=lastAppointment;
-          $scope.titleAppointmentsHome='Last Appointment';
-        }
-        else{
+        if(Appointments.isThereAppointments())
+        {
+          if(Appointments.isThereNextAppointment()){
+              var nextAppointment=Appointments.getUpcomingAppointment();
+              $scope.noAppointments=false;
+              $scope.appointmentShown=nextAppointment;
+              $scope.titleAppointmentsHome='Next Appointment';
+          }else{
+            var lastAppointment=Appointments.getLastAppointmentCompleted();
+            $scope.nextAppointmentIsToday=false;
+            $scope.appointmentShown=lastAppointment;
+            $scope.titleAppointmentsHome='Last Appointment';
+          }
+        }else{
             $scope.noAppointments=true;
         }
+
         $scope.Email=Patient.getEmail();
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();

@@ -65,7 +65,7 @@
                 </div>
               </ons-col>
               <ons-col width="100px" class="plan-left">
-                <div class="plan-duration">{{conversation.DateOfLastMessage| dateEmail}}</div>
+                <div class="plan-duration" ng-show="conversation.DateOfLastMessage">{{conversation.DateOfLastMessage| dateEmail}}</div>
                 <img ng-src="./img/unread-email-icon.png" style="opacity:0.7;" width="10px" height="auto" ng-show="conversation.ReadStatus===0">
 
               </ons-col>
@@ -138,7 +138,7 @@
                     </div>
                   </ons-col>
                   <ons-col width="100px" class="plan-left">
-                    <div class="plan-duration">{{conversation.DateOfLastMessage| dateEmail}}</div>
+                    <div class="plan-duration" ng-show="conversation.DateOfLastMessage">{{conversation.DateOfLastMessage| dateEmail}}</div>
                     <img ng-src="./img/unread-email-icon.png" style="opacity:0.7;" width="10px" height="auto" ng-show="conversation.ReadStatus===0">
 
                   </ons-col>

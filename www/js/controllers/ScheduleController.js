@@ -341,16 +341,9 @@ myApp.controller('IndividualAppointmentController', ['$scope','$timeout', 'Appoi
         }
 
 }]);
-myApp.controller('AppointmentMapController',['$timeout', '$scope',function($timeout,$scope){
-  var gesturableImg = new ImgTouchCanvas({
-            canvas: document.getElementById('mycanvas1'),
-            path: "./img/D2_Palliative_psychoncology_16June2015_en.png"
-        });
 
 
-  }]);
-
-myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer', 'Appointments', '$cordovaDatePicker','$filter', function($timeout, $scope, RequestToServer, Appointments,$cordovaDatePicker, $filter){
+/*myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer', 'Appointments', '$cordovaDatePicker','$filter', function($timeout, $scope, RequestToServer, Appointments,$cordovaDatePicker, $filter){
     var page = myNavigator.getCurrentPage();
     var parameters=page.options.param;
     $scope.today=(new Date()).setHours(0,0,0);
@@ -391,7 +384,7 @@ myApp.controller('RequestChangeController',['$timeout','$scope','RequestToServer
             $scope.changeSubmitted=true;
 
     };
-}]);
+}]);*/
 
 
 //Checking in the native calendar directly instead of the app service, userNativeCalendar

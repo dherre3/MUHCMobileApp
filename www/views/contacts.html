@@ -16,14 +16,14 @@
         </span>
       </ons-pull-hook>
     <ons-list >
-      <ons-list-header >Primary Doctor</ons-list-header>
+      <ons-list-header ng-show="primaryPhysician.length>0">Primary Doctor</ons-list-header>
 
-      <ons-list-item ng-click="goDoctorContact()" modifier="chevron">{{primaryPhysician.FirstName}} {{primaryPhysician.LastName}}</ons-list-item>
+      <ons-list-item ng-show="primaryPhysician.length>0" ng-click="goDoctorContact()" modifier="chevron">{{primaryPhysician[0].FirstName}} {{primaryPhysician[0].LastName}}</ons-list-item>
 
       <ons-list-header ng-show="oncologists.length>0">Oncologists</ons-list-header>
 
       <ons-list-item ng-repeat="doctor in oncologists" ng-click="goDoctorContact(doctor)" modifier="chevron"> {{doctor.FirstName}} {{doctor.LastName}}</ons-list-item>
-      
+
       <ons-list-header ng-show="otherDoctors.length>0">Other</ons-list-header>
       <ons-list-item ng-repeat="doctor in otherDoctors" ng-click="goDoctorContact(doctor)" modifier="chevron"> {{doctor.FirstName}} {{doctor.LastName}}</ons-list-item>
 

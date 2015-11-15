@@ -8,6 +8,14 @@
     </div>
     <div class="center">Check In</div>
   </ons-toolbar>
+  <ons-pull-hook ng-action="load($done)" var="loader" >
+<span ng-switch="loader.getCurrentState()">
+  <span ng-switch-when="initial"><ons-icon size="35px" icon="ion-arrow-down-a"></ons-icon> Pull down to refresh</span>
+  <span ng-switch-when="preaction"><ons-icon size="35px" icon="ion-arrow-up-a"></ons-icon> Release to refresh</span>
+  <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
+</span>
+</ons-pull-hook>
+
   <div class="container" ng-hide="noNotifications">
     <a style="text-decoration:none" href ng-click="menu.setMainPage('views/notifications.html',{closeMenu:true})">
       <alert align="center" ng-show="showAlert&&(Notifications==1)" ng-model="alert" type="success" close="closeAlert()">You have {{Notifications}} unseen notifications.
@@ -18,12 +26,13 @@
       </alert>
     </a>
   </div>
-  <div align="center" style="margin-top:25vh;width:100%" class="container">
-    <p style="color:grey">{{shownAppointmentText}}</p>
+  <div >
+  <div align="center" style="width:100%;padding-top:25vh" class="container">
+    <p style="color:grey;font-size:13px">{{shownAppointmentText}}</p>
     <ons-icon ng-show="sameDay && !infoReady" icon="spinner" size="40px" spin="true" fixed-width="true"></ons-icon>
-    <button type="button" ng-disabled='!enableCheckin' class="btn btn-success btn-circle btn-xl" ng-click="checkin()"><i class="fa fa-check-square-o"></i>
+    <button type="button" ng-disabled='!enableCheckin' class="btn btn-primary btn-circle btn-xl" ng-click="checkin()"><i class="fa fa-check-square-o"></i>
       <br>Checkin</button>
-    <p>{{alert.message}}</p>
-
+    <p style="font-size:13px">{{alert.message}}</p>
   </div>
+</div>
 </ons-page>
