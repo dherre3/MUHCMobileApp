@@ -11,7 +11,7 @@ angular.module('MUHCApp').controller('logOutController',['Auth','$rootScope','Us
 		}
 	//this.firebaseLink.set({logged: 'false'});
 		var firebaseLink=new Firebase('https://luminous-heat-8715.firebaseio.com/');
-		
+
 		//firebaseLink.child('Users/'+UserAuthorizationInfo.UserName).set({Logged: 'false'});
 		var authData = firebaseLink.getAuth();
 		firebaseLink.unauth();
@@ -40,6 +40,6 @@ angular.module('MUHCApp').controller('logOutController',['Auth','$rootScope','Us
 			},500);
 			$state.go('logIn.enter');
 		}*/
-		
-		
+
+
 }]);

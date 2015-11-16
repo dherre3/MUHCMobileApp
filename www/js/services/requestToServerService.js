@@ -44,15 +44,15 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
             }
             else if (typeOfRequest=='Checkin')
             {
-              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters:':{'AppointmentSerNum' : content}});
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'AppointmentSerNum' : content}});
             }
             else if (typeOfRequest=='MessageRead')
             {
-              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters:':{'MessageSerNum' : content }});
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'MessageSerNum' : content }});
             }
             else if (typeOfRequest=='NotificationRead')
             {
-              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters:':{'NotificationSerNum' : content }});
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'NotificationSerNum' : content }});
             }
 
         },

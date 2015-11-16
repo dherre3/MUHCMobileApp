@@ -1,10 +1,9 @@
 var myApp=angular.module('MUHCApp');
-myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFile', '$cordovaDevice','$cordovaNetwork', 'UserAuthorizationInfo','$q','$rootScope', function(UserPreferences,$cordovaFileTransfer,$cordovaFile,$cordovaDevice,$cordovaNetwork,UserAuthorizationInfo,$q,$rootScope){
+myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFile', '$cordovaDevice','$cordovaNetwork', 'UserAuthorizationInfo','$q','$rootScope', '$filter',function(UserPreferences,$cordovaFileTransfer,$cordovaFile,$cordovaDevice,$cordovaNetwork,UserAuthorizationInfo,$q,$rootScope,$filter){
 	return{
 		setDocuments:function(documents, mode){
 			console.log(documents);
 			this.Photos=[];
-			documents=undefined;
 			if(!documents) return;
 			if(mode==='Online'){
 				var keysDocuments=Object.keys(documents);
@@ -45,10 +44,11 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 							    });
 					}
 					var imageToPhotoObject={};
-					imageToPhotoObject.DocumentHospitalName_EN=documents[keysDocuments[i]].DocumentHospitalName_EN;
-					imageToPhotoObject.DocumentHospitalName_FR=documents[keysDocuments[i]].DocumentHospitalName_FR;
-					imageToPhotoObject.DocumentHospitalDescription_EN=documents[keysDocuments[i]].DocumentHospitalDescription_EN;
-					imageToPhotoObject.DocumentHospitalDescription_FR=documents[keysDocuments[i]].DocumentHospitalDescription_FR;
+					imageToPhotoObject.AliasName_EN=documents[keysDocuments[i]].AliasName_EN;
+					imageToPhotoObject.AliasName_FR=documents[keysDocuments[i]].AliasName_FR;
+					imageToPhotoObject.DateAdded=$filter('formatDate')(documents[keysDocuments[i]].DateAdded);
+					imageToPhotoObject.AliasDescription_EN=documents[keysDocuments[i]].AliasDescription_EN;
+					imageToPhotoObject.AliasDescription_FR=documents[keysDocuments[i]].AliasDescription_FR;
 					imageToPhotoObject.DocumentSerNum=documents[keysDocuments[i]].DocumentSerNum;
 					imageToPhotoObject.PathFileSystem=documents[keysDocuments[i]].PathFileSystem;
 					imageToPhotoObject.NameFileSystem=documents[keysDocuments[i]].NameFileSystem;
