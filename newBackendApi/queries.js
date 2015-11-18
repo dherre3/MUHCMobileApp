@@ -228,7 +228,12 @@ exports.getPatientFromUserId=function(userID)
 {
   return "SELECT UserTypeSerNum, UserSerNum FROM Users WHERE Username LIKE"+"\'"+ userID+"\'"+" AND UserType LIKE 'Patient'";
 }
-exports.logActivity=function(UserSerNum, request)
+exports.logActivity=function(requestObject)
 {
-  return "INSERT INTO patientactivitylog (`ActivitySerNum`,`UserSerNum`, `ActivityType`,`ActivityDescription` ,`ActivityDateTime`,`LastUpdated`) VALUES (NULL,'"+UserSerNum+ "', '"+request+"','no description',CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP )";
+  var parameters='';
+  if(typeof requestObject.Parameters!=='undefined'){
+    parameters=JSON.stringify(requestObject.Parameters);
+  }
+  console.log("INSERT INTO PatientActivityLog (`ActivitySerNum`,`Request`,`UserID`, `DeviceID`,`Parameters` ,`DateAdded`,`LastUpdated`) VALUES (NULL,'"+requestObject.Request+ "', '"+requestObject.UserID+ "', '"+requestObject.DeviceId+"', '"+parameters+"' , CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP )");
+  return "INSERT INTO PatientActivityLog (`ActivitySerNum`,`Request`,`UserID`, `DeviceID`,`Parameters` ,`DateAdded`,`LastUpdated`) VALUES (NULL,'"+requestObject.Request+ "', '"+requestObject.UserID+ "', '"+requestObject.DeviceId+"', '"+parameters+"' , CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP )";
 }

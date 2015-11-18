@@ -13,7 +13,7 @@ exports.update=function(requestObject)
   var objectToFirebase={};
   if(type=='Login')
   {
-    api.login(UserId).then(function(objectToFirebase){
+    api.login(requestObject).then(function(objectToFirebase){
       r.resolve(objectToFirebase);
     }).catch(function(response)
     {
@@ -22,7 +22,7 @@ exports.update=function(requestObject)
   }else if(type=='Refresh')
   {
 
-    api.refresh(UserId, parameters).then(function(objectToFirebase)
+    api.refresh(requestObject).then(function(objectToFirebase)
     {
       r.resolve(objectToFirebase);
     }).catch(function(response)

@@ -10,8 +10,9 @@ var validate = require('./validate.js');
  *@description Grabs all the tables for the user and updates them to firebase
  */
 
-exports.login = function (UserID) {
+exports.login = function (requestObject) {
     var r = Q.defer();
+    var UserID=requestObject.UserID;
     var objectToFirebase = {};
     if(!validate('Login',UserID))
     {
@@ -41,6 +42,7 @@ exports.login = function (UserID) {
                                       /*
                                        * Add additional fields for login in here!!!!
                                        */
+                                      sqlInterface.addToActivityLog(requestObject);
                                       r.resolve(objectToFirebase);
                                   });
                               });
@@ -63,7 +65,9 @@ exports.login = function (UserID) {
 *@parameter(string) Parameters, either an array of fields to be uploaded,
 or a single table field.
 */
-exports.refresh = function (UserID, parameters) {
+exports.refresh = function (requestObject) {
+    var UserID=requestObject.UserID;
+    var parameters=requestObject.Parameters;
     var r = Q.defer();
     var objectToFirebase = {};
     if(!validate("Defined",parameters))
@@ -80,10 +84,11 @@ exports.refresh = function (UserID, parameters) {
         queue.enqueueArray(paramArray);
         sqlInterface.cascadeFunction(UserID, queue, {}).then(function (rows) {
             objectToFirebase = rows;
+            sqlInterface.addToActivityLog(requestObject);
             r.resolve(objectToFirebase);
         });
     } else if(parameters=='All'){
-      exports.login(UserID).then(function(objectToFirebase){
+      exports.login(requestObject).then(function(objectToFirebase){
         r.resolve(objectToFirebase);
       });
     }else {
@@ -93,6 +98,7 @@ exports.refresh = function (UserID, parameters) {
         //validate(parameters)
         sqlInterface.refreshField(UserID, parameters).then(function (rows) {
             objectToFirebase = rows;
+            sqlInterface.addToActivityLog(requestObject);
             r.resolve(objectToFirebase);
         });
     }
@@ -109,6 +115,7 @@ exports.readMessage = function (requestObject) {
         r.reject('Invalid');
     } else {
         sqlInterface.readMessage(requestObject).then(function (response) {
+            sqlInterface.addToActivityLog(requestObject);
             r.resolve(response);
         });
     }
@@ -120,7 +127,8 @@ exports.readNotification = function (requestObject) {
         r.reject('Invalid');
     } else {
         sqlInterface.readNotification(requestObject).then(function (requestObject) {
-            r.resolve(requestObject);
+          sqlInterface.addToActivityLog(requestObject);
+          r.resolve(requestObject);
         });
     }
     return r.promise;
@@ -131,7 +139,8 @@ exports.checkIn = function (requestObject) {
         r.reject('Invalid');
     } else {
         sqlInterface.checkIn(requestObject).then(function (requestObject) {
-            r.resolve(requestObject);
+          sqlInterface.addToActivityLog(requestObject);
+          r.resolve(requestObject);
         });
     }
     return r.promise;
@@ -143,6 +152,7 @@ exports.accountChange = function (requestObject) {
         r.reject('Invalid');
     } else {
         sqlInterface.updateAccountField(requestObject).then(function (requestObject) {
+            sqlInterface.addToActivityLog(requestObject);
             r.resolve(requestObject);
         });
     }
@@ -155,6 +165,7 @@ exports.inputFeedback=function(requestObject)
       r.reject('Invalid');
   } else {
       sqlInterface.inputFeedback(requestObject).then(function (requestObject) {
+          sqlInterface.addToActivityLog(requestObject);
           r.resolve(requestObject);
       });
   }
@@ -179,8 +190,9 @@ exports.sendMessage=function(requestObject)
       r.reject('Invalid');
   } else {
 
-      sqlInterface.sendMessage(requestObject).then(function (requestObject) {
-          r.resolve(requestObject);
+      sqlInterface.sendMessage(requestObject).then(function (objectRequest) {
+          sqlInterface.addToActivityLog(requestObject);
+          r.resolve(objectRequest);
       });
   }
   return r.promise;

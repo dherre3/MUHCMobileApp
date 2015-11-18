@@ -261,20 +261,21 @@ exports.inputFeedback=function(requestObject)
   });
   return r.promise;
 }
-
+exports.addToActivityLog=function(requestObject)
+{
+  connection.query(queries.logActivity(requestObject),
+  function(error, rows, fields)
+  {
+    console.log(rows);
+  });
+}
 exports.logActivity=function(requestObject)
 {
   var r =Q.defer();
-  var UserID=requestObject.UserID;
-  getPatientFromUserID(UserID).then(function(user)
+  connection.query(queries.logActivity(requestObject),
+  function(error, rows, fields)
   {
-    var userSerNum=user.UserSerNum;
-    var type=requestObject.Request;
-    connection.query(queries.logActivity(userSerNum,type),
-    function(error, rows, fields)
-    {
-      r.resolve(requestObject);
-    });
+    r.resolve(requestObject);
   });
   return r.promise;
 }
