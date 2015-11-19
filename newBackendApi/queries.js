@@ -87,24 +87,24 @@ exports.patientAppointmentsQuery=function(userID)
                       'Alias.AliasName_FR AS AppointmentType_FR, '+
                       'Alias.AliasDescription_EN AS AppointmentDescription_EN, '+
                       'Alias.AliasDescription_FR AS AppointmentDescription_FR, '+
-                      'Appointments.ScheduledStartTime, '+
-                      'Appointments.AppointmentSerNum, '+
-                      'Appointments.ScheduledEndTime, '+
-                      'Appointments.Location, '+
-                      'Appointments.Checkin, '+
-                      'Appointments.ChangeRequest, '+
+                      'Appointment.ScheduledStartTime, '+
+                      'Appointment.AppointmentSerNum, '+
+                      'Appointment.ScheduledEndTime, '+
+                      'Appointment.Location, '+
+                      'Appointment.Checkin, '+
+                      'Appointment.ChangeRequest, '+
                       'Resource.ResourceName '+
                     'From '+
-                      'Appointments, '+
+                      'Appointment, '+
                       'AliasExpression, '+
                       'Alias, ' +
                       'Resource, '+
                       'Patient, '+
                       'Users ' +
                     'WHERE '+
-                      'Resource.ResourceSerNum = Appointments.ResourceSerNum AND '+
-                      'Patient.PatientSerNum = Appointments.PatientSerNum AND '+
-                      'AliasExpression.AliasExpressionSerNum=Appointments.AliasExpressionSerNum AND '+
+                      'Resource.ResourceSerNum = Appointment.ResourceSerNum AND '+
+                      'Patient.PatientSerNum = Appointment.PatientSerNum AND '+
+                      'AliasExpression.AliasExpressionSerNum=Appointment.AliasExpressionSerNum AND '+
                       'AliasExpression.AliasSerNum=Alias.AliasSerNum AND '+
                       'Users.UserTypeSerNum=Patient.PatientSerNum AND '+
                       'Users.Username Like '+"'"+ userID+"'";
@@ -113,24 +113,24 @@ exports.patientAppointmentsQuery=function(userID)
 exports.patientDocumentsQuery=function(userID)
 {
   return 'SELECT '+
-                      'Documents.FinalFileName, '+
+                      'Document.FinalFileName, '+
                       'Alias.AliasName_EN, ' +
                       'Alias.AliasName_FR, '+
                       'Alias.AliasDescription_EN, '+
                       'Alias.AliasDescription_FR, '+
-                      'Documents.DocumentSerNum, ' +
-                      'Documents.DateAdded ' +
+                      'Document.DocumentSerNum, ' +
+                      'Document.DateAdded ' +
                     'From '+
-                      'Documents,'+
+                      'Document,'+
                       'Patient, '+
                       'Alias, '+
                       'AliasExpression, ' +
                       'Users ' +
 
                     'WHERE '+
-                      'Documents.AliasExpressionSerNum = AliasExpression.AliasExpressionSerNum AND '+
+                      'Document.AliasExpressionSerNum = AliasExpression.AliasExpressionSerNum AND '+
                       'AliasExpression.AliasSerNum = Alias.AliasSerNum AND '+
-                      'Patient.PatientSerNum = Documents.PatientSerNum AND '+
+                      'Patient.PatientSerNum = Document.PatientSerNum AND '+
                       'Users.UserTypeSerNum=Patient.PatientSerNum AND '+
                       'Users.Username Like '+"'"+ userID+"'";
 
@@ -180,15 +180,15 @@ exports.patientTasksQuery=function(userID)
 {
   return 'SELECT '+
              'AliasExpression.ExpressionName AS TasksName, '+
-             'Tasks.DueDateTime '+
+             'Task.DueDateTime '+
            'From '+
-             'Tasks, '+
+             'Task, '+
              'AliasExpression, '+
              'Patient, '+
              'Users '+
            'WHERE '+
-             'Patient.PatientSerNum = Tasks.PatientSerNum AND ' +
-             'AliasExpression.AliasExpressionSerNum = Tasks.AliasExpressionSerNum AND '+
+             'Patient.PatientSerNum = Task.PatientSerNum AND ' +
+             'AliasExpression.AliasExpressionSerNum = Task.AliasExpressionSerNum AND '+
              'Users.UserTypeSerNum=Patient.PatientSerNum AND '+
              'Users.Username Like '+"'"+ userID+"'";
 }
@@ -198,7 +198,7 @@ exports.readMessage=function(MessageSerNum)
 }
 exports.checkin=function(AppointmentSerNum)
 {
-  return "UPDATE Appointments SET Checkin=1 WHERE Appointments.Checkin=0 AND Appointments.AppointmentSerNum='"+AppointmentSerNum+"'";
+  return "UPDATE Appointment SET Checkin=1 WHERE Appointment.Checkin=0 AND Appointment.AppointmentSerNum='"+AppointmentSerNum+"'";
 }
 exports.readNotification=function(NotificationSerNum)
 {

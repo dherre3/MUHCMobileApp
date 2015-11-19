@@ -177,9 +177,9 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
             objectToSend.NewValue=$scope.newValue;
             RequestToServer.sendRequest('AccountChange',objectToSend);
             $timeout(function(){
-
+                RequestToServer.sendRequest('Refresh','Patient');
                 $scope.newUpdate=true;
-                UpdateUI.UpdateUserFields();
+                UpdateUI.UpdateSection('Patient');
             },2000);
         }
     };
@@ -236,11 +236,9 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
                     RequestToServer.sendRequest('AccountChange',objectToSend);
                     UserAuthorizationInfo.setPassword($scope.newValue);
                     $timeout(function(){
-                        UpdateUI.UpdateUserFields().then(function(){
-                            $scope.updateMessage='User password was successfully changed!';
-                            $scope.newUpdate=true;
-                        });
-                    },2000);
+                        $scope.updateMessage='User password was successfully changed!';
+                        $scope.newUpdate=true;
+                    });
                     console.log("User password changed successfully!");
                 }
             });
