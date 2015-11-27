@@ -16,15 +16,15 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 							var platform=$cordovaDevice.getPlatform();
 							var targetPath='';
 							if(platform==='Android'){
-														download(url, filePath, options, trustHosts)
-						    	targetPath = cordova.file.dataDirectory+'/MUHC/docMUHC'+documents[keysDocuments[i]].DocumentSerNum;
+														//download(url, filePath, options, trustHosts)
+						    	targetPath = cordova.file.dataDirectory+'/MUHC/docMUHC'+documents[keysDocuments[i]].DocumentSerNum+".jpg";
 							}else if(platform==='iOS'){
-								targetPath = cordova.file.documentsDirectory+ '/MUHC/docMUHC'+documents[keysDocuments[i]].DocumentSerNum;
+								targetPath = cordova.file.documentsDirectory+ '/MUHC/docMUHC'+documents[keysDocuments[i]].DocumentSerNum+".jpg";
 							}
 							var url = documents[keysDocuments[i]].Content;
 						    var trustHosts = true
 						    var options = {};
-						    documents[keysDocuments[i]].NameFileSystem='MUHCAppimg'+i+".png";
+						    documents[keysDocuments[i]].NameFileSystem='MUHCAppimg'+i+".jpg";
 						    documents[keysDocuments[i]].PathFileSystem=cordova.file.dataDirectory;
 						    $cordovaFileTransfer.download(url, targetPath, options, trustHosts)
 						      .then(function(result) {

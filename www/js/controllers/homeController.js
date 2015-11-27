@@ -32,9 +32,8 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         */
         homePageInit();
         $scope.load = function($done) {
-
+          RequestToServer.sendRequest('Refresh','All');
           $timeout(function() {
-            RequestToServer.sendRequest('Refresh','All');
             loadInfo();
                 $done();
           }, 3000);
@@ -47,52 +46,64 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
           });
        }
         function homePageInit(){
-        if(UserPlanWorkflow.isEmpty())
-        {
-          if(UserPlanWorkflow.isCompleted()){
-            $scope.status='In Treatment';
-          }else{
-            $scope.status='Radiotherapy Treatment Planning';
-          }
-        }else{
-          $scope.status='No treatment plan available!';
-        }
-
-        if(CheckinService.haveNextAppointmentToday())
-        {
-          if(!CheckinService.isAlreadyCheckedin())
+          //Setting up status
+          if(UserPlanWorkflow.isEmpty())
           {
-              if(CheckinService.isAllowedToCheckin())
+            if(UserPlanWorkflow.isCompleted()){
+              $scope.status='In Treatment';
+            }else{
+              $scope.status='Radiotherapy Treatment Planning';
+            }
+          }else{
+            $scope.status='No treatment plan available!';
+          }
+          //Next appointment information
+          if(Appointments.isThereAppointments())
+          {
+            if(Appointments.isThereNextAppointment()){
+                var nextAppointment=Appointments.getUpcomingAppointment();
+                $scope.noAppointments=false;
+                $scope.appointmentShown=nextAppointment;
+                $scope.titleAppointmentsHome='Next Appointment';
+            }else{
+              var lastAppointment=Appointments.getLastAppointmentCompleted();
+              $scope.nextAppointmentIsToday=false;
+              $scope.appointmentShown=lastAppointment;
+              $scope.titleAppointmentsHome='Last Appointment';
+            }
+          }else{
+              $scope.noAppointments=true;
+          }
+          //Checking if user is allowed to checkin
+          $scope.enableCheckin=false;
+          if(CheckinService.haveNextAppointmentToday())
+          {
+            if(!CheckinService.isAlreadyCheckedin())
+            {
+              $scope.loading=true;
+              CheckinService.isAllowedToCheckin().then(function(response)
               {
-                $scope.enableCheckin=true;
-              }else{
-                $scope.enableCheckin=false;
-              }
+                if(response)
+                {
+                  console.log(response);
+                  $timeout(function(){
+                    $scope.enableCheckin=true;
+                    $scope.loading=false;
+                  });
+                }else{
+                  $scope.loading=false;
+                  $scope.enableCheckin=false;
+                }
+              });
+            }else{
+              $scope.enableCheckin=false;
+            }
           }else{
             $scope.enableCheckin=false;
           }
-        }else{
-          $scope.enableCheckin=false;
-        }
 
-        if(Appointments.isThereAppointments())
-        {
-          if(Appointments.isThereNextAppointment()){
-              var nextAppointment=Appointments.getUpcomingAppointment();
-              $scope.noAppointments=false;
-              $scope.appointmentShown=nextAppointment;
-              $scope.titleAppointmentsHome='Next Appointment';
-          }else{
-            var lastAppointment=Appointments.getLastAppointmentCompleted();
-            $scope.nextAppointmentIsToday=false;
-            $scope.appointmentShown=lastAppointment;
-            $scope.titleAppointmentsHome='Last Appointment';
-          }
-        }else{
-            $scope.noAppointments=true;
-        }
 
-        $scope.Email=Patient.getEmail();
+        //Basic patient information
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();
         $scope.ProfileImage=Patient.getProfileImage();

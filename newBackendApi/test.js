@@ -3,5 +3,6 @@ function solution(S) {
     var array=S.split('\n');
     for (var i = 0; i < array.length; i++) {
       var valuesArray=array[i].split(',');
+
     }
 }

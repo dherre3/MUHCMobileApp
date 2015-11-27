@@ -408,10 +408,14 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
         },
         checkinNextAppointment:function()
         {
+          console.log()
           this.FutureAppointments[0].Checkin='1';
           var nextAppointmentSerNum=this.FutureAppointments[0].AppointmentSerNum;
+          console.log(this.FutureAppointments[0].AppointmentSerNum);
+          console.log(this.TodayAppointments);
           var index=findAppointmentIndexInArray(this.TodayAppointments, nextAppointmentSerNum);
-          this.TodayAppointments[index].Checkin='1'
+
+          this.TodayAppointments[index].Checkin='1';
           this.UserAppointmentsArray[this.NextAppointment.Index].Checkin='1';
 
         },

@@ -33,6 +33,12 @@
     <button type="button" ng-disabled='!enableCheckin' class="btn btn-primary btn-circle btn-xl" ng-click="checkin()"><i class="fa fa-check-square-o"></i>
       <br>Checkin</button>
     <p style="font-size:13px">{{alert.message}}</p>
+    <div ng-show="loading">
+      <div class="progress-bar progress-bar--indeterminate">
+        <div class="progress-bar__primary"></div>
+        <div class="progress-bar__secondary"></div>
+      </div>
+    </div>
   </div>
 </div>
 </ons-page>

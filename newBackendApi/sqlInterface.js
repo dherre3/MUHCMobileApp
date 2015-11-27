@@ -317,6 +317,10 @@ var LoadDocuments = function (rows)
     if (Object.keys(rows).length==0) { deferred.resolve('All images were loaded!'); }
     for (var key in rows)
     {
+
+      var n = rows[key].FinalFileName.lastIndexOf(".");
+      var substring=str.substring(n+1,rows[key].FinalFileName.length);
+      rows[key].DocumentType=substring;
       rows[key].Content=filesystem.readFileSync(__dirname +  '/Documents/' + rows[key].FinalFileName,'base64' );
 
       imageCounter++;

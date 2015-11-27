@@ -19,7 +19,7 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
-    <icon src="www/img/logo.png" />
+    <icon src="www/img/logoAppIconMUHC.png" />
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
