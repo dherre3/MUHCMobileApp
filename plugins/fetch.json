@@ -7,70 +7,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "org.apache.cordova.geolocation": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.geolocation"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.file": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.file"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.file-transfer": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.file-transfer"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.network-information": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.network-information"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.battery-status": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.battery-status"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.dialogs": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.dialogs"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.vibration": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.vibration"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "org.apache.cordova.device": {
-        "source": {
-            "type": "registry",
-            "id": "org.apache.cordova.device"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "io.github.pwlin.cordova.plugins.fileopener2": {
         "source": {
             "type": "git",
@@ -108,6 +44,55 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-geolocation"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-network-information": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-network-information"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-file": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-file"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-file-transfer": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-file-transfer"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-vibration": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-vibration"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-dialogs"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-calendar": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin.git",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}

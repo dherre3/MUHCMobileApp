@@ -52,9 +52,20 @@ var exports=module.exports=function(type, parameters)
     }
   }else if(type=='Digit')
   {
+
     var param=parameters.Parameters;
+    console.log(param);
     var Reg=new RegExp('^[0-9]+$');
-    if(Reg.test(param.MessageSerNum))
+    var testValue='0';
+    if(param.MessageSerNum)
+    {
+      testValue=param.MessageSerNum;
+    }else if(param.NotificationSerNum)
+    {
+      testValue=param.NotificationSerNum;
+    }
+
+    if(Reg.test(testValue))
     {
       return true;
     }else{

@@ -1,18 +1,19 @@
 var myApp=angular.module('MUHCApp');
-myApp.service('Doctors',function(){
+myApp.service('Doctors',function($filter){
     return{
         setUserContacts:function(doctors)
-        {   
+        {
             this.Doctors=[];
             this.Oncologists=[];
             this.OtherDoctors=[];
-            this.PrimaryPhysician={};
-            if(doctors!==undefined){
+            this.PrimaryPhysician=[];
+            if(doctors!==undefined&&doctors){
+
                 var doctorKeyArray=Object.keys(doctors);
                 for (var i = 0; i < doctorKeyArray.length; i++) {
-                   
+
                    if(doctors[doctorKeyArray[i]].PrimaryFlag==1){
-                        this.PrimaryPhysician=doctors[doctorKeyArray[i]];
+                        this.PrimaryPhysician.push(doctors[doctorKeyArray[i]]);
                    }else if(doctors[doctorKeyArray[i]].OncologistFlag==1)
                    {
                         this.Oncologists.push(doctors[doctorKeyArray[i]]);
@@ -21,13 +22,25 @@ myApp.service('Doctors',function(){
                    }
                    this.Doctors.push(doctors[doctorKeyArray[i]]);
                 };
+                this.Oncologists=$filter('orderBy')(this.Oncologists,'LastName',false);
+                this.Doctors=$filter('orderBy')(this.Doctors,'LastName',false);
+                this.OtherDoctors=$filter('orderBy')(this.OtherDoctors,'LastName',false);
+
             }
+        },
+        isEmpty:function()
+        {
+          if(this.Doctors.length==0)
+          {
+            return true;
+          }else{
+            return false;
+          }
         },
         getContacts:function(){
             return this.Doctors;
         },
         getPrimaryPhysician:function(){
-            console.log(this.PrimaryPhysician);
             return this.PrimaryPhysician;
         },
         getOncologists:function(){

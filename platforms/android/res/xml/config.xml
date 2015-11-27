@@ -1,36 +1,48 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.example.hello" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.muhc.opal" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Battery">
+        <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="Calendar">
+        <param name="android-package" value="nl.xservices.plugins.Calendar" />
+    </feature>
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="FileOpener2">
+        <param name="android-package" value="io.github.pwlin.cordova.plugins.fileopener2.FileOpener2" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
     <feature name="File">
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="FileTransfer">
-        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
-    </feature>
-    <feature name="NetworkStatus">
-        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
-    </feature>
-    <feature name="Battery">
-        <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener" />
-    </feature>
-    <feature name="Notification">
-        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
-    </feature>
-    <feature name="Vibration">
-        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
-    </feature>
-    <feature name="Device">
-        <param name="android-package" value="org.apache.cordova.device.Device" />
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
     <allow-intent href="market:*" />
     <name>MUHC</name>
     <description>
-        An app for radioation oncology patients at the MUHC Glen site to provide patients with their personalized data, and give them an estimate of waiting times specific to their treatment using machine learning algorithms
+        An app for radioation oncology patients at the MUHC Glen site to provide patients with their personalized data, and give them an estimate of waiting times specific to their treatment plan using machine learning algorithms
     </description>
     <author email="davidfherrerar@gmail.com" href="http://cordova.io">
         David F. Herrera
@@ -44,10 +56,4 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <icon src="www/img/logo.png" />
-    <feature name="FileOpener2">
-        <param name="android-package" value="io.github.pwlin.cordova.plugins.fileopener2.FileOpener2" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
-    </feature>
 </widget>

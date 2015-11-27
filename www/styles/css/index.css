@@ -1184,6 +1184,9 @@ p{
   color: #2B6197;
   text-align: center;
 }
+.themeCardTitle{
+  line-height: 1.2;
+}
 /**
 *Status bar for progress
 *

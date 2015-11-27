@@ -1,6 +1,6 @@
 
 var myApp=angular.module('MUHCApp')
-    
+
     /**
 *@ngdoc controller
 *@name MUHCApp.controller:LoginController
@@ -20,18 +20,28 @@ var myApp=angular.module('MUHCApp')
     if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
-        RequestToServer.sendRequest('Refresh');
-        $state.go('loading');
-    }   
-    //Creating reference to firebase link 
-    $scope.submit = function (email, password) {
-        signin(email, password);
+        RequestToServer.setIdentifier().then(function(uuid)
+        {
+          console.log(uuid);
+            RequestToServer.sendRequest('Login');
+            $state.go('loading');
+        });
+    }
+    $scope.signup={};
+
+    //Creating reference to firebase link
+    $scope.submit = function () {
+        $scope.signup.password='12345';
+        $scope.signup.email='muhc.app.mobile@gmail.com';
+        signin('muhc.app.mobile@gmail.com', '12345');
+
     };
+
     function signin(email, password){
-        var myDataRef = new Firebase('https://luminous-heat-8715.firebaseio.com');
+        var myDataRef = new Firebase('https://brilliant-inferno-7679.firebaseio.com');
         var username = email;
         var password = password;
-        
+
        // window.localStorage.setItem('pass', password);
        // console.log(window.localStorage.getItem('pass'));
         /**
@@ -51,40 +61,30 @@ var myApp=angular.module('MUHCApp')
                 clearText();
                 console.log("Login Failed!", error);
             } else {
+                RequestToServer.setIdentifier().then(function(uuid)
+                {
+                  RequestToServer.sendRequest('Login',userId);
+                  $state.go('loading');
+                });
                 userId = authData.uid;
                 //Obtaining fields links for patient's firebase
-
-                
                 var patientLoginRequest='request/'+userId;
                 var patientDataFields='Users/'+userId;
-
                 //Updating Patients references to signal backend to upload data
                 myDataRef.child(patientLoginRequest).update({LogIn:true});
                 UserAuthorizationInfo.setUserAuthData(authData.uid, $scope.signup.password, authData.expires);
-                RequestToServer.sendRequest('Login',userId);
-
                 //Setting The User Object for global Application Use
                 authenticationToLocalStorage={};
                 authenticationToLocalStorage={
                         UserName:authData.uid,
                         Password:$scope.signup.password,
                         Expires:authData.expires,
-                        Email:$scope.signup.email                   
+                        Email:$scope.signup.email
                 }
-
                 $rootScope.refresh=true;
                 window.localStorage.setItem('UserAuthorizationInfo', JSON.stringify(authenticationToLocalStorage));
                 window.localStorage.setItem('pass', $scope.signup.password);
-                
                 console.log(UserAuthorizationInfo.getUserAuthData());
-                //Telling the app to delete all the fields once there is a firebase disconnect, or a page refresh 
-                //firebase i.e. the user logs out. 
-                //myDataRef.child(patientDataFields).onDisconnect().set({Logged:false});
-                myDataRef.child(patientLoginRequest).onDisconnect().update({LogIn:false});
-                //console.log(UserAuthorizationInfo.UserToken);
-
-                //quickWriteUp(data);
-                $state.go('loading');
                 console.log("Authenticated successfully with payload:", authData);
             }
         }
@@ -137,6 +137,20 @@ var myApp=angular.module('MUHCApp')
             //$('<div/>').text(text).appendTo($('#addMe'));
             $('#addMe')[0].scrollTop = $('#addMe')[0].scrollHeight;
         }
-        }   
+        }
     }
 }]);
+
+/**
+
+@@ -22,11 +22,17 @@ var myApp=angular.module('MUHCApp')
+        UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
+        RequestToServer.sendRequest('Refresh');
+        $state.go('loading');
+    }
+    //Creating reference to firebase link
+    $scope.submit = function (email, password) {
+        signin(email, password);
+        }
+
+    **/

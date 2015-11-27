@@ -5,17 +5,12 @@ angular.module('MUHCApp')
     //console.log(Patient.getFirstName());
     //var setNameFunction= Patient.setFirstName('as');
     $scope.closeAlert = function () {
-   
+
         $rootScope.showAlert=false;
     };
-    var updatedField=null;
-    //setTimeout(function () {
-    //    $scope.$apply(function () {
-        
         function loadInfo(){
-                var UserData=UpdateUI.UpdateUserFields();
-                UserData.then(function(dataValues){
-                    $timeout(function(){
+                var UserData=UpdateUI.UpdateSection('Patient');
+                UserData.then(function(){
                             $scope.FirstName = Patient.getFirstName();
                             $scope.LastName = Patient.getLastName();
                             $scope.Email = Patient.getEmail();
@@ -23,62 +18,45 @@ angular.module('MUHCApp')
                             $scope.smsPreference=UserPreferences.getEnableSMS();
                             $scope.Language=UserPreferences.getLanguage();
                             $scope.passwordLength=(window.localStorage.getItem('pass')).length;
-                        });
-                    
-                },function(error){
-                    console.log(error);
+                            $scope.ProfilePicture=Patient.getProfileImage();
                 });
         };
 
 
          $scope.load2 = function($done) {
-        RequestToServer.sendRequest('Refresh');
+        RequestToServer.sendRequest('Refresh','Patient');
           $timeout(function() {
             loadInfo();
                 $done();
-                
-          }, 2000);
+          }, 3000);
         };
-    $scope.passFill='********';
-    $scope.mobilePlatform=(ons.platform.isIOS()||ons.platform.isAndroid());
+    accountInit();
+    myNavigatorAccount.on('postpop',function(){
+      $timeout(function(){
+        accountInit();
+      });
 
-    $scope.editingDiv = {
-        //editFirstNameDiv: false,
-        //editLastNameDiv: false,
-        editEmailDiv: false,
-        editTelNumDiv: false,
-        editLanDiv: false,
-        editPasswordDiv: false,
-        editSMSDiv:false
+    });
+    function accountInit(){
+      var nativeCalendar=Number(window.localStorage.getItem('NativeCalendar'));
+      $scope.passFill='********';
+      $scope.mobilePlatform=(ons.platform.isIOS()||ons.platform.isAndroid());
+      (nativeCalendar)?$scope.checkboxModelCalendar=nativeCalendar:$scope.checkboxModelCalendar=0;
+      $scope.checkboxModel=UserPreferences.getEnableSMS();
+      $scope.FirstName = Patient.getFirstName();
+      $scope.LastName = Patient.getLastName();
+      $scope.Email = Patient.getEmail();
+      $scope.TelNum = Patient.getTelNum();
+      $scope.Language=UserPreferences.getLanguage();
+      $scope.ProfilePicture=Patient.getProfileImage();
 
-    };
-
-    function printError(error) {
-        console.log(error);
+      if((window.localStorage.getItem('pass')).length>7){
+          $scope.passwordLength=7;
+      }else{
+          $scope.passwordLength=window.localStorage.getItem('pass').length;
+      }
     }
-    $scope.hideSectionsBut = function (onlyDivToShow) {
-        for (var div in $scope.editingDiv) {
-            if (div !== onlyDivToShow) {
-                //console.log($scope.editingDiv[div]);
-                $scope.editingDiv[div] = false;
 
-            }
-
-        }
-    };
-    var nativeCalendar=window.localStorage.getItem('NativeCalendar');
-    (nativeCalendar)?$scope.checkboxModelCalendar=nativeCalendar:$scope.checkboxModelCalendar=0;
-    $scope.checkboxModel=UserPreferences.getEnableSMS();
-    $scope.FirstName = Patient.getFirstName();
-    $scope.LastName = Patient.getLastName();
-    $scope.Email = Patient.getEmail();
-    $scope.TelNum = Patient.getTelNum();
-    $scope.Language=UserPreferences.getLanguage();
-    if((window.localStorage.getItem('pass')).length>7){
-        $scope.passwordLength=7;
-    }else{
-        $scope.passwordLength=window.localStorage.getItem('pass').length;
-    }
     $scope.saveSettings=function(option){
         if($scope.mobilePlatform){
             var message=''
@@ -122,7 +100,7 @@ angular.module('MUHCApp')
                         })
                     }
                 }
-                
+
             }
         }else{
              if(option==='EnableSMS'){
@@ -130,46 +108,11 @@ angular.module('MUHCApp')
                 objectToSend.FieldToChange='EnableSMS';
                 objectToSend.NewValue=$scope.checkboxModel;
                 UserPreferences.setEnableSMS(objectToSend.NewValue);
-                RequestToServer.sendRequest('AccountChange',objectToSend); 
+                RequestToServer.sendRequest('AccountChange',objectToSend);
             }
         }
 
     };
-   // console.log($scope.Language);
-   // console.log($scope.smsPreference);
-    $scope.changeField = function (fieldToChange) {
-        console.log(fieldToChange);
-        if (fieldToChange === 'Password' || fieldToChange === 'Email') {
-            var ref = new Firebase("https://luminous-heat-8715.firebaseio.com");
-            if (fieldToChange === 'Password') {
-                changePassword();
-            } else {
-                changeEmail();
-
-            }
-           
-
-        }else{
-                function alertDismissed() {
-    // do something
-  }
-
-  navigator.notification.alert(
-     'You are the winner!',  // message
-     alertDismissed,         // callback
-      'Game Over',            // title
-      'Done'                  // buttonName
-  );
-    //console.log(Patient.FirstName);
-    // Patient.setFirstName('david');
-   // console.log(Patient.getFirstName());
-
-        }
-    };
-
-
-//Auxiliary functions to change the respective sections
-    
 }]);
 
 
@@ -240,9 +183,9 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
             objectToSend.NewValue=$scope.newValue;
             RequestToServer.sendRequest('AccountChange',objectToSend);
             $timeout(function(){
-
+                RequestToServer.sendRequest('Refresh','Patient');
                 $scope.newUpdate=true;
-                UpdateUI.UpdateUserFields();
+                UpdateUI.UpdateSection('Patient');
             },2000);
         }
     };
@@ -261,7 +204,7 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
             $translate.use('fr');
         }
         $scope.newUpdate=true;
-        
+
     };
 
 
@@ -289,7 +232,7 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
                                $scope.newUpdate=true;
                                $scope.updateMessage='Error changing your Password!';
                             });
-                            
+
                             console.log("Error changing password:", error);
                     }
                 } else {
@@ -299,11 +242,9 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
                     RequestToServer.sendRequest('AccountChange',objectToSend);
                     UserAuthorizationInfo.setPassword($scope.newValue);
                     $timeout(function(){
-                        UpdateUI.UpdateUserFields().then(function(){
-                            $scope.updateMessage='User password was successfully changed!';
-                            $scope.newUpdate=true;
-                        }); 
-                    },2000);
+                        $scope.updateMessage='User password was successfully changed!';
+                        $scope.newUpdate=true;
+                    });
                     console.log("User password changed successfully!");
                 }
             });
@@ -311,7 +252,7 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
 
     function changeEmail() {
         var ref = new Firebase("https://luminous-heat-8715.firebaseio.com");
-        
+
         ref.changeEmail({
             oldEmail: Patient.getEmail(),
             newEmail: $scope.newValue,
@@ -322,7 +263,7 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
                    $scope.alertClass="bg-danger updateMessage-error";
                    $scope.newUpdate=true;
                    $scope.updateMessage='Password is not correct!';
-                });      
+                });
                 console.log("Error changing email:", error);
             } else {
                 var objectToSend={};
@@ -334,7 +275,7 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
                     UpdateUI.UpdateUserFields().then(function(){
                         $scope.updateMessage='User email was successfully updated!';
                         $scope.newUpdate=true;
-                    }); 
+                    });
                 },2000);
             }
         });

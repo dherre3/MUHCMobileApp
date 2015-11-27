@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.example.hello" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.muhc.opal" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MUHC</name>
     <description>
-        An app for radioation oncology patients at the MUHC Glen site to provide patients with their personalized data, and give them an estimate of waiting times specific to their treatment using machine learning algorithms
+        An app for radioation oncology patients at the MUHC Glen site to provide patients with their personalized data, and give them an estimate of waiting times specific to their treatment plan using machine learning algorithms
     </description>
     <author email="davidfherrerar@gmail.com" href="http://cordova.io">
         David F. Herrera
@@ -23,5 +23,7 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <preference name="Orientation" value="all" />
     </platform>
+
 </widget>

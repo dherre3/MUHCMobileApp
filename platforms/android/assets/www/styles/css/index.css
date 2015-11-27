@@ -22,6 +22,9 @@
 a:hover {
     text-decoration: none;
 }
+*{
+  text-overflow: ellipsis;
+}
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
@@ -105,7 +108,7 @@ h1 {
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 @-webkit-keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
@@ -131,17 +134,17 @@ Password view
     -webkit-animation: spinw .7s infinite linear;
     -moz-animation: spinm .7s infinite linear;
 }
- 
+
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
 }
-  
+
 @-webkit-keyframes spinw {
     from { -webkit-transform: rotate(0deg);}
     to { -webkit-transform: rotate(360deg);}
 }
- 
+
 @-moz-keyframes spinm {
     from { -moz-transform: rotate(0deg);}
     to { -moz-transform: rotate(360deg);}
@@ -157,7 +160,7 @@ img
   Main menu css
 */
 .page--menu-page__background {
-  background-color: #333;
+  background-color: #EBEBEA;
 }
 
 .page--menu-page__content {
@@ -176,14 +179,15 @@ img
   background-color: transparent;
   background-image: none !important;
   border-color: transparent;
-  color: #fff;
+  color: #2B6197;
 }
 
 .menu-item {
+  color:#2B6197;
   padding: 0 0 0 20px;
   line-height: 52px;
   height: 52px;
-  text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0px;
+  /*text-shadow: rgba(0, 0, 0, 0.4) 0px 1px 0px;*/
 }
 
 .menu-item:active {
@@ -193,7 +197,7 @@ img
 .menu-notification {
   display: inline-block;
   margin-top: 12px;
-  font-size: 14px;
+
   height: 16px;
   line-height: 16px;
   min-width: 16px;
@@ -204,10 +208,10 @@ img
 .bottom-menu-item:first-child,
 .bottom-menu-item:last-child,
 .bottom-menu-item {
-  border-color: #393939;
+  border-color: #2B6197;
   background-color: transparent;
   background-image: none !important;
-  color: #ccc;
+  color: #626262;
 }
 
 .bottom-menu-item:active {
@@ -226,6 +230,21 @@ img
   vertical-align: 0;
   background: #eee;
   display:inline-block;
+}
+
+
+/*
+
+*Checkin button
+
+*/
+.btn-circle.btn-xl {
+  width: 100px;
+  height: 100px;
+  padding: 5px 16px;
+  font-size: 18px;
+  line-height: 1.00;
+  border-radius: 50px;
 }
 /*Onsen's carouse;*/
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -282,7 +301,7 @@ img
 }
 
 .profile-name {
-  margin: 20px 0 0 0;
+  margin: -3px 0 0 0;
   font-weight: 600;
   font-size: 17px;
 }
@@ -776,6 +795,16 @@ ul.checkout-bar a {
     cursor: inherit;
     display: block;
 }
+
+
+/*
+*Messages bottom div
+*/
+
+#bottomMessage {
+  margin-top: 30vh;
+  padding: 0;
+}
 /*
 
 *Calendar view
@@ -786,8 +815,8 @@ ul.checkout-bar a {
     opacity: 0.8;
     filter: alpha(opacity=60);
     color: white;
-    background-color: grey !important;
-    border-color: grey !important;
+    background-color: #D3D3D3 !important;
+    border-color: #D3D3D3!important;
   }
 
   .partially button {
@@ -828,6 +857,7 @@ ul.checkout-bar a {
   background-color: #C8C8C8;
   font-size:10%;
 }
+
 /*
 *Account Settings Mobile Portrait view account settings
 *
@@ -1102,4 +1132,82 @@ Tabbar treatment plan
   z-index: 0;
 }
 
+p{
+  word-wrap: break-word;
+}
+/*
+*Home screen profile view
+*/
+.profile-wrapper {
+  padding: 12px 10px 12px 10px;
+  text-align: left;
+  margin-left:10px;
+}
 
+.profile-image-home {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border: inset 1px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.profile-email {
+  font-size: 15px;
+  opacity: 0.4;
+}
+.my-home-profile{
+  width:100%;
+  padding:10px;
+  border:1px solid rgba(0, 0, 0, 0.1);
+  border-radius:4px;
+  background-color:white;
+  color:black;
+  margin:2px 2px 2px 2px;
+}
+.my-message-container{
+  width:100vw;
+  padding:10px;
+  border:1px solid rgba(0, 0, 0, 0.1);
+  border-radius:4px;
+  background-color:white;
+  color:black;
+  margin-left:1px;
+}
+
+.iconHomeView{
+  margin-top:5px;
+  font-size:18px;
+  font-weight: 600;
+  color: #2B6197;
+  text-align: center;
+}
+/**
+*Status bar for progress
+*
+*/
+.progressStatus {
+    height: 200px;
+}
+
+.progressStatus > svg {
+    height: 100%;
+    display: block;
+}
+.progressStatusTextBox{
+  margin-top:-160px;
+  z-index:122312;
+  text-align:center;
+  font-size:12px;
+  width:140px;
+  height:115px;
+}
+.iconStatusBox{
+  margin-top:5px;
+  font-size:13px;
+  font-weight: 600;
+  color: #2B6197;
+  text-align: center;
+}

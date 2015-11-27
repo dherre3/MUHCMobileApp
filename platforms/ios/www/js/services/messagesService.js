@@ -35,13 +35,17 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
         setUserMessages:function(messages){
 
             //Initializing the array of conversations
-
-             this.UserConversationsArray = [];       
-             $rootScope.NumberOfNewMessages=0;      
-             if (messages === undefined) return -1;
+             this.UserConversationsArray = [];
+             this.ConversationsObject={};
+             $rootScope.NumberOfNewMessages=0;
             //Iterating through each conversation
-            this.ConversationsObject={};
-            var keysArray = Object.keys(messages);
+            var keysArray =[];
+            if(messages!==undefined)
+            {
+              keysArray = Object.keys(messages);
+            }else{
+              this.emptyMessages=true;
+            }
             var doctors=Doctors.getContacts();
             for (var i = 0; i < doctors.length; i++) {
                 var conversation={}
@@ -52,7 +56,6 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                 conversation.UserSerNum=doctors[i].DoctorSerNum;
                 this.ConversationsObject[doctors[i].DoctorSerNum]=conversation;
             };
-           
             for (var i = 0; i < keysArray.length; i++) {
                 var Message={};
                 var message=messages[keysArray[i]];
@@ -61,14 +64,14 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                     Message.MessageContent=message.MessageContent;
                     Message.Date=$filter('formatDate')(message.MessageDate);
                     Message.ReadStatus=1;
-                    Message.MessageSerNum=message.MessageSerNum;  
+                    Message.MessageSerNum=message.MessageSerNum;
                     this.ConversationsObject[message.ReceiverSerNum].Messages.push(Message);
                 }else if(message.ReceiverSerNum===Patient.getUserSerNum()){
                     Message.Role='0';
                     Message.MessageContent=message.MessageContent;
                     Message.Date=$filter('formatDate')(message.MessageDate);
                     Message.ReadStatus=message.ReadStatus;
-                    Message.MessageSerNum=message.MessageSerNum;  
+                    Message.MessageSerNum=message.MessageSerNum;
                     this.ConversationsObject[message.SenderSerNum].Messages.push(Message);
                 }
             }
@@ -84,9 +87,9 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
                 }
                 this.UserConversationsArray.push(this.ConversationsObject[keysArrayConvo[i]]);
 
-                
+
             };
-            this.UserConversationsArray=$filter('orderBy')(this.UserConversationsArray,'DateOfLastMessage',true);
+
             console.log(this.UserConversationsArray);
         },
         /**
@@ -101,7 +104,6 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
         },
         setDateOfLastMessage:function(index, date){
             this.UserConversationsArray[index].DateOfLastMessage=date;
-            this.UserConversationsArray=$filter('orderBy')(this.UserConversationsArray,'DateOfLastMessage',true);
         },
         /**
         *@ngdoc method
@@ -138,6 +140,10 @@ myApp.service('Messages', ['$filter', 'UserAuthorizationInfo', 'Patient', 'Docto
             for (var i = 0; i < this.UserConversationsArray[conversationIndex].Messages.length; i++) {
                 this.UserConversationsArray[conversationIndex].Messages[i].ReadStatus=1;
             };
+        },
+        isEmpty:function()
+        {
+          return this.emptyMessages;
         }
 
 

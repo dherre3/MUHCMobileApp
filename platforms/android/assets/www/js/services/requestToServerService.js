@@ -4,57 +4,77 @@ var myApp=angular.module('MUHCApp');
 *
 *
 **/
-myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionService){
+myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionService, $http,$q){
+    function getIdentifierWeb()
+    {
+      var r=$q.defer();
+    $http({
+        method: 'GET',
+        url: 'http://ip-api.com/json/?callback=?'
+        }).then(function(data){
+          data=data.data;
+          data=data.substring(2, data.length-2);
+          var uniqueIdentifier=JSON.parse(data);
+          var uuid=String(uniqueIdentifier.query);
+          uuid=uuid.replace(/\./g, "-");
+          console.log(uuid);
+          r.resolve(uuid);
+        });
+      return r.promise;
+    }
+    var identifier='';
     return{
         sendRequest:function(typeOfRequest,content){
-            var Ref=new Firebase('https://luminous-heat-8715.firebaseio.com/requests');
+            var Ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/requests');
             var userID=UserAuthorizationInfo.UserName;
+            console.log(identifier);
             var encryptedRequestType=EncryptionService.encryptData(typeOfRequest);
-
             content= EncryptionService.encryptData(content);
-            if(typeOfRequest=='Login')
+            console.log(content);
+            if(typeOfRequest=='Login'||typeOfRequest=='Logout')
             {
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID': userID })
+              Ref.push({ 'Request' : encryptedRequestType,'DeviceId':identifier,  'UserID': userID })
+            }else if(typeOfRequest=='Refresh')
+            {
+              Ref.push({ 'Request' : encryptedRequestType,'DeviceId':identifier,  'UserID': userID, 'Parameters':content })
             }
-            else if ( typeOfRequest=='Refresh')
+            else if (typeOfRequest=="NewNote"||typeOfRequest=="EditNote"||typeOfRequest=="DeleteNote"||typeOfRequest=="AccountChange"||typeOfRequest=="AppointmentChange"||typeOfRequest=="Message"||typeOfRequest=="Feedback")
             {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID': userID });
-            }else if (typeOfRequest=='Logout')
+              Ref.push({'Request': encryptedRequestType,'DeviceId':identifier, 'UserID':userID, 'Parameters':content});
+            }
+            else if (typeOfRequest=='Checkin')
             {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID': userID });
-            }else if (typeOfRequest=='Checkin')
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'AppointmentSerNum' : content}});
+            }
+            else if (typeOfRequest=='MessageRead')
             {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID':userID, 'AppointmentSerNum' : content});
-            }else if (typeOfRequest=='AccountChange')
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'MessageSerNum' : content }});
+            }
+            else if (typeOfRequest=='NotificationRead')
             {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID':userID, 'Content' : content}); // FieldToChange:Password [Name,Email,TelNum,EnableSMS,Language] , NewValue
-            }else if (typeOfRequest=='AppointmentChange')
-            {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID':userID, 'Content' : content }); // DateRange , AppointmentSerNum, Reason
-            }else if (typeOfRequest=='MessageRead')
-            {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID':userID, 'MessageSerNum' : content });
-
-            }else if (typeOfRequest=='NotificationRead')
-            {
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID':userID, 'NotificationSerNum' : content });
-            }else if (typeOfRequest=='Message')
-            {  
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID': userID, 'Content': content});// ALL the things about mesage
-            }else if (typeOfRequest=='Feedback')
-            { 
-              typeOfRequest=EncryptionService.encryptData(typeOfRequest);  
-              Ref.push({ 'Request' : encryptedRequestType, 'UserID': userID, 'Content': content});// ALL the things about mesage
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'NotificationSerNum' : content }});
             }
 
+        },
+        setIdentifier:function()
+        {
+          var r=$q.defer();
+          var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+          if(app){
+            identifier=device.uuid;
+            r.resolve(device.uuid);
+          }else{
+            getIdentifierWeb().then(function(uuid){
+              console.log(uuid);
+              identifier=uuid;
+              r.resolve(uuid);
+            });
+          }
+          return r.promise;
+        },
+        getIdentifier:function()
+        {
+          return identifier;
         }
     };
 

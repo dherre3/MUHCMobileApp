@@ -1,6 +1,7 @@
 var utility=require('./utility.js');
 var sqlInterface=require('./sqlInterface.js');
 var filesystem  =require('fs');
+var Firebase =require('firebase');
 function sayHelloWorld()
 {
   console.log('Hello World');
@@ -16,20 +17,15 @@ while(!queue.isEmpty())
   var b=queue.dequeue();
   console.log(b);
 }*/
-
-//Testing the sqlInterface that uses the queue
-var a=utility.decryptObject({ DeviceId: '198-168-135-23',
-  'Parameters:': { AppointmentSerNum: 'U2FsdGVkX18xkbT7+6efP4mRA5bE7riEsDc+r8uwnD8=' }});
-
-var userID='ec00959e-7291-469b-87c8-1d302a676371';
-console.log(__dirname);
-var a=filesystem.readFileSync(__dirname + '/Documents/'+'image1.jpg','base64' );
-console.log(a);
-/*var a=['Patient','Messages'];
-var queue=utility.Queue();
-queue.enqueueArray(a);
-sqlInterface.cascadeFunction('simplelogin:10',queue,{}).then(
-  function(object){
-    console.log(object);
+var ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/.info/connected');
+ref.on("value",function(snap)
+{
+  if(snap.val()==true)
+  {
+    console.log('connected');
+  }else{
+    console.log('disconnected');
   }
-);*/
+});
+var ref2=new Firebase('https://brilliant-inferno-7679.firebaseio.com/');
+ref2.onDisconnect().set('I disconnected');

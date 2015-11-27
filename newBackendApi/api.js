@@ -124,6 +124,7 @@ exports.readMessage = function (requestObject) {
 exports.readNotification = function (requestObject) {
     var r = Q.defer();
     if (!validate('Digit', requestObject)) {
+        console.log('digit');
         r.reject('Invalid');
     } else {
         sqlInterface.readNotification(requestObject).then(function (requestObject) {

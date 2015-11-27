@@ -31,8 +31,14 @@ angular.module('MUHCApp')
           }, 3000);
         };
     accountInit();
+    myNavigatorAccount.on('postpop',function(){
+      $timeout(function(){
+        accountInit();
+      });
+
+    });
     function accountInit(){
-      var nativeCalendar=window.localStorage.getItem('NativeCalendar');
+      var nativeCalendar=Number(window.localStorage.getItem('NativeCalendar'));
       $scope.passFill='********';
       $scope.mobilePlatform=(ons.platform.isIOS()||ons.platform.isAndroid());
       (nativeCalendar)?$scope.checkboxModelCalendar=nativeCalendar:$scope.checkboxModelCalendar=0;

@@ -1,6 +1,6 @@
 var myApp=angular.module('MUHCApp');
 
-myApp.service('Patient',function(){
+myApp.service('Patient',['UserPreferences',function(UserPreferences){
     return{
         setUserFields:function(patientFields,diagnosis){
             this.FirstName=patientFields.FirstName;
@@ -10,6 +10,13 @@ myApp.service('Patient',function(){
             this.Email=patientFields.Email;
             this.Diagnosis=diagnosis;
             this.UserSerNum=patientFields.PatientSerNum;
+            this.ProfileImage='data:image/png;base64,'+patientFields.ProfileImage;
+            console.log(patientFields.Status_EN);
+            if(UserPreferences.getLanguage()=='EN'){
+                this.Status=patientFields.Status_EN;
+            }else{
+                this.Status=patientFields.Status_FR;
+            }
         },
         setDiagnosis:function(diagnosis){
             this.Diagnosis=diagnosis;
@@ -49,6 +56,15 @@ myApp.service('Patient',function(){
         },
         getUserSerNum:function(){
             return this.UserSerNum;
+        },
+        setProfileImage:function(img){
+            this.ProfileImage='data:image/png;base64,'+img;
+        },
+        getProfileImage:function(){
+            return this.ProfileImage;
+        },
+        getStatus:function(){
+            return this.Status;
         }
     };
-});
+}]);

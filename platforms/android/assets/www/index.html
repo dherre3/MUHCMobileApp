@@ -16,13 +16,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1.5, user-scalable=1">
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>-->
- 
+
   <!--<link rel="stylesheet" type="text/css"href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
+
      <script src="lib/bower_components/angular/angular.min.js"></script>
   <script src="lib/bower_components/angular-animate/angular-animate.min.js"></script>
     <script src="lib/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-  <script src="lib/js/jquery.min.js"></script>
- 
+   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
   <link rel="stylesheet" type="text/css"href="lib/css/bootstrap.min.css">
 
 <!-- Language translation and what not-->
@@ -30,18 +31,18 @@
 <script src="lib/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
 <script src="lib/bower_components/angular-dynamic-locale/tmhDynamicLocale.min.js"></script>
 
-
-
+<!--Progress circle bar -->
+    <script src="./lib/bower_components/progressbar.js/dist/progressbar.min.js"/></script>
   <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
   <script src="lib/js/bootstrap.min.js"></script>
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>-->
   <script src="lib/js/angular-ui-router.min.js"></script>
   <!-- Firebase -->
   <!--<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>-->
-  <script src="lib/js/firebase.js"></script>
+  <script src="bower_components/firebase/firebase.js"></script>
   <!-- AngularFire -->
   <!--<script src="https://cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>-->
-  <script src="lib/js/angularfire.min.js"></script>
+  <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
 
     <script src="lib/js/ng-cordova.min.js"></script>
 
@@ -50,19 +51,29 @@
   <script src="lib/js/angular-ui-select.js"></script>
   <link rel="stylesheet"  href="lib/css/select.css">
    <link rel="stylesheet" href="lib/css/select2.css">
- 
+
   <!--Encryption and Decryption libraries-->
-  <script src="lib/js/aes.js"></script>
-  <script src="lib/js/mode-cfb-min.js"></script>
-  
-
-
+  <script src="lib/js/aes.js"/></script>
+  <script src="lib/js/mode-cfb-min.js"/></script>
    <!--Library to zoom in to images-->
    <script src="lib/js/image-touch-canvas.js"></script>
 
+   <!--Text area auto grow-->
+   <script src="bower_components/angular-elastic-master/elastic.js"/></script>
+
+   <!--New idea for calendar-->
+    <script src="lib/bower_components/moment/min/moment.min.js"/></script>
+    <link rel="stylesheet" href="lib/bower_components/ion.calendar/css/ion.calendar.css">
+   <script src="lib/bower_components/ion.calendar/js/ion.calendar.min.js"/></script>
+
+   <script src="lib/bower_components/ion.calendar/js/moment-with-locales.min.js"/></script>
+   <link href="lib/bower_components/ion.calendar/css/ion.calendar.css">
+
+
+
    <!--Library to use ui-calendar plugin in desktop view-->
 <!--<link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>-->
-<!-- jquery, moment, and angular have to get included before fullcalendar--> 
+<!-- jquery, moment, and angular have to get included before fullcalendar-->
 <!--<script type="text/javascript" src="lib/bower_components/moment/min/moment.min.js"></script>
  <script type="text/javascript" src="lib/js/calendar.js"></script>
 <script type="text/javascript" src="lib/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
@@ -75,32 +86,33 @@
 <!--Library used to scroll all the way to bottom of div anytime there is a change in a model of the div -->
 <script src="lib/js/scrollglue.js"></script>
 
-  
+
   <script src="lib/js/ui-bootstrap-tpls-0.13.0.min.js"></script>
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>My App</title>  
-  <link rel="stylesheet" href="lib/onsen/css/onsenui.css">  
-  <link rel="stylesheet" href="lib/onsen/css/onsen-css-components-blue-basic-theme.css">  
+  <title>OPAL</title>
+
+  <!--Libraries for OnsenUI-->
+  <link rel="stylesheet" href="bower_components/OnsenUI/build/css/onsen-css-components-blue-basic-theme.css">
+  <link rel="stylesheet" href="bower_components/OnsenUI/build/css/onsenui.css"/>
+  <script src="bower_components/OnsenUI/build/js/onsenui.js"></script>
+
+
   <link rel="stylesheet" href="styles/css/app.css"/>
   <link rel="stylesheet" href="styles/css/index.css"/>
-
-
-  <!--<script src="lib/onsen/js/angular/angular.js"></script> -->
-  <script src="lib/onsen/js/onsenui.js"></script>    
 
   <script src="cordova.js"></script>
 
   <script type="text/javascript">
-  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1; 
+  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
   if(app){
     document.addEventListener("deviceready", function() {
 
     //Your code
 
     // Find the DOM element where you want to add ng-app
-    var element = document.getElementById('boots'); 
+    var element = document.getElementById('boots');
 
     angular.bootstrap(element, ["MUHCApp"]); //Or simple document in place of element
 }, false);
@@ -108,19 +120,21 @@
 
   </script>
 </head>
-<body id='boots' >
+<body id='boots'>
+<!--Loading Modal for the initial loading screen-->
 <ons-modal var="modal">
         <ons-icon icon="ion-load-c" spin="true"></ons-icon>
         <br><br>
         <div class="container" align="center">
         <img ng-src="./img/muhc-logo-text.png" >
+
       </div>
         Loading data...
 </ons-modal>
 
   <div ng-controller="MainController" >
   <ons-navigator title="Navigator" var="myNavigator">
-	 <div ui-view></div>	
+	 <div ui-view></div>
    </ons-navigator>
 <div class="container">
 		<footer ng-include="'templates/footer.html'"></footer>
@@ -137,7 +151,7 @@
      <script src="js/controllers/MainController.js"></script>
      <script src="js/controllers/forgotPasswordController.js"></script>
      <script src="js/controllers/accountSettingsController.js"></script>
-     <script src="js/controllers/ScansDocumentsController.js"></script>
+     <script src="js/controllers/DocumentsController.js"></script>
     <script src="js/controllers/CheckInController.js"></script>
     <script src="js/controllers/TreatmentPlanController.js"></script>
     <script src="js/controllers/NotificationsController.js"></script>
@@ -148,6 +162,7 @@
     <script src="js/controllers/ContactsController.js"></script>
      <script src="lib/js/cordovaDeviceModule.min.js"></script>
     <script src="js/controllers/EducationalMaterialController.js"></script>
+     <script src="js/controllers/NotesController.js"></script>
 
     <!--App services-->
     <script src="js/services/messagesService.js"></script>
@@ -164,15 +179,21 @@
     <script src="js/services/encryptionService.js"></script>
     <script src="js/services/angularPushService.js"></script>
     <script src="js/services/services.js"></script>
+    <script src="js/services/notesService.js"></script>
+		<script src="js/services/checkinService.js"></script>
+
+    <script src="js/services/localStorageService.js"></script>
+
+    <script src="js/Directives/changeHeightDiv.js"/></script>
 
     <!--App filters-->
     <script src="js/filters/filters.js"></script>
     <!--App directives-->
     <script src="js/Directives/fileReaderDirective.js"></script>
-    
-    
-    
-			
+
+
+
+
 	</div>
 
 </body>

@@ -1,7 +1,7 @@
 var myApp=angular.module('MUHCApp');
 
 
-myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage','RequestToServer',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage,RequestToServer) {
+myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage','RequestToServer','$filter',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage,RequestToServer,$filter) {
     function updateAllServices(dataUserObject,mode){
         function setDocuments(dataUserObject){
             var setDocProm=$q.defer();
@@ -12,15 +12,23 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
 
         }
         setDocuments(dataUserObject).then(function(){
-            UserPlanWorkflow.setUserPlanWorkflow({
-                '1':{'Name':'CT for Radiotherapy Planning','Date':'2015-10-19T09:00:00Z','Description':'stage1','Type': 'Appointment'},
-                '2':{'Name':'Physician Plan Preparation','Date':'2015-10-21T09:15:00Z','Description':'stage2','Type':'Task'},
-                '3':{'Name':'Calculation of Dose','Date':'2015-10-23T09:15:00Z','Description':'stage3','Type':'Task'},
-                '4':{'Name':'Physician Review','Date':'2015-10-26T09:15:00Z','Description':'stage4','Type':'Task'},
-                '5':{'Name':'Quality Control','Date':'2015-10-28T10:15:00Z','Description':'stage5','Type':'Task'},
-                '6':{'Name':'Scheduling','Date':'2015-10-30T09:15:00Z','Description':'stage6','Type':'Task'},
-                '7':{'Name':'First Treatment','Date':'2015-11-02T09:15:00Z','Description':'stage6','Type':'Task'}
-            });
+          var plan={
+              '1':{'Name':'CT for Radiotherapy Planning','Date':'2015-10-19T09:00:00Z','Description':'stage1','Type': 'Appointment'},
+              '2':{'Name':'Physician Plan Preparation','Date':'2015-10-21T09:15:00Z','Description':'stage2','Type':'Task'},
+              '3':{'Name':'Calculation of Dose & Physician Review','Date':'2015-10-23T09:15:00Z','Description':'stage3','Type':'Task'},
+              '4':{'Name':'Quality Control','Date':'2015-10-28T10:15:00Z','Description':'stage5','Type':'Task'},
+              '5':{'Name':'Scheduling','Date':'2015-10-30T09:15:00Z','Description':'stage6','Type':'Task'},
+              '6':{'Name':'First Treatment','Date':'2015-11-02T09:15:00Z','Description':'stage6','Type':'Task'}
+          };
+          var newDate=new Date();
+          var valAdded=-6;
+          for (var key in plan) {
+            var tmp=new Date(newDate);
+            tmp.setDate(tmp.getDate()+valAdded);
+            valAdded+=2;
+            plan[key].Date=$filter('formatDateToFirebaseString')(tmp);
+          }
+            UserPlanWorkflow.setUserPlanWorkflow(plan);
             UserPreferences.setUserPreferences(dataUserObject.Patient.Language,dataUserObject.Patient.EnableSMS);
             Doctors.setUserContacts(dataUserObject.Doctors);
             Patient.setUserFields(dataUserObject.Patient, dataUserObject.Diagnosis);
@@ -94,7 +102,6 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         switch(section){
             case 'All':
                 updateAllServices(data,'Offline');
-
                 break;
             case 'Doctors':
                 Doctors.setUserContacts(data);

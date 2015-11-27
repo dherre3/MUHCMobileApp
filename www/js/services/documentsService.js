@@ -16,9 +16,10 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 							var platform=$cordovaDevice.getPlatform();
 							var targetPath='';
 							if(platform==='Android'){
-						    	targetPath = cordova.file.dataDirectory+'MUHCApp'+ 'img'+i+".png";
+														download(url, filePath, options, trustHosts)
+						    	targetPath = cordova.file.dataDirectory+'/MUHC/docMUHC'+documents[keysDocuments[i]].DocumentSerNum;
 							}else if(platform==='iOS'){
-								targetPath = 'Documents/MUHCApp' + 'img'+i+".png";
+								targetPath = cordova.file.documentsDirectory+ '/MUHC/docMUHC'+documents[keysDocuments[i]].DocumentSerNum;
 							}
 							var url = documents[keysDocuments[i]].Content;
 						    var trustHosts = true
@@ -33,7 +34,7 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 						          var downloadProgress = (progress.loaded / progress.total) * 100;
 						          console.log(downloadProgress);
 						    });
-						      $cordovaFileTransfer.download(url,'/sdcard/Download/'+'MUHCApp'+ 'img'+i+".png", options, trustHosts)
+						      /*$cordovaFileTransfer.download(url,'/sdcard/Download/'+'MUHCApp'+ 'img'+i+".png", options, trustHosts)
 						      .then(function(result) {
 
 						      }, function(err) {
@@ -41,7 +42,7 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 						      }, function (progress) {
 						          var downloadProgress = (progress.loaded / progress.total) * 100;
 
-							    });
+							    });*/
 					}
 					var imageToPhotoObject={};
 					imageToPhotoObject.AliasName_EN=documents[keysDocuments[i]].AliasName_EN;
@@ -53,8 +54,8 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 					imageToPhotoObject.PathFileSystem=documents[keysDocuments[i]].PathFileSystem;
 					imageToPhotoObject.NameFileSystem=documents[keysDocuments[i]].NameFileSystem;
 					imageToPhotoObject.Content=documents[keysDocuments[i]].Content;
-					documents[keysDocuments[i]].Content=null;
-          documents[keysDocuments[i]].PathLocation=null;
+					delete documents[keysDocuments[i]].Content;
+          delete documents[keysDocuments[i]].PathLocation;
 					this.Photos.push(imageToPhotoObject);
 
 
@@ -96,6 +97,10 @@ myApp.service('Documents',['UserPreferences','$cordovaFileTransfer','$cordovaFil
 					return this.Photos[i];
 				}
 			};
+		},
+		downloadDocument:function(document)
+		{
+
 		}
 
 	};

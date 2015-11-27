@@ -38,7 +38,7 @@ var myApp=angular.module('MUHCApp')
     };
 
     function signin(email, password){
-        var myDataRef = new Firebase('https://luminous-heat-8715.firebaseio.com/');
+        var myDataRef = new Firebase('https://brilliant-inferno-7679.firebaseio.com');
         var username = email;
         var password = password;
 
@@ -63,17 +63,13 @@ var myApp=angular.module('MUHCApp')
             } else {
                 RequestToServer.setIdentifier().then(function(uuid)
                 {
-                  console.log(uuid);
                   RequestToServer.sendRequest('Login',userId);
                   $state.go('loading');
                 });
                 userId = authData.uid;
                 //Obtaining fields links for patient's firebase
-
-
                 var patientLoginRequest='request/'+userId;
                 var patientDataFields='Users/'+userId;
-
                 //Updating Patients references to signal backend to upload data
                 myDataRef.child(patientLoginRequest).update({LogIn:true});
                 UserAuthorizationInfo.setUserAuthData(authData.uid, $scope.signup.password, authData.expires);
@@ -85,20 +81,10 @@ var myApp=angular.module('MUHCApp')
                         Expires:authData.expires,
                         Email:$scope.signup.email
                 }
-
                 $rootScope.refresh=true;
                 window.localStorage.setItem('UserAuthorizationInfo', JSON.stringify(authenticationToLocalStorage));
                 window.localStorage.setItem('pass', $scope.signup.password);
-
                 console.log(UserAuthorizationInfo.getUserAuthData());
-                //Telling the app to delete all the fields once there is a firebase disconnect, or a page refresh
-                //firebase i.e. the user logs out.
-                //myDataRef.child(patientDataFields).onDisconnect().set({Logged:false});
-                myDataRef.child(patientLoginRequest).onDisconnect().update({LogIn:false});
-                //console.log(UserAuthorizationInfo.UserToken);
-
-                //quickWriteUp(data);
-
                 console.log("Authenticated successfully with payload:", authData);
             }
         }

@@ -61,10 +61,8 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
           var r=$q.defer();
           var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
           if(app){
-            /*
-            *Use apps unique identifier
-            */
-
+            identifier=device.uuid;
+            r.resolve(device.uuid);
           }else{
             getIdentifierWeb().then(function(uuid){
               console.log(uuid);
