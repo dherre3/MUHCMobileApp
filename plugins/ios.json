@@ -122,12 +122,6 @@
         "cordova-plugin-battery-status": {
             "PACKAGE_NAME": "com.muhc.opal"
         },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "com.muhc.opal"
-        },
-        "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "com.muhc.opal"
-        },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.muhc.opal"
         },
@@ -138,6 +132,15 @@
             "PACKAGE_NAME": "com.muhc.opal"
         },
         "cordova-plugin-calendar": {
+            "PACKAGE_NAME": "com.muhc.opal"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.muhc.opal"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.muhc.opal"
+        },
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.muhc.opal"
         }
     },

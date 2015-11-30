@@ -1,8 +1,10 @@
 var myApp=angular.module('MUHCApp');
 
-myApp.service('Patient',['UserPreferences',function(UserPreferences){
+myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordovaDevice',function(UserPreferences,$q, $cordovaFileTransfer, $cordovaDevice){
     return{
-        setUserFields:function(patientFields,diagnosis){
+        setUserFieldsOnline:function(patientFields,diagnosis){
+            var r=$q.defer();
+            console.log(patientFields);
             this.FirstName=patientFields.FirstName;
             this.LastName=patientFields.LastName;
             this.Alias=patientFields.Alias;
@@ -10,13 +12,53 @@ myApp.service('Patient',['UserPreferences',function(UserPreferences){
             this.Email=patientFields.Email;
             this.Diagnosis=diagnosis;
             this.UserSerNum=patientFields.PatientSerNum;
-            this.ProfileImage='data:image/png;base64,'+patientFields.ProfileImage;
-            console.log(patientFields.Status_EN);
-            if(UserPreferences.getLanguage()=='EN'){
-                this.Status=patientFields.Status_EN;
-            }else{
-                this.Status=patientFields.Status_FR;
-            }
+            this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
+            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+            if(app){
+                if(patientFields.ProfileImage)
+                {
+                  patientFields.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
+                  var platform=$cordovaDevice.getPlatform();
+                  var targetPath='';
+                  if(platform==='Android'){
+                      targetPath = cordova.file.dataDirectory+'Patient/patient'+patientFields.PatientSerNum+"."+patientFields.DocumentType;
+                  }else if(platform==='iOS'){
+                    targetPath = cordova.file.documentsDirectory+ 'Patient/patient'+patientFields.PatientSerNum+"."+patientFields.DocumentType;
+                  }
+                  var url = patientFields.ProfileImage;
+                  var trustHosts = true
+                  var options = {};
+                  this.NameFileSystem='patient'+patientFields.PatientSerNum+"."+patientFields.DocumentType;
+                  this.PathFileSystem=targetPath;
+                  $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function(data)
+                  {
+                    delete patientFields.ProfileImage;
+                    r.resolve(patientFields);
+                  });
+                }else{
+                  delete patientFields.ProfileImage;
+                  r.resolve(patientFields);
+                }
+              }else{
+                delete patientFields.ProfileImage;
+                r.resolve(patientFields);
+              }
+            return r.promise;
+        },
+        setPatientFieldsOffline:function(patientFields,diagnosis)
+        {
+          var r=$q.defer();
+          this.FirstName=patientFields.FirstName;
+          this.LastName=patientFields.LastName;
+          this.Alias=patientFields.Alias;
+          this.TelNum=patientFields.TelNum;
+          this.Email=patientFields.Email;
+          this.Diagnosis=diagnosis;
+          this.UserSerNum=patientFields.PatientSerNum;
+          this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
+          delete patientFields.ProfileImage;
+          r.resolve(patientFields);
+          return r.promise;
         },
         setDiagnosis:function(diagnosis){
             this.Diagnosis=diagnosis;

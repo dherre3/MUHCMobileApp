@@ -19,9 +19,13 @@ myApp.service('LocalStorage',['UserAuthorizationInfo', function(UserAuthorizatio
 		},
 		ReadLocalStorage:function(section)
 		{
-			if(section=='all')
+			if(section=='All')
 			{
-				 window.localStorage.setItem(UserAuthorizationInfo.UserName, JSON.stringify(data));
+				 var storage=window.localStorage.getItem('UserAuthorizationInfo');
+				 storage=JSON.parse(storage);
+				 storage=window.localStorage.getItem(storage.UserName);
+				 return JSON.parse(storage);
+
 			}else if(section=='Documents')
 			{
 				//Deal with it later

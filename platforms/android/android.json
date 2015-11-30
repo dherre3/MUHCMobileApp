@@ -21,10 +21,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
                             "count": 1
                         },
@@ -49,11 +45,19 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"EmailComposer\"><param name=\"android-package\" value=\"de.appplant.cordova.emailcomposer.EmailComposer\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -67,10 +71,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 2
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
                             "count": 1
                         },
@@ -81,6 +81,10 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 2
                         }
                     ],
                     "/manifest": [
@@ -94,6 +98,20 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_CALENDAR\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<preference name=\"AndroidPersistentFileLocation\" value=\"Internal\" />",
                             "count": 1
                         }
                     ]
@@ -109,9 +127,6 @@
             "PACKAGE_NAME": "com.muhc.opal"
         },
         "cordova-plugin-battery-status": {
-            "PACKAGE_NAME": "com.muhc.opal"
-        },
-        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.muhc.opal"
         },
         "cordova-plugin-vibration": {
@@ -132,10 +147,16 @@
         "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.example.hello"
         },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.muhc.opal"
+        },
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.muhc.opal"
+        },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "com.muhc.opal"
         },
-        "cordova-plugin-geolocation": {
+        "cordova-plugin-file-transfer": {
             "PACKAGE_NAME": "com.muhc.opal"
         }
     },
@@ -172,22 +193,6 @@
             "pluginId": "cordova-plugin-battery-status",
             "clobbers": [
                 "navigator.battery"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
-            "id": "cordova-plugin-file-transfer.FileTransferError",
-            "pluginId": "cordova-plugin-file-transfer",
-            "clobbers": [
-                "window.FileTransferError"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
-            "id": "cordova-plugin-file-transfer.FileTransfer",
-            "pluginId": "cordova-plugin-file-transfer",
-            "clobbers": [
-                "window.FileTransfer"
             ]
         },
         {
@@ -249,6 +254,21 @@
             "clobbers": [
                 "cordova.InAppBrowser.open",
                 "window.open"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+            "id": "cordova-plugin-geolocation.geolocation",
+            "clobbers": [
+                "navigator.geolocation"
+            ]
+        },
+        {
+            "file": "plugins/de.appplant.cordova.plugin.email-composer/www/email_composer.js",
+            "id": "de.appplant.cordova.plugin.email-composer.EmailComposer",
+            "clobbers": [
+                "cordova.plugins.email",
+                "plugin.email"
             ]
         },
         {
@@ -398,10 +418,17 @@
             "runs": true
         },
         {
-            "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-            "id": "cordova-plugin-geolocation.geolocation",
+            "file": "plugins/cordova-plugin-file-transfer/www/FileTransferError.js",
+            "id": "cordova-plugin-file-transfer.FileTransferError",
             "clobbers": [
-                "navigator.geolocation"
+                "window.FileTransferError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-file-transfer/www/FileTransfer.js",
+            "id": "cordova-plugin-file-transfer.FileTransfer",
+            "clobbers": [
+                "window.FileTransfer"
             ]
         }
     ],

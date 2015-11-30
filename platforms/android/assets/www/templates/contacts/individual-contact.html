@@ -6,7 +6,7 @@
      <div class="profile-cardContact">
 
         <!--<img ng-show="!doctor.Image" src="img/logo.png" class="profile-image">-->
-        <img ng-src="data:image/jpg;base64,{{doctor.ProfileImage}}" class="profile-image">
+        <div ng-show="doctor.ProfileImage"><img ng-src="{{doctor.ProfileImage}}" class="profile-image"></div>
         <div class="profile-name">{{doctor.FirstName}} {{doctor.LastName}}</div>
         <div class="profile-desc">{{header}}</div>
 

@@ -1,32 +1,115 @@
 var myApp=angular.module('MUHCApp');
-myApp.service('Doctors',function($filter){
+myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice){
+    function copyDoctorObject(object)
+    {
+      var newObject={};
+      for(key in object)
+      {
+        newObject[key]=object[key];
+      }
+      return newObject;
+    }
     return{
-        setUserContacts:function(doctors)
+        setUserContactsOnline:function(doctors)
         {
+            var r=$q.defer();
             this.Doctors=[];
             this.Oncologists=[];
             this.OtherDoctors=[];
             this.PrimaryPhysician=[];
-            if(doctors!==undefined&&doctors){
+            var promises=[];
+            if(typeof doctors!=='undefined'&&doctors){
 
                 var doctorKeyArray=Object.keys(doctors);
                 for (var i = 0; i < doctorKeyArray.length; i++) {
-
-                   if(doctors[doctorKeyArray[i]].PrimaryFlag==1){
-                        this.PrimaryPhysician.push(doctors[doctorKeyArray[i]]);
-                   }else if(doctors[doctorKeyArray[i]].OncologistFlag==1)
+                  if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined' )
+                  {
+                    if(doctors[doctorKeyArray[i]].DocumentType=='pdf')
+                    {
+                      doctors[doctorKeyArray[i]].ProfileImage='data:application/pdf;base64,'+doctors[doctorKeyArray[i]].ProfileImage;
+                    }else{
+                      doctors[doctorKeyArray[i]].ProfileImage='data:image/'+doctors[doctorKeyArray[i]].DocumentType+';base64,'+doctors[doctorKeyArray[i]].ProfileImage;
+                    }
+                  }
+                }
+                var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+                /*if(app){
+                  for (var i = 0; i < doctorKeyArray.length; i++) {
+                    if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined' )
+                    {
+                      var platform=$cordovaDevice.getPlatform();
+                      var targetPath='';
+                      if(platform==='Android'){
+                          targetPath = cordova.file.dataDirectory+'Doctors/doctor'+doctors[doctorKeyArray[i]].DoctorSerNum+"."+doctors[doctorKeyArray[i]].DocumentType;
+                      }else if(platform==='iOS'){
+                        targetPath = cordova.file.documentsDirectory+ 'Doctors/doctor'+doctors[doctorKeyArray[i]].DoctorSerNum+"."+doctors[doctorKeyArray[i]].DocumentType;
+                      }
+                      var url = doctors[doctorKeyArray[i]].ProfileImage;
+                      var trustHosts = true
+                      var options = {};
+                      doctors[doctorKeyArray[i]].NameFileSystem='doctor'+doctors[doctorKeyArray[i]].DoctorSerNum+"."+doctors[doctorKeyArray[i]].DocumentType;
+                      doctors[doctorKeyArray[i]].PathFileSystem=targetPath;
+                      promises.push($cordovaFileTransfer.download(url, targetPath, options, trustHosts));
+                    }
+                  }
+                }*/
+                for (var i = 0; i < doctors.length; i++) {
+                  var copyDoctor=copyDoctorObject(doctors[doctorKeyArray[i]]);
+                    //delete doctors[i].ProfileImage;
+                   if(copyDoctor.PrimaryFlag=='1'){
+                        this.PrimaryPhysician.push(copyDoctor);
+                   }else if(copyDoctor.OncologistFlag=='1')
                    {
-                        this.Oncologists.push(doctors[doctorKeyArray[i]]);
+                        this.Oncologists.push(copyDoctor);
                    }else{
-                     this.OtherDoctors.push(doctors[doctorKeyArray[i]]);
+                     this.OtherDoctors.push(copyDoctor);
                    }
-                   this.Doctors.push(doctors[doctorKeyArray[i]]);
+                   this.Doctors.push(copyDoctor);
                 };
                 this.Oncologists=$filter('orderBy')(this.Oncologists,'LastName',false);
                 this.Doctors=$filter('orderBy')(this.Doctors,'LastName',false);
                 this.OtherDoctors=$filter('orderBy')(this.OtherDoctors,'LastName',false);
-
+                console.log(this.Doctors);
+                $q.all(promises).then(function(){
+                  r.resolve(doctors);
+                });
+            }else{
+              r.resolve(true);
             }
+            return r.promise;
+        },
+        setUserContactsOffline:function(doctors)
+        {
+            var r=$q.defer();
+            this.Doctors=[];
+            this.Oncologists=[];
+            this.OtherDoctors=[];
+            this.PrimaryPhysician=[];
+            /*
+            *Add code for offline extraction of doctors photos
+            */
+            var doctorKeyArray=Object.keys(doctors);
+            if(typeof doctors!=='undefined'&&doctors){
+              for (var i = 0; i < doctorKeyArray.length; i++) {
+                var copyDoctor=copyDoctorObject(doctors[doctorKeyArray[i]]);
+                  //delete doctors[i].ProfileImage;
+                 if(copyDoctor.PrimaryFlag=='1'){
+                      this.PrimaryPhysician.push(copyDoctor);
+                 }else if(copyDoctor.OncologistFlag=='1')
+                 {
+                      this.Oncologists.push(copyDoctor);
+                 }else{
+                   this.OtherDoctors.push(copyDoctor);
+                 }
+                 this.Doctors.push(copyDoctor);
+              };
+              console.log(doctors);
+              this.Oncologists=$filter('orderBy')(this.Oncologists,'LastName',false);
+              this.Doctors=$filter('orderBy')(this.Doctors,'LastName',false);
+              this.OtherDoctors=$filter('orderBy')(this.OtherDoctors,'LastName',false);
+            }
+            r.resolve(true);
+            return r.promise;
         },
         isEmpty:function()
         {

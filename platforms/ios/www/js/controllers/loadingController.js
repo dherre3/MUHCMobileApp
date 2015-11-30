@@ -8,8 +8,8 @@ angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state'
 	    var updateUI=UpdateUI.UpdateSection('All');
 	    updateUI.then(function(){
 	    	$rootScope.refresh=true;
+					$state.go('Home');
         	modal.hide();
-	        $state.go('Home');
 
 	    });
 	    setTimeout(function() {

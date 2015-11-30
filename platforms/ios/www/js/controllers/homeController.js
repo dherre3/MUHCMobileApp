@@ -104,6 +104,7 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
 
 
         //Basic patient information
+        $scope.Email=Patient.getEmail();
         $scope.FirstName = Patient.getFirstName();
         $scope.LastName = Patient.getLastName();
         $scope.ProfileImage=Patient.getProfileImage();

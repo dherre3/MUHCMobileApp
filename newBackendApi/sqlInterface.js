@@ -319,7 +319,7 @@ var LoadDocuments = function (rows)
     {
 
       var n = rows[key].FinalFileName.lastIndexOf(".");
-      var substring=str.substring(n+1,rows[key].FinalFileName.length);
+      var substring=rows[key].FinalFileName.substring(n+1,rows[key].FinalFileName.length);
       rows[key].DocumentType=substring;
       rows[key].Content=filesystem.readFileSync(__dirname +  '/Documents/' + rows[key].FinalFileName,'base64' );
 
@@ -366,9 +366,12 @@ var LoadAttachments = function (rows )
 function loadImageDoctor(rows){
   var deferred = Q.defer();
   for (var key in rows){
-    if((typeof rows[key].ProfileImage !=="undefined" )&&rows[key].ProfileImage){
-       rows[key].ProfileImage=filesystem.readFileSync(__dirname + '/Doctors/'+rows[key].ProfileImage,'base64' );
 
+    if((typeof rows[key].ProfileImage !=="undefined" )&&rows[key].ProfileImage){
+      var n = rows[key].ProfileImage.lastIndexOf(".");
+      var substring=rows[key].ProfileImage.substring(n+1,rows[key].ProfileImage.length);
+      rows[key].DocumentType=substring;
+      rows[key].ProfileImage=filesystem.readFileSync(__dirname + '/Doctors/'+rows[key].ProfileImage,'base64' );
     }
   }
   deferred.resolve(rows);
@@ -378,6 +381,9 @@ function loadImageDoctor(rows){
 
 function loadProfileImagePatient(rows){
   var deferred = Q.defer();
+  var n = rows[0].ProfileImage.lastIndexOf(".");
+  var substring=rows[0].ProfileImage.substring(n+1,rows[0].ProfileImage.length);
+  rows[0].DocumentType=substring;
   rows[0].ProfileImage=filesystem.readFileSync(__dirname + '/Patients/'+ rows[0].ProfileImage,'base64' );
   deferred.resolve(rows);
   return deferred.promise;

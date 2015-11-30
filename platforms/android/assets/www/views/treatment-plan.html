@@ -69,7 +69,7 @@
             {{currentStage}}
             <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
             <strong><i class="ion-clock iconStatusBox"></i> Completion Date</strong><br>
-            Nov 3 <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
+            {{stages[stages.length-1].Date|date:'MMM d'}} <a href ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})"><i class="ion-help-circled iconStatusBox"></i></a><br>
             <span style="color:grey">(Estimated)</span>
           </div>
           <div ng-show='treatmentPlanCompleted' align="middle" style="margin-left:5px">

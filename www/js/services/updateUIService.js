@@ -3,15 +3,28 @@ var myApp=angular.module('MUHCApp');
 
 myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage','RequestToServer','$filter',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage,RequestToServer,$filter) {
     function updateAllServices(dataUserObject,mode){
-        function setDocuments(dataUserObject){
-            var setDocProm=$q.defer();
-            console.log(dataUserObject.Documents);
-            Documents.setDocuments(dataUserObject.Documents,mode);
-            setDocProm.resolve(true);
-            return setDocProm.promise;
-
+        console.log(mode);
+        var promises=[];
+        console.log(dataUserObject);
+        if(mode=='Online')
+        {
+          var documents=dataUserObject.Documents;
+          var documentProm=Documents.setDocumentsOnline(documents);
+          var doctors=dataUserObject.Doctors;
+          var doctorProm=Doctors.setUserContactsOnline(doctors);
+          var patientFields=dataUserObject.Patient;
+          var patientProm=Patient.setUserFieldsOnline(patientFields, dataUserObject.Diagnosis);
+          console.log(patientProm);
+          promises=[doctorProm,documentProm,patientProm];
+        }else{
+          var documentProm=Documents.setDocumentsOffline();
+          var doctorProm=Doctors.setUserContactsOffline(dataUserObject.Doctors);
+          var patientProm=Patient.setUserFieldsOffline(dataUserObject.Patient, dataUserObject.Diagnosis);
+          promises=[doctorProm,patientProm];
         }
-        setDocuments(dataUserObject).then(function(){
+        $q.all(promises).then(function(){
+          Messages.setUserMessages(dataUserObject.Messages);
+          Notifications.setUserNotifications(dataUserObject.Notifications);
           var plan={
               '1':{'Name':'CT for Radiotherapy Planning','Date':'2015-10-19T09:00:00Z','Description':'stage1','Type': 'Appointment'},
               '2':{'Name':'Physician Plan Preparation','Date':'2015-10-21T09:15:00Z','Description':'stage2','Type':'Task'},
@@ -30,17 +43,10 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
           }
             UserPlanWorkflow.setUserPlanWorkflow(plan);
             UserPreferences.setUserPreferences(dataUserObject.Patient.Language,dataUserObject.Patient.EnableSMS);
-            Doctors.setUserContacts(dataUserObject.Doctors);
-            Patient.setUserFields(dataUserObject.Patient, dataUserObject.Diagnosis);
             Appointments.setUserAppointments(dataUserObject.Appointments);
-            setUpForNews().then( Notifications.setUserNotifications(dataUserObject.Notifications));
             Notes.setNotes(dataUserObject.Notes);
-            function setUpForNews(){
-                var r=$q.defer();
-                Messages.setUserMessages(dataUserObject.Messages);
-                r.resolve(true);
-                return r.promise;
-            }
+            console.log(dataUserObject);
+            LocalStorage.WriteToLocalStorage('All',dataUserObject);
         });
     }
 
@@ -94,43 +100,8 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
     {
         var r=$q.defer();
         var data='';
-        if(section!='UserPreferences'){
-            data=LocalStorage.ReadLocalStorage(section);
-        }else{
-            data=LocalStorage.ReadLocalStorage('Patient');
-        }
-        switch(section){
-            case 'All':
-                updateAllServices(data,'Offline');
-                break;
-            case 'Doctors':
-                Doctors.setUserContacts(data);
-                break;
-            case 'Patient':
-                Patient.setUserFields(data);
-                break;
-            case 'Appointments':
-                Appointments.setUserAppointments(data);
-                break;
-            case 'Messages':
-                Messages.setUserMessages(data);
-                break;
-            case 'Documents':
-                Documents.setDocuments(data,'Offline');
-                break;
-            case 'UserPreferences':
-                UserPreferences.setUserPreferences(data.Language,data.EnableSMS);
-                break;
-            case 'Notifications':
-                Notifications.setUserNotifications(data);
-                break;
-            case 'Notes':
-                Notes.setNotes(data);
-                break;
-            case 'UserPlanWorkflow':
-            //To be done eventually!!!
-            break;
-        }
+        data=LocalStorage.ReadLocalStorage(section);
+        updateAllServices(data,'Offline');
         r.resolve(true);
         return r.promise;
     }
@@ -157,16 +128,19 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
             if(data!=undefined){
                 console.log(data);
                 data=EncryptionService.decryptData(data);
-                LocalStorage.WriteToLocalStorage(section,data);
+                if(section!=='Documents')
+                {
+                  LocalStorage.WriteToLocalStorage(section,data);
+                }
                 switch(section){
                     case 'All':
                         updateAllServices(data, 'Online');
+                        break;
                     case 'Doctors':
-                        console.log(data);
-                        Doctors.setUserContacts(data);
+                        Doctors.setUserContactsOnline(data);
                         break;
                     case 'Patient':
-                        Patient.setUserFields(data);
+                        Patient.setUserFieldsOnline(data);
                         break;
                     case 'Appointments':
                         Appointments.setUserAppointments(data);
@@ -175,7 +149,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                         Messages.setUserMessages(data);
                         break;
                     case 'Documents':
-                        Documents.setDocuments(data,'Online');
+                        Documents.setDocumentsOnline(data,'Online');
                         break;
                     case 'UserPreferences':
                         UserPreferences.setUserPreferences(data.Language,data.EnableSMS);
@@ -225,13 +199,13 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
 
         UpdateSection:function(section)
         {
-
             var r=$q.defer();
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if(app){
                 if($cordovaNetwork.isOnline()){
                     return UpdateSectionOnline(section);
                 }else{
+                    navigator.notification.alert('Connect to the internet for your most recent data, loading last saved data from device. Your documents will not be available',function(){},'Internet Connectivity','Ok');
                     return UpdateSectionOffline(section);
                 }
             }else{

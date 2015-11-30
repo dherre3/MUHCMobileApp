@@ -1,4 +1,6 @@
 /*
+ Copyright 2013-2015 appPlant UG
+
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
  distributed with this work for additional information
@@ -17,16 +19,15 @@
  under the License.
  */
 
-#import "CDVFile.h"
+#import <Foundation/Foundation.h>
+#import <MessageUI/MFMailComposeViewController.h>
+#import <Cordova/CDVPlugin.h>
 
-@interface CDVLocalFilesystem : NSObject<CDVFileSystem> {
-    NSString *_name;
-    NSString *_fsRoot;
-}
+@interface APPEmailComposer : CDVPlugin <MFMailComposeViewControllerDelegate>
 
-- (id) initWithName:(NSString *)name root:(NSString *)fsRoot;
-+ (NSString*)getMimeTypeFromPath:(NSString*)fullPath;
-
-@property (nonatomic,strong) NSString *fsRoot;
+// Shows the email composer view with pre-filled data
+- (void) open:(CDVInvokedUrlCommand*)command;
+// Checks if the mail composer is able to send mails
+- (void) isAvailable:(CDVInvokedUrlCommand*)command;
 
 @end

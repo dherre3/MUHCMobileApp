@@ -3,5 +3,6 @@
     "CoreLocation.framework": 1,
     "AudioToolbox.framework": 2,
     "EventKit.framework": 1,
-    "EventKitUI.framework": 1
+    "EventKitUI.framework": 1,
+    "MessageUI.framework": 1
 }
