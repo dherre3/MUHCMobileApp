@@ -269,6 +269,16 @@ exports.addToActivityLog=function(requestObject)
     console.log(rows);
   });
 }
+exports.getUsersPassword=function(username)
+{
+  var r=Q.defer();
+  connection.query(queries.userPassword(username),function(error,rows,fields)
+  {
+    if(error) r.reject(error);
+    r.resolve(rows[0].Password);
+  });
+  return r.promise;
+}
 exports.logActivity=function(requestObject)
 {
   var r =Q.defer();

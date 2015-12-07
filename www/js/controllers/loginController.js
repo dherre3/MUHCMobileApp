@@ -20,6 +20,7 @@ var myApp=angular.module('MUHCApp')
 */
     myApp.controller('LoginController', ['$scope', '$rootScope', '$state', 'UserAuthorizationInfo', 'RequestToServer', 'Patient', function ($scope, $rootScope, $state, UserAuthorizationInfo,RequestToServer,UserPreferences, Patient) {
     $scope.platformBoolean=(ons.platform.isAndroid()&&ons.platform.isIOS());
+    console.log(CryptoJS.SHA256('12345').toString());
     var authInfo=window.localStorage.getItem('UserAuthorizationInfo');
     if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
@@ -77,7 +78,7 @@ var myApp=angular.module('MUHCApp')
                 var patientDataFields='Users/'+userId;
                 //Updating Patients references to signal backend to upload data
                 myDataRef.child(patientLoginRequest).update({LogIn:true});
-                UserAuthorizationInfo.setUserAuthData(authData.uid, $scope.signup.password, authData.expires);
+                UserAuthorizationInfo.setUserAuthData(authData.uid, CryptoJS.SHA256($scope.signup.password).toString(), authData.expires);
                 //Setting The User Object for global Application Use
                 authenticationToLocalStorage={};
                 authenticationToLocalStorage={

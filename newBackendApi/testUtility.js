@@ -2,6 +2,9 @@ var utility=require('./utility.js');
 var sqlInterface=require('./sqlInterface.js');
 var filesystem  =require('fs');
 var Firebase =require('firebase');
+var sqlInterface=require('./sqlInterface.js');
+var CryptoJS=require('crypto-js');
+
 function sayHelloWorld()
 {
   console.log('Hello World');
@@ -17,15 +20,10 @@ while(!queue.isEmpty())
   var b=queue.dequeue();
   console.log(b);
 }*/
-var ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/.info/connected');
-ref.on("value",function(snap)
-{
-  if(snap.val()==true)
-  {
-    console.log('connected');
-  }else{
-    console.log('disconnected');
-  }
+sqlInterface.getUsersPassword('ec00959e-7291-469b-87c8-1d302a676371').then(function(pass){
+  console.log(pass);
+  var a=CryptoJS.AES.encrypt('David',pass).toString();
+  var b=CryptoJS.AES.decrypt(a,pass).toString(CryptoJS.enc.Utf8);
+  console.log(b);
+
 });
-var ref2=new Firebase('https://brilliant-inferno-7679.firebaseio.com/');
-ref2.onDisconnect().set('I disconnected');

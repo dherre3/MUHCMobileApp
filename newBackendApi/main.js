@@ -3,6 +3,7 @@ var utility=require('./utility.js');
 var updateClient=require('./updateClient.js');
 var updateServer=require('./updateServer.js');
 var credentials=require('./credentials.js');
+var sqlInterface=require('./sqlInterface.js');
 var api=require('./api.js');
 
 //console.log(a);
@@ -19,36 +20,47 @@ ref.child('requests').on('child_added',function(requestsFromFirebase){
 
 function request(requestKey, requestObject)
 {
-
-  requestObject.Request=utility.decryptObject(requestObject.Request);
-  console.log(requestObject.Request);
-  requestObject.Parameters=utility.decryptObject(requestObject.Parameters);
-  if(requestObject.Request=='Login'||requestObject.Request=='Refresh')
-  {
-    updateClient.update(requestObject).then(function(objectToFirebase)
+  sqlInterface.getUsersPassword(requestObject.UserID).then(function(key){
+    requestObject.Request=utility.decryptObject(requestObject.Request,key);
+    var encryptionKey=key;
+    //console.log(encryptionKey);
+    if(requestObject.Request=='') {
+      console.log('Rejecting request');
+      completeRequest(requestKey,{},'Invalid');
+      return;
+    }
+    requestObject.Parameters=utility.decryptObject(requestObject.Parameters,key);
+    if(requestObject.Request=='Login'||requestObject.Request=='Refresh')
     {
-        uploadToFirebase(requestKey, requestObject, objectToFirebase);
+      updateClient.update(requestObject).then(function(objectToFirebase)
+      {
+        console.log(encryptionKey);
+          uploadToFirebase(requestKey, encryptionKey,requestObject, objectToFirebase);
 
-    }).catch(function(response){
-        completeRequest(requestKey,requestObject,'Invalid');
-    });
-  }else
-  {
-    updateServer.update(requestObject).then(function(requestObject)
+      }).catch(function(response){
+          completeRequest(requestKey,requestObject,'Invalid');
+      });
+    }else
     {
-        completeRequest(requestKey, requestObject);
-    }).catch(function(response){
-        completeRequest(requestKey,requestObject,'Invalid');
-    });
- }
+      updateServer.update(requestObject).then(function(requestObject)
+      {
+          completeRequest(requestKey, requestObject);
+      }).catch(function(response){
+          completeRequest(requestKey,requestObject,'Invalid');
+      });
+    }
+  }).catch(function(error){
+    console.log(error);
+    completeRequest(requestKey,{},'Invalid');
+  });
 
 }
-function uploadToFirebase(requestKey,requestObject,object)
+function uploadToFirebase(requestKey,encryptionKey,requestObject,object)
 {
   console.log('I am about to go to into encrypting');
   //console.log(request);
-  object=utility.encryptObject(object);
-
+  object=utility.encryptObject(object,encryptionKey);
+  //console.log(object);
   var deviceId=requestObject.DeviceId;
   var UserID=requestObject.UserID;
   var userFieldsPath='Users/'+UserID+'/'+deviceId;

@@ -8,6 +8,7 @@ exports.patientQuery=function(userID)
                       'Patient.LastName,' +
                       'Patient.TelNum,' +
                       'Patient.Email,' +
+                      'Patient.Alias, '+
                       'Patient.Language,' +
                       'Patient.EnableSMS,' +
                       'Patient.ProfileImage ' +
@@ -237,3 +238,8 @@ exports.logActivity=function(requestObject)
   console.log("INSERT INTO PatientActivityLog (`ActivitySerNum`,`Request`,`UserID`, `DeviceID`,`Parameters` ,`DateAdded`,`LastUpdated`) VALUES (NULL,'"+requestObject.Request+ "', '"+requestObject.UserID+ "', '"+requestObject.DeviceId+"', '"+parameters+"' , CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP )");
   return "INSERT INTO PatientActivityLog (`ActivitySerNum`,`Request`,`UserID`, `DeviceID`,`Parameters` ,`DateAdded`,`LastUpdated`) VALUES (NULL,'"+requestObject.Request+ "', '"+requestObject.UserID+ "', '"+requestObject.DeviceId+"', '"+parameters+"' , CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP )";
 }
+
+exports.userPassword=function(username)
+{
+  return "SELECT Password FROM Users WHERE Username LIKE '"+username+"'";
+};
