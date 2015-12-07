@@ -1,5 +1,5 @@
 var myApp=angular.module('MUHCApp');
-myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice){
+myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
     function copyDoctorObject(object)
     {
       var newObject={};
@@ -33,7 +33,7 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
                   }
                 }
                 var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
-                /*if(app){
+                if(app){
                   for (var i = 0; i < doctorKeyArray.length; i++) {
                     if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined' )
                     {
@@ -49,13 +49,13 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
                       var options = {};
                       doctors[doctorKeyArray[i]].NameFileSystem='doctor'+doctors[doctorKeyArray[i]].DoctorSerNum+"."+doctors[doctorKeyArray[i]].DocumentType;
                       doctors[doctorKeyArray[i]].PathFileSystem=targetPath;
-                      promises.push($cordovaFileTransfer.download(url, targetPath, options, trustHosts));
+                      promises.push(FileManagerService.downloadFileIntoStorage(url, targetPath));
                     }
                   }
-                }*/
+                }
                 for (var i = 0; i < doctors.length; i++) {
                   var copyDoctor=copyDoctorObject(doctors[doctorKeyArray[i]]);
-                    //delete doctors[i].ProfileImage;
+                    delete doctors[i].ProfileImage;
                    if(copyDoctor.PrimaryFlag=='1'){
                         this.PrimaryPhysician.push(copyDoctor);
                    }else if(copyDoctor.OncologistFlag=='1')

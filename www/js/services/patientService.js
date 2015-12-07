@@ -56,7 +56,10 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
           this.Email=patientFields.Email;
           this.Diagnosis=diagnosis;
           this.UserSerNum=patientFields.PatientSerNum;
-          this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
+          this.ProfileImage=patientFields.ProfileImage;
+          FileManagerService.getFileUrl(patientFields.PathFileSystem).then(function(result){
+            patientFields.ProfileImage=result;
+          });
           r.resolve(patientFields);
           return r.promise;
         },

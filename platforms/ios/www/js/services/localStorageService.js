@@ -6,9 +6,6 @@ myApp.service('LocalStorage',['UserAuthorizationInfo', function(UserAuthorizatio
 			if(section=='All')
 			{
 				 window.localStorage.setItem(UserAuthorizationInfo.UserName, JSON.stringify(data));
-			}else if(section=='Documents')
-			{
-				//Deal with it later
 			}else{
 				var storage=window.localStorage.getItem(UserAuthorizationInfo.UserName);
 				storage=JSON.parse(storage);
@@ -21,16 +18,18 @@ myApp.service('LocalStorage',['UserAuthorizationInfo', function(UserAuthorizatio
 		{
 			if(section=='All')
 			{
-				 var storage=window.localStorage.getItem('UserAuthorizationInfo');
-				 storage=JSON.parse(storage);
-				 storage=window.localStorage.getItem(storage.UserName);
+				 var user=window.localStorage.getItem('UserAuthorizationInfo');
+				 user=JSON.parse(user);
+				 console.log(user);
+				 storage=window.localStorage.getItem(user.UserName);
+				 console.log(storage);
 				 return JSON.parse(storage);
-
-			}else if(section=='Documents')
-			{
-				//Deal with it later
 			}else{
-				var storage=window.localStorage.getItem(UserAuthorizationInfo.UserName);
+				var user=window.localStorage.getItem('UserAuthorizationInfo');
+				user=JSON.parse(user);
+				console.log(user);
+				storage=window.localStorage.getItem(user.UserName);
+				console.log(storage);
 				storage=JSON.parse(storage);
 				return storage[section];
 			}

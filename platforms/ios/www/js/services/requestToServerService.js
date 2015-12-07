@@ -8,6 +8,17 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
     function getIdentifierWeb()
     {
       var r=$q.defer();
+      /*$http({
+        method:'GET',
+        url:'https://depdocs.com/opal/getPublicIpAddress.php'}).then(function(data){
+          data=data.data;
+          data=data.substring(2, data.length-2);
+          var uniqueIdentifier=JSON.parse(data);
+          var uuid=String(uniqueIdentifier.query);
+          uuid=uuid.replace(/\./g, "-");
+          console.log(uuid);
+          r.resolve(uuid);
+        });*/
     $http({
         method: 'GET',
         url: 'http://ip-api.com/json/?callback=?'
@@ -61,6 +72,37 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
               }else{
                   navigator.notification.alert('No changes will be reflected at the hospital. Connect to the internet to perform this action, ',function(){},'Internet Connectivity','Ok');
               }
+          }else{
+            var Ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/requests');
+            var userID=UserAuthorizationInfo.UserName;
+            console.log(identifier);
+            var encryptedRequestType=EncryptionService.encryptData(typeOfRequest);
+            content= EncryptionService.encryptData(content);
+            console.log(content);
+
+            if(typeOfRequest=='Login'||typeOfRequest=='Logout')
+            {
+              Ref.push({ 'Request' : encryptedRequestType,'DeviceId':identifier,  'UserID': userID })
+            }else if(typeOfRequest=='Refresh')
+            {
+              Ref.push({ 'Request' : encryptedRequestType,'DeviceId':identifier,  'UserID': userID, 'Parameters':content })
+            }
+            else if (typeOfRequest=="NewNote"||typeOfRequest=="EditNote"||typeOfRequest=="DeleteNote"||typeOfRequest=="AccountChange"||typeOfRequest=="AppointmentChange"||typeOfRequest=="Message"||typeOfRequest=="Feedback")
+            {
+              Ref.push({'Request': encryptedRequestType,'DeviceId':identifier, 'UserID':userID, 'Parameters':content});
+            }
+            else if (typeOfRequest=='Checkin')
+            {
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'AppointmentSerNum' : content}});
+            }
+            else if (typeOfRequest=='MessageRead')
+            {
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'MessageSerNum' : content }});
+            }
+            else if (typeOfRequest=='NotificationRead')
+            {
+              Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'NotificationSerNum' : content }});
+            }
           }
 
 
