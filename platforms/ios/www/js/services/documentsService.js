@@ -42,7 +42,7 @@ myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork'
 					imageToPhotoObject.PathFileSystem=documents[keysDocuments[i]].PathFileSystem;
 					imageToPhotoObject.NameFileSystem=documents[keysDocuments[i]].NameFileSystem;
 					imageToPhotoObject.DocumentType=documents[keysDocuments[i]].DocumentType;
-					//imageToPhotoObject.Content=documents[keysDocuments[i]].Content;
+					imageToPhotoObject.Content=documents[keysDocuments[i]].Content;
 					delete documents[keysDocuments[i]].Content;
           delete documents[keysDocuments[i]].PathLocation;
 					photos.push(imageToPhotoObject);
@@ -60,7 +60,7 @@ myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork'
 		{
 			var r=$q.defer();
 			this.Photos=[];
-			this.Photos=documents;
+			photos=[];
 			if(!documents) return;
 			var keysDocuments=Object.keys(documents);
 			var promises=[];
@@ -79,6 +79,7 @@ myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork'
 				}
 				r.resolve(documents);
 			});
+			this.Photos=photos;
 			 return r.promise;
 		},
 		getDocuments:function(){

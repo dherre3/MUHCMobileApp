@@ -20,16 +20,12 @@ myApp.service('LocalStorage',['UserAuthorizationInfo', function(UserAuthorizatio
 			{
 				 var user=window.localStorage.getItem('UserAuthorizationInfo');
 				 user=JSON.parse(user);
-				 console.log(user);
 				 storage=window.localStorage.getItem(user.UserName);
-				 console.log(storage);
 				 return JSON.parse(storage);
 			}else{
 				var user=window.localStorage.getItem('UserAuthorizationInfo');
 				user=JSON.parse(user);
-				console.log(user);
 				storage=window.localStorage.getItem(user.UserName);
-				console.log(storage);
 				storage=JSON.parse(storage);
 				return storage[section];
 			}

@@ -1,19 +1,6 @@
 var myApp = angular.module('MUHCApp');
 myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$scope', '$timeout', 'UserPreferences', 'RequestToServer', '$cordovaFile','UserAuthorizationInfo','$q',function(Patient, Documents, UpdateUI, $scope, $timeout, UserPreferences, RequestToServer,$cordovaFile,UserAuthorizationInfo,$q) {
-
-  section='Documents';
-  var user=window.localStorage.getItem('UserAuthorizationInfo');
-  user=JSON.parse(user);
-  console.log(user);
-  storage=window.localStorage.getItem(user.UserName);
-  storage=JSON.parse(storage);
-  console.log(storage[section]);
-  Documents.setDocumentsOffline(storage[section]);
-  $timeout(function(){
-    documentsInit();
-  });
-
-
+  documentsInit();
   function documentsInit() {
     $scope.documents = Documents.getDocuments();
     if($scope.documents.length==0){

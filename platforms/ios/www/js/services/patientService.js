@@ -1,6 +1,7 @@
 var myApp=angular.module('MUHCApp');
 
-myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordovaDevice',function(UserPreferences,$q, $cordovaFileTransfer, $cordovaDevice){
+myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordovaDevice','FileManagerService',function(UserPreferences,$q, $cordovaFileTransfer, $cordovaDevice,FileManagerService){
+    var profileImage='';
     return{
         setUserFieldsOnline:function(patientFields,diagnosis){
             var r=$q.defer();
@@ -13,7 +14,8 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
             this.Diagnosis=diagnosis;
             this.UserSerNum=patientFields.PatientSerNum;
             this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
-            /*var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+            profileImage=this.ProfileImage;
+            var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if(app){
                 if(patientFields.ProfileImage)
                 {
@@ -26,24 +28,25 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
                     targetPath = cordova.file.documentsDirectory+ 'Patient/patient'+patientFields.PatientSerNum+"."+patientFields.DocumentType;
                   }
                   var url = patientFields.ProfileImage;
+                  delete patientFields.ProfileImage;
                   var trustHosts = true
                   var options = {};
                   this.NameFileSystem='patient'+patientFields.PatientSerNum+"."+patientFields.DocumentType;
                   this.PathFileSystem=targetPath;
-                  $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function(data)
+                  patientFields.NameFileSystem='patient'+patientFields.PatientSerNum+"."+patientFields.DocumentType;
+                  patientFields.PathFileSystem=targetPath;
+                  var promise=[FileManagerService.downloadFileIntoStorage(url, targetPath)];
+                  $q.all(promise).then(function()
                   {
-                    delete patientFields.ProfileImage;
                     r.resolve(patientFields);
                   });
                 }else{
-                  delete patientFields.ProfileImage;
                   r.resolve(patientFields);
                 }
               }else{
-
-              }*/
-              //delete patientFields.ProfileImage;
-              r.resolve(patientFields);
+                delete patientFields.ProfileImage;
+                r.resolve(patientFields);
+              }
             return r.promise;
         },
         setUserFieldsOffline:function(patientFields,diagnosis)
@@ -56,8 +59,17 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
           this.Email=patientFields.Email;
           this.Diagnosis=diagnosis;
           this.UserSerNum=patientFields.PatientSerNum;
-          this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
-          r.resolve(patientFields);
+          this.ProfileImage=patientFields.ProfileImage;
+          var promise=[FileManagerService.getFileUrl(patientFields.PathFileSystem)];
+          $q.all(promise).then(function(result){
+            console.log(result);
+            patientFields.ProfileImage=result[0];
+            profileImage=result[0];
+            console.log(profileImage);
+            r.resolve(patientFields);
+          });
+
+
           return r.promise;
         },
         setDiagnosis:function(diagnosis){
@@ -103,7 +115,7 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
             this.ProfileImage='data:image/png;base64,'+img;
         },
         getProfileImage:function(){
-            return this.ProfileImage;
+            return profileImage;
         },
         getStatus:function(){
             return this.Status;

@@ -33,6 +33,7 @@
     <script src="./lib/bower_components/progressbar.js/dist/progressbar.min.js"/></script>
   <!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
   <script src="lib/js/bootstrap.min.js"></script>
+
   <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>-->
   <script src="lib/js/angular-ui-router.min.js"></script>
   <!-- Firebase -->
@@ -53,6 +54,9 @@
   <!--Encryption and Decryption libraries-->
   <script src="lib/js/aes.js"/></script>
   <script src="lib/js/mode-cfb-min.js"/></script>
+	<!--<script src="lib/js/md5KeyEncryption.js"></script>-->
+	<script src='lib/js/sha256.js'></script>
+
    <!--Library to zoom in to images-->
    <script src="lib/js/image-touch-canvas.js"></script>
 
@@ -111,14 +115,15 @@
 
     // Find the DOM element where you want to add ng-app
     var element = document.getElementById('boots');
-
+		console.log(cordova.file);
+		console.log(FileTransfer);
     angular.bootstrap(element, ["MUHCApp"]); //Or simple document in place of element
 }, false);
   }
 
   </script>
 </head>
-<body id='boots'>
+<body id='boots' >
 <!--Loading Modal for the initial loading screen-->
 <ons-modal var="modal">
         <ons-icon icon="ion-load-c" spin="true"></ons-icon>

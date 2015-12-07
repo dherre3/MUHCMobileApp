@@ -39,7 +39,9 @@ myApp.service('UserAuthorizationInfo', function () {
             this.Password=password;
         },
         setPassword:function(password){
+            password=CryptoJS.SHA256(password).toString();
             this.Password=password;
+            console.log(this.Password);
             window.localStorage.setItem('pass',password);
             var passString=window.localStorage.getItem('MUHCApp');
             passObject=JSON.parse(passString);
