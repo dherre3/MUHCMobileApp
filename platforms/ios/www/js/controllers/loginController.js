@@ -29,9 +29,10 @@ var myApp=angular.module('MUHCApp')
         RequestToServer.setIdentifier().then(function(uuid)
         {
           console.log(uuid);
-            RequestToServer.sendRequest('Login');
-            $state.go('loading');
+          RequestToServer.sendRequest('Login');
+          $state.go('loading');
         });
+
     }
     $scope.signup={};
 

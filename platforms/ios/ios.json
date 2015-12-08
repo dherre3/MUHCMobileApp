@@ -25,14 +25,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Vibration\"><param name=\"ios-package\" value=\"CDVVibration\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"Calendar\"><param name=\"ios-package\" value=\"Calendar\" /></feature>",
                             "count": 1
                         },
@@ -58,6 +50,10 @@
                         },
                         {
                             "xml": "<feature name=\"FileTransfer\"><param name=\"ios-package\" value=\"CDVFileTransfer\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -89,12 +85,6 @@
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.muhc.opal"
         },
-        "cordova-plugin-vibration": {
-            "PACKAGE_NAME": "com.muhc.opal"
-        },
-        "cordova-plugin-dialogs": {
-            "PACKAGE_NAME": "com.muhc.opal"
-        },
         "cordova-plugin-calendar": {
             "PACKAGE_NAME": "com.muhc.opal"
         },
@@ -114,6 +104,9 @@
             "PACKAGE_NAME": "com.muhc.opal"
         },
         "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.muhc.opal"
+        },
+        "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "com.muhc.opal"
         }
     },
@@ -182,23 +175,6 @@
             "pluginId": "cordova-plugin-geolocation",
             "clobbers": [
                 "navigator.geolocation"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-vibration/www/vibration.js",
-            "id": "cordova-plugin-vibration.notification",
-            "pluginId": "cordova-plugin-vibration",
-            "merges": [
-                "navigator.notification",
-                "navigator"
-            ]
-        },
-        {
-            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
-            "id": "cordova-plugin-dialogs.notification",
-            "pluginId": "cordova-plugin-dialogs",
-            "merges": [
-                "navigator.notification"
             ]
         },
         {
@@ -422,6 +398,14 @@
             "clobbers": [
                 "window.FileTransfer"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -430,6 +414,7 @@
         "cordova-plugin-inappbrowser": "1.1.0",
         "de.appplant.cordova.plugin.email-composer": "0.8.3dev",
         "cordova-plugin-file": "3.0.0",
-        "cordova-plugin-file-transfer": "1.4.0"
+        "cordova-plugin-file-transfer": "1.4.0",
+        "cordova-plugin-dialogs": "1.2.0"
     }
 }

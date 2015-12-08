@@ -1,5 +1,5 @@
 var myApp=angular.module('MUHCApp');
-myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice){
+myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
     function copyDoctorObject(object)
     {
       var newObject={};
@@ -9,6 +9,10 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
       }
       return newObject;
     }
+    var Doctors=[];
+    var Oncologists=[];
+    var OtherDoctors=[];
+    var PrimaryPhysician=[];
     return{
         setUserContactsOnline:function(doctors)
         {
@@ -49,7 +53,7 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
                       var options = {};
                       doctors[doctorKeyArray[i]].NameFileSystem='doctor'+doctors[doctorKeyArray[i]].DoctorSerNum+"."+doctors[doctorKeyArray[i]].DocumentType;
                       doctors[doctorKeyArray[i]].PathFileSystem=targetPath;
-                      promises.push($cordovaFileTransfer.download(url, targetPath, options, trustHosts));
+                      promises.push(FileManagerService.downloadFileIntoStorage(url, targetPath));
                     }
                   }
                 }
@@ -58,18 +62,24 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
                     delete doctors[i].ProfileImage;
                    if(copyDoctor.PrimaryFlag=='1'){
                         this.PrimaryPhysician.push(copyDoctor);
+                        PrimaryPhysician.push(copyDoctor);
                    }else if(copyDoctor.OncologistFlag=='1')
                    {
                         this.Oncologists.push(copyDoctor);
+                        Oncologists.push(copyDoctor);
                    }else{
                      this.OtherDoctors.push(copyDoctor);
+                     OtherDoctors.push(copyDoctor);
                    }
+                   Doctors.push(copyDoctor);
                    this.Doctors.push(copyDoctor);
                 };
                 this.Oncologists=$filter('orderBy')(this.Oncologists,'LastName',false);
                 this.Doctors=$filter('orderBy')(this.Doctors,'LastName',false);
                 this.OtherDoctors=$filter('orderBy')(this.OtherDoctors,'LastName',false);
-                console.log(this.Doctors);
+                Doctors=$filter('orderBy')(Doctors,'LastName',false);
+                Oncologists=$filter('orderBy')(Oncologists,'LastName',false);
+                OtherDoctors=$filter('orderBy')(OtherDoctors,'LastName',false);
                 $q.all(promises).then(function(){
                   r.resolve(doctors);
                 });
@@ -81,34 +91,51 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
         setUserContactsOffline:function(doctors)
         {
             var r=$q.defer();
-            this.Doctors=[];
-            this.Oncologists=[];
-            this.OtherDoctors=[];
-            this.PrimaryPhysician=[];
+            Doctors=[];
+            Oncologists=[];
+            OtherDoctors=[];
+            PrimaryPhysician=[];
+            var promises=[];
+
             /*
             *Add code for offline extraction of doctors photos
             */
-            if(typeof doctors!=='undefined'&&doctors){
-              for (var i = 0; i < doctorKeyArray.length; i++) {
-                var copyDoctor=copyDoctorObject(doctors[doctorKeyArray[i]]);
-                  delete doctors[i].ProfileImage;
-                 if(copyDoctor.PrimaryFlag=='1'){
-                      this.PrimaryPhysician.push(copyDoctor);
-                 }else if(copyDoctor.OncologistFlag=='1')
-                 {
-                      this.Oncologists.push(copyDoctor);
-                 }else{
-                   this.OtherDoctors.push(copyDoctor);
-                 }
-                 this.Doctors.push(copyDoctor);
-              };
-              console.log(doctors);
-              this.Oncologists=$filter('orderBy')(this.Oncologists,'LastName',false);
-              this.Doctors=$filter('orderBy')(this.Doctors,'LastName',false);
-              this.OtherDoctors=$filter('orderBy')(this.OtherDoctors,'LastName',false);
 
+            if(typeof doctors!=='undefined'&&doctors){
+              var doctorKeyArray=Object.keys(doctors);
+              for (var i = 0; i < doctorKeyArray.length; i++) {
+                if(doctors[i].PathFileSystem){
+                  promises.push(FileManagerService.getFileUrl(doctors[i].PathFileSystem));
+                }
+              }
+              $q.all(promises).then(function(results){
+                var tracker=0;
+                for (var i = 0; i < doctors.length; i++) {
+                  var copyDoctor=copyDoctorObject(doctors[i]);
+                  if(doctors[i].PathFileSystem)
+                  {
+                    copyDoctor.ProfileImage=results[tracker];
+                    tracker++;
+                  }
+                   if(copyDoctor.PrimaryFlag=='1'){
+                        PrimaryPhysician.push(copyDoctor);
+                   }else if(copyDoctor.OncologistFlag=='1')
+                   {
+                        Oncologists.push(copyDoctor);
+                   }else{
+                     OtherDoctors.push(copyDoctor);
+                   }
+                   Doctors.push(copyDoctor);
+                };
+                Oncologists=$filter('orderBy')(Oncologists,'LastName',false);
+                Doctors=$filter('orderBy')(Doctors,'LastName',false);
+                OtherDoctors=$filter('orderBy')(OtherDoctors,'LastName',false);
+                r.resolve(true);
+              });
+            }else{
+              r.resolve(true);
             }
-            r.resolve(true);
+
             return r.promise;
         },
         isEmpty:function()
@@ -121,23 +148,23 @@ myApp.service('Doctors',function($q,$filter,$cordovaFileTransfer,$cordovaDevice)
           }
         },
         getContacts:function(){
-            return this.Doctors;
+            return Doctors;
         },
         getPrimaryPhysician:function(){
-            return this.PrimaryPhysician;
+            return PrimaryPhysician;
         },
         getOncologists:function(){
-            return this.Oncologists;
+            return Oncologists;
         },
         getOtherDoctors:function(){
-            return this.OtherDoctors;
+            return OtherDoctors;
         },
         getDoctorBySerNum:function(userSerNum){
-            for (var i = 0; i < this.Doctors.length; i++) {
-                if(this.Doctors[i].DoctorSerNum===userSerNum)
+            for (var i = 0; i < Doctors.length; i++) {
+                if(Doctors[i].DoctorSerNum===userSerNum)
                 {
-                    console.log(this.Doctors[i]);
-                    return this.Doctors[i];
+                    console.log(Doctors[i]);
+                    return Doctors[i];
                 }
             };
         }

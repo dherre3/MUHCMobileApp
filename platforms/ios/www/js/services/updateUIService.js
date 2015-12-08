@@ -237,7 +237,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 if($cordovaNetwork.isOnline()){
                     return UpdateSectionOnline(section);
                 }else{
-                    navigator.notification.alert('Connect to the internet for your most recent data, loading last saved data from device. Your documents will not be available',function(){},'Internet Connectivity','Ok');
+                    //navigator.notification.alert('Connect to the internet for your most recent data, loading last saved data from device. Your documents will not be available',function(){},'Internet Connectivity','Ok');
                     return UpdateSectionOffline(section);
                 }
             }else{

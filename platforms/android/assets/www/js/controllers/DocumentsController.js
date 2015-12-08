@@ -1,33 +1,6 @@
 var myApp = angular.module('MUHCApp');
 myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$scope', '$timeout', 'UserPreferences', 'RequestToServer', '$cordovaFile','UserAuthorizationInfo','$q',function(Patient, Documents, UpdateUI, $scope, $timeout, UserPreferences, RequestToServer,$cordovaFile,UserAuthorizationInfo,$q) {
   documentsInit();
-  var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
-    if(app){
-    var dataUserString=window.localStorage.getItem(UserAuthorizationInfo.UserName);
-    var dataUserObject=JSON.parse(dataUserString);
-    var images=dataUserObject.Documents;
-    console.log(images);
-    var promises=[];
-    for (var i = 0; i < images.length; i++) {
-      if(images[i].PathFileSystem)
-      {
-        console.log(images[i].PathFileSystem);
-        console.log(images[i].NameFileSystem);
-        $cordovaFile.readAsDataURL(images[i].PathFileSystem, images[i].NameFileSystem).then(function(sucess)
-      {
-        console.log(sucess);
-      },function(error)
-    {
-      console.log(error);
-    });
-
-      }
-    }
-     /*$q.all(promises).then(function(result1,result2){
-       console.log(result1);
-       console.log(result2);
-     });*/
-   }
   function documentsInit() {
     $scope.documents = Documents.getDocuments();
     if($scope.documents.length==0){
@@ -63,12 +36,14 @@ myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$s
   };
 }]);
 
-myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer',function(Documents, $timeout, $scope,$cordovaEmailComposer) {
+myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService) {
   console.log('Simgle Document Controller');
   var page = myNavigator.getCurrentPage();
   var image = page.options.param;
+  $scope.documentObject=image;
   console.log(image);
-  $scope.documentObject = image;
+  //$scope.documentObject = image;
+
   $scope.shareViaEmail=function()
   {
     var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
@@ -110,3 +85,63 @@ myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope',
             path: "./img/D-RC_ODC_16June2015_en_FNL.png"
         });*/
 }]);
+myApp.service('FileManagerService',function($q){
+var file='';
+function readDataUrl(file,response) {
+  var r=$q.defer();
+    var reader = new FileReader();
+    var img='';
+    reader.onloadend = function(evt) {
+        console.log("Read as data URL");
+        r.resolve(response(evt.target.result));
+    };
+   reader.readAsDataURL(file);
+   return r.promise;
+}
+function callback(fileURL)
+{
+  var r=$q.defer();
+  file=fileURL;
+  r.resolve(fileURL);
+  return r.promise;
+}
+function gotFile(file){
+    var r=$q.defer();
+    r.resolve(readDataUrl(file,callback));
+    return r.promise;
+}
+return{
+  getFileUrl:function(filePath)
+  {
+
+    var r=$q.defer();
+    console.log(filePath);
+    window.resolveLocalFileSystemURL(filePath, function(fileEntry){
+      fileEntry.file(function(file){
+        r.resolve(gotFile(file));
+      },function(error)
+      {
+        r.reject(error);
+      });
+    }, function(error){
+     console.log('about to resolve this files errors');
+        r.reject(error.code);
+    });
+    return r.promise;
+  },
+  downloadFileIntoStorage:function(url,targetPath)
+  {
+    var r=$q.defer();
+    var fileTransfer = new FileTransfer();
+    fileTransfer.download(url, targetPath,
+      function(entry) {
+        console.log(entry);
+        r.resolve(entry);
+      },
+      function(err) {
+        console.log(err);
+        r.reject(err);
+      });
+    }
+  };
+});

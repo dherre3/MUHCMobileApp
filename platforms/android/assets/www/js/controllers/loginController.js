@@ -1,4 +1,8 @@
-
+/*
+*Code by David Herrera May 20, 2015
+*Github: dherre3
+*Email:davidfherrerar@gmail.com
+*/
 var myApp=angular.module('MUHCApp')
 
     /**
@@ -16,16 +20,19 @@ var myApp=angular.module('MUHCApp')
 */
     myApp.controller('LoginController', ['$scope', '$rootScope', '$state', 'UserAuthorizationInfo', 'RequestToServer', 'Patient', function ($scope, $rootScope, $state, UserAuthorizationInfo,RequestToServer,UserPreferences, Patient) {
     $scope.platformBoolean=(ons.platform.isAndroid()&&ons.platform.isIOS());
+    console.log(CryptoJS.SHA256('12345').toString());
     var authInfo=window.localStorage.getItem('UserAuthorizationInfo');
     if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
+        console.log(authInfoObject);
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
         RequestToServer.setIdentifier().then(function(uuid)
         {
           console.log(uuid);
-            RequestToServer.sendRequest('Login');
-            $state.go('loading');
+          RequestToServer.sendRequest('Login');
+          $state.go('loading');
         });
+
     }
     $scope.signup={};
 
@@ -72,18 +79,18 @@ var myApp=angular.module('MUHCApp')
                 var patientDataFields='Users/'+userId;
                 //Updating Patients references to signal backend to upload data
                 myDataRef.child(patientLoginRequest).update({LogIn:true});
-                UserAuthorizationInfo.setUserAuthData(authData.uid, $scope.signup.password, authData.expires);
+                UserAuthorizationInfo.setUserAuthData(authData.uid, CryptoJS.SHA256($scope.signup.password).toString(), authData.expires);
                 //Setting The User Object for global Application Use
                 authenticationToLocalStorage={};
                 authenticationToLocalStorage={
                         UserName:authData.uid,
-                        Password:$scope.signup.password,
+                        Password: CryptoJS.SHA256($scope.signup.password).toString(),
                         Expires:authData.expires,
                         Email:$scope.signup.email
                 }
                 $rootScope.refresh=true;
                 window.localStorage.setItem('UserAuthorizationInfo', JSON.stringify(authenticationToLocalStorage));
-                window.localStorage.setItem('pass', $scope.signup.password);
+                window.localStorage.setItem('pass', CryptoJS.SHA256($scope.signup.password).toString());
                 console.log(UserAuthorizationInfo.getUserAuthData());
                 console.log("Authenticated successfully with payload:", authData);
             }
@@ -96,61 +103,5 @@ var myApp=angular.module('MUHCApp')
 
     }
 
-    /**
-    *@ngdoc method
-    *@name submit
-    *@methodOf MUHCApp.controller:LoginController
-    *@description Submits the user login credentials, calls firebase function authWithPassword().
-    */
 
-    //myDataRef.unauth(); <-- use this for the logging out
-    /**
-    *@ngdoc method
-    *@name cleatText
-    *@methodOf MUHCApp.controller:LoginController
-    *@description
-    This function accesses all the fields for that particular user and posts them to the dom, also for testing
-    purposes.
-    */
-
-    function clearText() {
-        document.getElementById('emailField').value = "";
-        document.getElementById('passwordField').value = "";
-    }
-    /*@ngdoc method
-    *@name displayChatMessage
-    *@methodOf MUHCApp.controller:LoginController
-    *@description
-    This error message to the dom
-    */
-    function displayChatMessage(text) {
-        $("#addMe").html("");
-        if($scope.errorMessageLogIn!==undefined){
-        if (name !== "logged") {
-            $("#addMe").append("<h5 class='bg-danger'><strong>" + $scope.errorMessageLogIn + "</strong></h5>");
-            //$('<div/>').text(text).appendTo($('#addMe'));
-            $('#addMe')[0].scrollTop = $('#addMe')[0].scrollHeight;
-        }
-        }else{
-            if (name !== "logged") {
-            $("#addMe").append("<h5 class='bg-danger'><strong>" + text + "</strong></h5>");
-            //$('<div/>').text(text).appendTo($('#addMe'));
-            $('#addMe')[0].scrollTop = $('#addMe')[0].scrollHeight;
-        }
-        }
-    }
 }]);
-
-/**
-
-@@ -22,11 +22,17 @@ var myApp=angular.module('MUHCApp')
-        UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
-        RequestToServer.sendRequest('Refresh');
-        $state.go('loading');
-    }
-    //Creating reference to firebase link
-    $scope.submit = function (email, password) {
-        signin(email, password);
-        }
-
-    **/

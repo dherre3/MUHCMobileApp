@@ -70,7 +70,7 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
                   Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'NotificationSerNum' : content }});
                 }
               }else{
-                  navigator.notification.alert('No changes will be reflected at the hospital. Connect to the internet to perform this action, ',function(){},'Internet Connectivity','Ok');
+                //  navigator.notification.alert('No changes will be reflected at the hospital. Connect to the internet to perform this action, ',function(){},'Internet Connectivity','Ok');
               }
           }else{
             var Ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/requests');
