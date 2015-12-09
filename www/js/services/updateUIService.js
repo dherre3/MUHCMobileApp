@@ -163,7 +163,7 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
             var data=snapshot.val();
             if(data!=undefined){
                 console.log(data);
-                data=EncryptionService.decryptData(data);
+                data=EncryptionService.decryptData(data,UserAuthorizationInfo.getPassword());
                 switch(section){
                     case 'All':
                         updateAllServices(data, 'Online');

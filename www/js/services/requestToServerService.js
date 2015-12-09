@@ -35,15 +35,21 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
     }
     var identifier='';
     return{
-        sendRequest:function(typeOfRequest,content){
+        sendRequest:function(typeOfRequest,content,resetPasswordkey){
           var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
           if(app){
               if($cordovaNetwork.isOnline()){
                 var Ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/requests');
                 var userID=UserAuthorizationInfo.UserName;
                 console.log(identifier);
-                var encryptedRequestType=EncryptionService.encryptData(typeOfRequest);
-                content= EncryptionService.encryptData(content);
+                var encryptedRequestType=EncryptionService.encryptData(typeOfRequest,UserAuthorizationInfo.getPassword());
+                content= EncryptionService.encryptData(content,UserAuthorizationInfo.getPassword());
+                if(typeof resetPasswordKey!=='undefined')
+                {
+                  encryptedRequestType=EncryptionService.encryptData(typeOfRequest,resetPasswordKey);
+                  content= EncryptionService.encryptData(content,resetPasswordKey);
+                }
+
                 console.log(content);
 
                 if(typeOfRequest=='Login'||typeOfRequest=='Logout')
@@ -68,6 +74,9 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
                 else if (typeOfRequest=='NotificationRead')
                 {
                   Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'NotificationSerNum' : content }});
+                }else if(typeOfRequest=='ReserPassword')
+                {
+                  Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'SSN' : content }});
                 }
               }else{
                 //  navigator.notification.alert('No changes will be reflected at the hospital. Connect to the internet to perform this action, ',function(){},'Internet Connectivity','Ok');
@@ -75,11 +84,15 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
           }else{
             var Ref=new Firebase('https://brilliant-inferno-7679.firebaseio.com/requests');
             var userID=UserAuthorizationInfo.UserName;
+            var encryptedRequestType=EncryptionService.encryptData(typeOfRequest,UserAuthorizationInfo.getPassword());
+            content= EncryptionService.encryptData(content,UserAuthorizationInfo.getPassword());
+            if(typeof resetPasswordKey!=='undefined')
+            {
+              encryptedRequestType=EncryptionService.encryptData(typeOfRequest,resetPasswordKey);
+              content= EncryptionService.encryptData(content,resetPasswordKey);
+            }
             console.log(identifier);
-            var encryptedRequestType=EncryptionService.encryptData(typeOfRequest);
-            content= EncryptionService.encryptData(content);
             console.log(content);
-
             if(typeOfRequest=='Login'||typeOfRequest=='Logout')
             {
               Ref.push({ 'Request' : encryptedRequestType,'DeviceId':identifier,  'UserID': userID })

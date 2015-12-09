@@ -1,8 +1,7 @@
 var myApp=angular.module('MUHCApp');
 myApp.service('EncryptionService',function(UserAuthorizationInfo){
-	function decryptObject(object)
+	function decryptObject(object,secret)
 	    {
-				var secret=UserAuthorizationInfo.getPassword();
 		       	for (var key in object)
 		       	{
 			        if (typeof object[key]=='object')
@@ -26,9 +25,9 @@ myApp.service('EncryptionService',function(UserAuthorizationInfo){
 
 		 	 return object;
 	    };
-    function encryptObject(object)
+    function encryptObject(object,secret)
 	{
-		var secret=UserAuthorizationInfo.getPassword();
+		//var secret=UserAuthorizationInfo.getPassword();
 	 	if (typeof object=='string'){
 	 		var ciphertext = CryptoJS.AES.encrypt(object, secret);
 	 		var encryptedString=ciphertext.toString();
@@ -58,13 +57,13 @@ myApp.service('EncryptionService',function(UserAuthorizationInfo){
 		}
 	};
 	return{
-		decryptData:function(object)
+		decryptData:function(object,secret)
 	    {
-	    	return decryptObject(object);
+	    	return decryptObject(object,secret);
 	    },
-	    encryptData:function(object)
+	    encryptData:function(object,secret)
 	     {
-	     	return encryptObject(object);
+	     	return encryptObject(object,secret);
 	     }
 
 
