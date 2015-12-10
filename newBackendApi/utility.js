@@ -5,7 +5,7 @@ exports.encryptObject=function(object,secret)
   /*console.log(object.Appointments[0].ScheduledStartTime);
   var dateString=object.Appointments[0].ScheduledStartTime.toISOString();
   console.log(dateString);*/
-
+console.log(secret);
   //var object=JSON.parse(JSON.stringify(object));
   if(typeof object=='string')
   {

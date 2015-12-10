@@ -1,9 +1,9 @@
-<ons-page ng-controller="ForgotPasswordController">
+<ons-page ng-controller="SecurityQuestionController">
 	<ons-toolbar>
 		<div class="left">
 			<ons-back-button>Back</ons-back-button>
 		</div>
-		<div class="center">Forgot Password</div>
+		<div class="center">Security Question</div>
 	</ons-toolbar>
 	<div class="container" align="center" style="margin-top:5vh">
 		<img src="./img/muhc-logo-text.png">
@@ -11,11 +11,11 @@
 			<img ng-src="./img/opal.png" style="width:50px">
 			<form name="formPassword"  novalidate>
 				<div class="form-group" align="center"  >
-        <label name="text">Enter your Email Address:</label><br/>
+        <label name="text">{{Question}}</label><br/>
 				<alert ng-show="alert.type" type="{{alert.type}}">{{alert.content}}</alert>
-				<input class="text-input" type="email" name="email" ng-model="email" placeholder="Email Address" />
+				<input class="text-input" type="text" name="text" ng-model="answer" placeholder="Enter your answer" />
 				<br/><br/>
-				<button class="button button--large" type="submit" value="Save" ng-disabled="alert.type=='success'" ng-click="submitPasswordReset(email)">Reset Password</button>
+				<button class="button button--large" type="submit" value="Save" ng-disabled="threeTries" ng-click="submitAnswer(answer)">Continue</button>
 				</div>
 			</form>
 		</div>

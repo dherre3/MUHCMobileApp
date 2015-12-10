@@ -290,8 +290,36 @@ exports.logActivity=function(requestObject)
   return r.promise;
 }
 
-
-
+exports.getSecurityQuestions=function(PatientSerNum)
+{
+  var r=Q.defer();
+  connection.query(queries.getSecurityQuestions(PatientSerNum),function(error,rows,fields)
+  {
+    if(error) r.reject(error);
+    r.resolve(rows);
+  });
+  return r.promise;
+}
+exports.getPatientFieldsForPasswordReset=function(userID)
+{
+  var r=Q.defer();
+  connection.query(queries.getPatientFieldsForPasswordReset(userID),function(error,rows,fields)
+  {
+    if(error) r.reject(error);
+    r.resolve(rows[0]);
+  });
+  return r.promise;
+}
+exports.setNewPassword=function(password,patientSerNum)
+{
+  var r=Q.defer();
+  connection.query(queries.setNewPassword(password,patientSerNum),function(error,rows,fields)
+  {
+    if(error) r.reject(error);
+    r.resolve(rows);
+  });
+  return r.promise;
+}
 var tableMappings=
 {
   'Messages':exports.getPatientMessages,

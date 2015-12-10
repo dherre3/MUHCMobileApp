@@ -19,8 +19,9 @@ var myApp=angular.module('MUHCApp')
     *and finally it redirects the app to the loading screen.
 */
   var myDataRef = new Firebase('https://brilliant-inferno-7679.firebaseio.com');
-    myApp.controller('LoginController', ['$scope', '$rootScope', '$state', 'UserAuthorizationInfo', 'RequestToServer', 'Patient', function ($scope, $rootScope, $state, UserAuthorizationInfo,RequestToServer,UserPreferences, Patient) {
+    myApp.controller('LoginController', ['ResetPassword','$scope','$timeout', '$rootScope', '$state', 'UserAuthorizationInfo', 'RequestToServer', function (ResetPassword,$scope,$timeout, $rootScope, $state, UserAuthorizationInfo,RequestToServer,UserPreferences) {
     //$scope.platformBoolean=(ons.platform.isAndroid()&&ons.platform.isIOS());
+    console.log(ResetPassword);
     var authInfo=window.localStorage.getItem('UserAuthorizationInfo');
     /*if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
@@ -34,12 +35,13 @@ var myApp=angular.module('MUHCApp')
         });
 
     }*/
+    console.log(CryptoJS.SHA256('12345').toString());
+    console.log(CryptoJS.SHA256('1234').toString());
     //Creating reference to firebase link
     $scope.submit = function (email,password) {
-      console.log(email);
       console.log(password);
-        $scope.password='12345';
-        $scope.email='muhc.app.mobile@gmail.com';
+        $scope.password=password;
+        $scope.email=email;
         //signin('muhc.app.mobile@gmail.com', '12345');
         signin(email, password);
 
@@ -57,17 +59,46 @@ var myApp=angular.module('MUHCApp')
     function authHandler(error, authData) {
         if (error) {
             console.log("Login Failed!", error);
+            switch (error.code) {
+              case "INVALID_EMAIL":
+                console.log("The specified user account email is invalid.");
+                $timeout(function(){
+                  $scope.alert.type='danger';
+                  $scope.alert.content="Enter a valid email address!";
+                });
+                break;
+              case "INVALID_PASSWORD":
+              $timeout(function(){
+                $scope.alert.type='danger';
+                $scope.alert.content="Invalid Password!";
+              });
+                break;
+              case "INVALID_USER":
+                $timeout(function(){
+                  $scope.alert.type='danger';
+                  $scope.alert.content="User does not exist!";
+                });
+                break;
+              default:
+                console.log("Error logging user in:", error);
+                $timeout(function(){
+                  $scope.alert.type='danger';
+                  $scope.alert.content="Server error, check your internet connection!";
+                });
+            }
         } else {
             var temporary=authData.password.isTemporaryPassword;
             console.log(temporary);
-            UserAuthorizationInfo.setUserAuthData(authData.uid, CryptoJS.SHA256($scope.password).toString(), authData.expires);
             if(temporary){
               RequestToServer.setIdentifier().then(function(uuid)
               {
+                ResetPassword.setUsername(authData.auth.uid);
+                ResetPassword.setEmail($scope.email);
+                ResetPassword.setTemporaryPassword($scope.password);
                 navigatorForms.pushPage('templates/forms/set-new-password.html');
               });
             }else{
-
+              UserAuthorizationInfo.setUserAuthData(authData.auth.uid, CryptoJS.SHA256($scope.password).toString(), authData.expires);
               userId = authData.uid;
               //Obtaining fields links for patient's firebase
               var patientLoginRequest='request/'+userId;

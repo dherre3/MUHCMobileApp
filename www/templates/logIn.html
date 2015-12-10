@@ -41,7 +41,7 @@
   <input class="text-input--material" name="password" ng-model="password" placeholder="Password" type="password" required>
 	<br/><br/>
 </span>
-
+<alert ng-show="alert.type" type="{{alert.type}}">{{alert.content}}</alert>
 <div style="max-width:400px">
 	<button class="button button--large" type="submit" id="submit">Login</button>
 </div>
