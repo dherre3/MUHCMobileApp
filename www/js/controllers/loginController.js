@@ -23,7 +23,7 @@ var myApp=angular.module('MUHCApp')
     //$scope.platformBoolean=(ons.platform.isAndroid()&&ons.platform.isIOS());
     console.log(ResetPassword);
     var authInfo=window.localStorage.getItem('UserAuthorizationInfo');
-    /*if(authInfo){
+    if(authInfo){
         var authInfoObject=JSON.parse(authInfo);
         console.log(authInfoObject);
         UserAuthorizationInfo.setUserAuthData(authInfoObject.UserName, authInfoObject.Password, authInfoObject.Expires);
@@ -34,7 +34,7 @@ var myApp=angular.module('MUHCApp')
           $state.go('loading');
         });
 
-    }*/
+    }
     console.log(CryptoJS.SHA256('12345').toString());
     console.log(CryptoJS.SHA256('1234').toString());
     //Creating reference to firebase link
@@ -51,10 +51,25 @@ var myApp=angular.module('MUHCApp')
 
         var username = email;
         var password = password;
-        myDataRef.authWithPassword({
-            email: username,
-            password: password
-        }, authHandler);
+        if(typeof email=='undefined'||email=='')
+        {
+          $timeout(function(){
+            $scope.alert.type='danger';
+            $scope.alert.content="Enter a valid email address!";
+          });
+        }else if(typeof password=='undefined'||password=='')
+        {
+          $timeout(function(){
+            $scope.alert.type='danger';
+            $scope.alert.content="Invalid Password!";
+          });
+        }else{
+          myDataRef.authWithPassword({
+              email: username,
+              password: password
+          }, authHandler);
+        }
+
     }
     function authHandler(error, authData) {
         if (error) {

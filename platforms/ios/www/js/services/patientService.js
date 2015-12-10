@@ -12,6 +12,7 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
             this.TelNum=patientFields.TelNum;
             this.Email=patientFields.Email;
             this.Diagnosis=diagnosis;
+            this.Alias=patientFields.Alias;
             this.UserSerNum=patientFields.PatientSerNum;
             this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
             profileImage=this.ProfileImage;
@@ -60,6 +61,7 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
           this.Diagnosis=diagnosis;
           this.UserSerNum=patientFields.PatientSerNum;
           this.ProfileImage=patientFields.ProfileImage;
+          this.Alias=patientFields.Alias;
           var promise=[FileManagerService.getFileUrl(patientFields.PathFileSystem)];
           $q.all(promise).then(function(result){
             console.log(result);

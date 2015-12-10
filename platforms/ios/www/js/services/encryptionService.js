@@ -58,14 +58,39 @@ myApp.service('EncryptionService',function(UserAuthorizationInfo){
 		}
 	};
 	return{
-		decryptData:function(object)
+		decryptData:function(object,secret)
 	    {
-	    	return decryptObject(object);
+	    	return decryptObject(object,secret);
 	    },
-	    encryptData:function(object)
-	     {
-	     	return encryptObject(object);
-	     }
+    encryptData:function(object,secret)
+   {
+   	return encryptObject(object,secret);
+	},
+	decryptWithKey:function(object,secret)
+	{
+			for (var key in object)
+			{
+				if (typeof object[key]=='object')
+				{
+					decryptObject(object[key],secret);
+				}else
+				{
+					if(object[key]!='')
+					{
+						try {
+							var decipherbytes = CryptoJS.AES.decrypt(object[key], secret);
+							object[key]=decipherbytes.toString(CryptoJS.enc.Utf8)
+							}
+							catch(err) {
+									console.log(err);
+							}
+
+					}
+				}
+			}
+
+	 return object;
+	}
 
 
 

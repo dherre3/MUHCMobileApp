@@ -1,6 +1,11 @@
 var myApp=angular.module('MUHCApp');
 myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork', 'UserAuthorizationInfo','$q','$rootScope', '$filter','FileManagerService',function(UserPreferences,$cordovaDevice,$cordovaNetwork,UserAuthorizationInfo,$q,$rootScope,$filter,FileManagerService){
 	var photos=[];
+	function isDocumentStored(serNum){
+		var user=UserAuthorizationInfo.getUserName();
+		var key=user+Documents;
+
+	}
 	return{
 		setDocumentsOnline:function(documents, mode){
 			var r=$q.defer();
@@ -32,6 +37,7 @@ myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork'
 						    documents[keysDocuments[i]].PathFileSystem=targetPath;
 								promises.push(FileManagerService.downloadFileIntoStorage(url, targetPath));
 					}
+
 					var imageToPhotoObject={};
 					imageToPhotoObject.AliasName_EN=documents[keysDocuments[i]].AliasName_EN;
 					imageToPhotoObject.AliasName_FR=documents[keysDocuments[i]].AliasName_FR;

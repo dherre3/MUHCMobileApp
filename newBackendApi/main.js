@@ -27,8 +27,9 @@ function request(requestKey, requestObject)
     resetPasswordRequest(requestKey,requestObject);
   }else{
     sqlInterface.getUsersPassword(requestObject.UserID).then(function(key){
+      console.log(key);
+      console.log(requestObject.Request);
       requestObject.Request=utility.decryptObject(requestObject.Request,key);
-
       var encryptionKey=key;
       //console.log(encryptionKey);
       if(requestObject.Request=='') {
@@ -49,6 +50,7 @@ function request(requestKey, requestObject)
         });
       }else
       {
+        console.log(requestObject);
         updateServer.update(requestObject).then(function(requestObject)
         {
             completeRequest(requestKey, requestObject);
