@@ -51,7 +51,7 @@ function request(requestKey, requestObject)
       }else
       {
         console.log(requestObject);
-        updateServer.update(requestObject).then(function(requestObject)
+        updateServer.update(requestObject).then(function(response)
         {
             completeRequest(requestKey, requestObject);
         }).catch(function(response){
