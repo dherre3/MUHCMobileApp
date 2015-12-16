@@ -21,12 +21,16 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
             this.Oncologists=[];
             this.OtherDoctors=[];
             this.PrimaryPhysician=[];
+            Doctors=[];
+            Oncologists=[];
+            OtherDoctors=[];
+            PrimaryPhysician=[];
             var promises=[];
             if(typeof doctors!=='undefined'&&doctors){
 
                 var doctorKeyArray=Object.keys(doctors);
                 for (var i = 0; i < doctorKeyArray.length; i++) {
-                  if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined' )
+                  if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined'&&doctors[doctorKeyArray[i]].ProfileImage!=='')
                   {
                     if(doctors[doctorKeyArray[i]].DocumentType=='pdf')
                     {
@@ -34,12 +38,13 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
                     }else{
                       doctors[doctorKeyArray[i]].ProfileImage='data:image/'+doctors[doctorKeyArray[i]].DocumentType+';base64,'+doctors[doctorKeyArray[i]].ProfileImage;
                     }
+                    console.log(doctors[doctorKeyArray[i]]);
                   }
                 }
                 var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
                 if(app){
                   for (var i = 0; i < doctorKeyArray.length; i++) {
-                    if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined' )
+                    if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined'&&doctors[doctorKeyArray[i]].ProfileImage!=='' )
                     {
                       var platform=$cordovaDevice.getPlatform();
                       var targetPath='';
@@ -59,8 +64,11 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
                 }
                 for (var i = 0; i < doctors.length; i++) {
                   var copyDoctor=copyDoctorObject(doctors[doctorKeyArray[i]]);
-                    delete doctors[i].ProfileImage;
-                   if(copyDoctor.PrimaryFlag=='1'){
+                  if(typeof copyDoctor.ProfileImage=='undefined'||copyDoctor.ProfileImage=='')
+                  {
+                    copyDoctor.ProfileImage='./img/doctor.png';
+                  }
+                   if(copyDoctor.PrimaryFlag=='1'&&copyDoctor.OncologistFlag=='0'){
                         this.PrimaryPhysician.push(copyDoctor);
                         PrimaryPhysician.push(copyDoctor);
                    }else if(copyDoctor.OncologistFlag=='1')
@@ -116,8 +124,10 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
                   {
                     copyDoctor.ProfileImage=results[tracker];
                     tracker++;
+                  }else{
+                    copyDoctor.ProfileImage='./img/doctor.png';
                   }
-                   if(copyDoctor.PrimaryFlag=='1'){
+                   if(copyDoctor.PrimaryFlag=='1'&&copyDoctor.OncologistFlag=='0'){
                         PrimaryPhysician.push(copyDoctor);
                    }else if(copyDoctor.OncologistFlag=='1')
                    {
@@ -134,7 +144,8 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
               },function(error){
                 for (var i = 0; i < doctors.length; i++) {
                   var copyDoctor=copyDoctorObject(doctors[i]);
-                   if(copyDoctor.PrimaryFlag=='1'){
+                  copyDoctor.ProfileImage='./img/doctor.png';
+                   if(copyDoctor.PrimaryFlag=='1'&&copyDoctor.OncologistFlag=='0'){
                         PrimaryPhysician.push(copyDoctor);
                    }else if(copyDoctor.OncologistFlag=='1')
                    {

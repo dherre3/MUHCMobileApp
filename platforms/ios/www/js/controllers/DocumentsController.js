@@ -36,14 +36,18 @@ myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$s
   };
 }]);
 
-myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService) {
+myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService','Patient',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService,Patient) {
   console.log('Simgle Document Controller');
   var page = myNavigator.getCurrentPage();
   var image = page.options.param;
-  $scope.documentObject=image;
-  console.log(image);
-  //$scope.documentObject = image;
+  if(image.DocumentType=='pdf')
+  {
+    image.PreviewContent='./img/pdf-icon.png';
+  }else{
+    image.PreviewContent=image.Content;
+  }
 
+  $scope.documentObject=image;
   $scope.shareViaEmail=function()
   {
     var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;

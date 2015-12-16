@@ -98,9 +98,7 @@
   var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
   if(app){
     document.addEventListener("deviceready", function() {
-
     //Your code
-
     // Find the DOM element where you want to add ng-app
     var element = document.getElementById('boots');
     angular.bootstrap(element, ["MUHCApp"]); //Or simple document in place of element
@@ -109,7 +107,7 @@
 
   </script>
 </head>
-<body id='boots'>
+<body id='boots' >
 <!--Loading Modal for the initial loading screen-->
 <ons-modal var="modal">
         <ons-icon icon="ion-load-c" spin="true"></ons-icon>

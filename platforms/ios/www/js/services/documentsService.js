@@ -9,6 +9,7 @@ myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork'
 	return{
 		setDocumentsOnline:function(documents, mode){
 			var r=$q.defer();
+			photos=[];
 			console.log(documents);
 			this.Photos=[];
 			if(!documents) return;

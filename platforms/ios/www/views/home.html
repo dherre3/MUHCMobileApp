@@ -90,20 +90,17 @@
         <ons-col >
 
          <div align="center" style="margin-left:5px">
-           <div ng-show="!noAppointments" style="text-overflow:ellipsis">
+           <div ng-hide="noAppointments||noUpcomingAppointments" style="text-overflow:ellipsis">
                   <div align="center"> <span class="profile-name">{{titleAppointmentsHome}}</span><br> </div>
-
                     {{appointmentShown.ScheduledStartTime|formatDateAppointmentTask}}<br>
                     {{appointmentShown.AppointmentType_EN}}
-
-                 <!-- <select ng-model="locale" class="form-control"
-                    ng-change="updateLocale(locale)"
-                    ng-options="locale.id as locale.name for locale in locales">
-                </select>-->
 
           </div>
           <div ng-show="noAppointments">
             <h3> No Appointments! </h3>
+          </div>
+          <div ng-show="noUpcomingAppointments">
+            <h5>No upcoming <br>Appointments</h5>
           </div>
         </div>
               </ons-col>
@@ -113,7 +110,7 @@
                 </div>
               </ons-col>
               </ons-row>
-               <div class="col-xs-12"  style="margin-top:15px">
+               <div class="col-xs-12"  style="margin-top:15px" ng-hide="noUpcomingAppointments||noAppointments">
                   <div align="center">
                       <button ng-disabled="!enableCheckin" class="button button--large" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>

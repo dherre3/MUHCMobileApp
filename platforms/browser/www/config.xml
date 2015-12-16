@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.muhc.opal" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Device">
+        <param name="browser-package" value="Device" />
+    </feature>
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
+    <name>MUHC</name>
+    <description>
+        An app for radioation oncology patients at the MUHC Glen site to provide patients with their personalized data, and give them an estimate of waiting times specific to their treatment plan using machine learning algorithms
+    </description>
+    <preference name="SplashScreen" value="none" />
+    <author email="davidfherrerar@gmail.com" href="http://cordova.io">
+        David F. Herrera
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access origin="cdvfile://*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <icon src="www/img/logoAppIconMUHC.png" />
+</widget>

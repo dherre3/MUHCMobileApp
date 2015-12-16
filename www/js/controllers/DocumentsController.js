@@ -36,7 +36,7 @@ myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$s
   };
 }]);
 
-myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService','$sce',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService,$sce) {
+myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService','Patient',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService,Patient) {
   console.log('Simgle Document Controller');
   var page = myNavigator.getCurrentPage();
   var image = page.options.param;
