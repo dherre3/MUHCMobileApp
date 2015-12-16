@@ -42,15 +42,15 @@
       <ons-list modifier="inset" class="settings-list">
        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Alias'},{ animation : 'slide' } )">
           Alias
-          <span class="list-item-note lucent">{{Alias|limitTo:7}}</span>
+          <span class="list-item-note lucent">{{Alias|limitLetters:7}}</span>
         </ons-list-item>
         <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Email'},{ animation : 'slide' } )">
           Email
-          <span class="list-item-note lucent">{{Email|limitTo:7}}...</span>
+          <span class="list-item-note lucent">{{Email|limitLetters:7}}</span>
         </ons-list-item>
         <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Password'},{ animation : 'slide' } )">
           Password
-          <span type="password" class="list-item-note lucent">{{passFill|limitTo:passwordLength}}</span>
+          <span type="password" class="list-item-note lucent">{{passFill|limitTo:7}}</span>
         </ons-list-item>
         <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Tel. Number'},{ animation : 'slide' } )">
           Phone Number

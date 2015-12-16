@@ -23,8 +23,11 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
           promises=[documentProm,doctorProm,patientProm];
         }
         $q.all(promises).then(function(){
+          console.log('I am inside!!!');
+          console.log(dataUserObject);
           Messages.setUserMessages(dataUserObject.Messages);
           Notifications.setUserNotifications(dataUserObject.Notifications);
+
           var plan={
               '1':{'Name':'CT for Radiotherapy Planning','Date':'2015-10-19T09:00:00Z','Description':'stage1','Type': 'Appointment'},
               '2':{'Name':'Physician Plan Preparation','Date':'2015-10-21T09:15:00Z','Description':'stage2','Type':'Task'},
@@ -35,12 +38,14 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
           };
           var newDate=new Date();
           var valAdded=-6;
+
           for (var key in plan) {
             var tmp=new Date(newDate);
             tmp.setDate(tmp.getDate()+valAdded);
             valAdded+=2;
             plan[key].Date=$filter('formatDateToFirebaseString')(tmp);
           }
+            console.log(plan);
             UserPlanWorkflow.setUserPlanWorkflow(plan);
             UserPreferences.setUserPreferences(dataUserObject.Patient.Language,dataUserObject.Patient.EnableSMS);
             Appointments.setUserAppointments(dataUserObject.Appointments);
@@ -96,14 +101,14 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
         var userName=UserAuthorizationInfo.getUserName();
         var dataUserString=window.localStorage.getItem(userName);
         var dataUserObject=JSON.parse(dataUserString);
-        updateAllServices(dataUserObject,'Offline');
-        r.resolve(true);
+        r.resolve(updateAllServices(dataUserObject,'Offline'));
         return r.promise;
     }
     function UpdateSectionOffline(section)
     {
         var r=$q.defer();
         var data='';
+        console.log(section);
         data=LocalStorage.ReadLocalStorage(section);
         console.log(data);
         switch(section){
@@ -138,7 +143,9 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
             //To be done eventually!!!
             break;
           }
-        r.resolve(true);
+          setTimeout(function () {
+              r.resolve(true);
+          }, 7000);
         return r.promise;
     }
     function UpdateSectionOnline(section)
@@ -206,6 +213,8 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
 
         return r.promise;
     }
+
+    this.internetConnection=false;
     return {
         UpdateUserFields:function(){
             //Check if its a device or a computer
@@ -228,15 +237,24 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 }
              }
         },
-
+        UpdateOffline:function(section)
+        {
+          return UpdateSectionOffline(section);
+        },
+        UpdateOnline:function(section)
+        {
+          return UpdateSectionOnline(section);
+        },
         UpdateSection:function(section)
         {
             var r=$q.defer();
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if(app){
                 if($cordovaNetwork.isOnline()){
+                    this.internetConnection=true;
                     return UpdateSectionOnline(section);
                 }else{
+                    this.internetConnection=false;
                     //navigator.notification.alert('Connect to the internet for your most recent data, loading last saved data from device. Your documents will not be available',function(){},'Internet Connectivity','Ok');
                     return UpdateSectionOffline(section);
                 }
@@ -244,12 +262,19 @@ myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','App
                 //Computer check if online
                 if(navigator.onLine){
                     console.log('online website');
+                    this.internetConnection=true;
                     return UpdateSectionOnline(section);
                 }else{
+                    this.internetConnection=false;
                     console.log('offline website');
                     return UpdateSectionOffline(section);
                 }
              }
+            return r.promise;
+        },
+        getInternetConnection:function()
+        {
+          return this.internetConnection;
         }
 
     };

@@ -131,7 +131,22 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
                 Doctors=$filter('orderBy')(Doctors,'LastName',false);
                 OtherDoctors=$filter('orderBy')(OtherDoctors,'LastName',false);
                 r.resolve(true);
-              });
+              },function(error){
+                for (var i = 0; i < doctors.length; i++) {
+                  var copyDoctor=copyDoctorObject(doctors[i]);
+                   if(copyDoctor.PrimaryFlag=='1'){
+                        PrimaryPhysician.push(copyDoctor);
+                   }else if(copyDoctor.OncologistFlag=='1')
+                   {
+                        Oncologists.push(copyDoctor);
+                   }else{
+                     OtherDoctors.push(copyDoctor);
+                   }
+                   Doctors.push(copyDoctor);
+                };
+                console.log(error);
+        				r.resolve(true);
+        			});
             }else{
               r.resolve(true);
             }

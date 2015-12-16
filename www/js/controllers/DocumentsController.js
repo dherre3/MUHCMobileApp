@@ -36,14 +36,18 @@ myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$s
   };
 }]);
 
-myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService) {
+myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','FileManagerService','$sce',function(Documents, $timeout, $scope,$cordovaEmailComposer, FileManagerService,$sce) {
   console.log('Simgle Document Controller');
   var page = myNavigator.getCurrentPage();
   var image = page.options.param;
-  $scope.documentObject=image;
-  console.log(image);
-  //$scope.documentObject = image;
+  if(image.DocumentType=='pdf')
+  {
+    image.PreviewContent='./img/pdf-icon.png';
+  }else{
+    image.PreviewContent=image.Content;
+  }
 
+  $scope.documentObject=image;
   $scope.shareViaEmail=function()
   {
     var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
@@ -117,14 +121,16 @@ return{
     var r=$q.defer();
     console.log(filePath);
     window.resolveLocalFileSystemURL(filePath, function(fileEntry){
+      console.log('Inside getFileUrl');
       fileEntry.file(function(file){
         r.resolve(gotFile(file));
       },function(error)
       {
         r.reject(error);
+        console.log(error);
       });
     }, function(error){
-     console.log('about to resolve this files errors');
+      console.log(error);
         r.reject(error.code);
     });
     return r.promise;

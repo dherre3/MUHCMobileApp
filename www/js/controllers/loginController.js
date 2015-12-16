@@ -53,16 +53,12 @@ var myApp=angular.module('MUHCApp')
         var password = password;
         if(typeof email=='undefined'||email=='')
         {
-          $timeout(function(){
             $scope.alert.type='danger';
             $scope.alert.content="Enter a valid email address!";
-          });
         }else if(typeof password=='undefined'||password=='')
         {
-          $timeout(function(){
             $scope.alert.type='danger';
             $scope.alert.content="Invalid Password!";
-          });
         }else{
           myDataRef.authWithPassword({
               email: username,

@@ -1,7 +1,7 @@
   <ons-page ng-controller="MessagePageController">
     <ons-toolbar>
       <div class="left"><ons-back-button>Back</ons-back-button></div>
-      <div class="center">{{conversationName}}</div>
+      <div class="center">{{conversationName|limitLetters:15}}</div>
       <div class="right"><ons-toolbar-button ng-click="goToContact()">Details</ons-toolbar-button></div>
     </ons-toolbar>
 <div >

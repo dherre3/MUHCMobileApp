@@ -117,14 +117,16 @@ return{
     var r=$q.defer();
     console.log(filePath);
     window.resolveLocalFileSystemURL(filePath, function(fileEntry){
+      console.log('Inside getFileUrl');
       fileEntry.file(function(file){
         r.resolve(gotFile(file));
       },function(error)
       {
         r.reject(error);
+        console.log(error);
       });
     }, function(error){
-     console.log('about to resolve this files errors');
+      console.log(error);
         r.reject(error.code);
     });
     return r.promise;

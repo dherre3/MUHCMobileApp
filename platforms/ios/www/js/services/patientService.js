@@ -40,7 +40,10 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
                   $q.all(promise).then(function()
                   {
                     r.resolve(patientFields);
-                  });
+                  },function(error){
+            				console.log(error);
+            				r.resolve(documents);
+            			});
                 }else{
                   r.resolve(patientFields);
                 }
@@ -69,7 +72,10 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
             profileImage=result[0];
             console.log(profileImage);
             r.resolve(patientFields);
-          });
+          },function(error){
+    				console.log(error);
+    				r.resolve(patientFields);
+    			});
 
 
           return r.promise;

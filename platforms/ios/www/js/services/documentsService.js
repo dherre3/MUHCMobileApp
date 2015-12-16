@@ -84,6 +84,9 @@ myApp.service('Documents',['UserPreferences', '$cordovaDevice','$cordovaNetwork'
 					documents[i].Content=results[i];
 				}
 				r.resolve(documents);
+			},function(error){
+				console.log(error);
+				r.resolve(documents);
 			});
 			this.Photos=photos;
 			 return r.promise;
