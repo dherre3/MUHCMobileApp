@@ -95,6 +95,17 @@ myApp.filter('dateEmail',function($filter){
   };
 
 });
+myApp.filter('limitLetters',function($filter){
+	return function(string,num)
+	{
+		if(typeof string!=='undefined'&&string.length>num)
+		{
+			string=$filter('limitTo')(string,num);
+			string=string+'...';
+		}
+		return string;
+	}
+});
 myApp.filter('propsFilter', function() {
   return function(items, props) {
     var out = [];

@@ -12,12 +12,13 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
             this.TelNum=patientFields.TelNum;
             this.Email=patientFields.Email;
             this.Diagnosis=diagnosis;
+            this.Alias=patientFields.Alias;
             this.UserSerNum=patientFields.PatientSerNum;
             this.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
             profileImage=this.ProfileImage;
             var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
             if(app){
-                if(patientFields.ProfileImage)
+                if(typeof patientFields.ProfileImage!=='undefined'||patientFields.ProfileImage=='')
                 {
                   patientFields.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
                   var platform=$cordovaDevice.getPlatform();
@@ -39,11 +40,19 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
                   $q.all(promise).then(function()
                   {
                     r.resolve(patientFields);
-                  });
+                  },function(error){
+            				console.log(error);
+            				r.resolve(documents);
+            			});
                 }else{
+                  profileImage='./img/patient.png';
                   r.resolve(patientFields);
                 }
               }else{
+                if(typeof patientFields.ProfileImage!=='undefined'||patientFields.ProfileImage=='')
+                {
+                  profileImage='./img/patient.png';
+                }
                 delete patientFields.ProfileImage;
                 r.resolve(patientFields);
               }
@@ -60,16 +69,24 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
           this.Diagnosis=diagnosis;
           this.UserSerNum=patientFields.PatientSerNum;
           this.ProfileImage=patientFields.ProfileImage;
-          var promise=[FileManagerService.getFileUrl(patientFields.PathFileSystem)];
-          $q.all(promise).then(function(result){
-            console.log(result);
-            patientFields.ProfileImage=result[0];
-            profileImage=result[0];
-            console.log(profileImage);
+          this.Alias=patientFields.Alias;
+          if(patientFields.PathFileSystem)
+          {
+            var promise=[FileManagerService.getFileUrl(patientFields.PathFileSystem)];
+            $q.all(promise).then(function(result){
+              console.log(result);
+              patientFields.ProfileImage=result[0];
+              profileImage=result[0];
+              console.log(profileImage);
+              r.resolve(patientFields);
+            },function(error){
+              console.log(error);
+              r.resolve(patientFields);
+            });
+          }else{
+            this.ProfileImage='./img/patient.png';
             r.resolve(patientFields);
-          });
-
-
+          }
           return r.promise;
         },
         setDiagnosis:function(diagnosis){

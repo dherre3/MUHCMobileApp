@@ -4,6 +4,7 @@ myApp.controller('EducationalMaterialController',function($scope, $timeout, $cor
 $scope.openPDF=function(){
 
 	//file:///data/data/com.example.hello/files/pdfs
+	var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 	if(app){
 		var ref = cordova.InAppBrowser.open('./pdfs/radiotherapy_journey.pdf', '_blank', 'location=yes');
 	}else{
@@ -17,7 +18,7 @@ $scope.openVideo=function(){
 	if(app){
 	  var ref = cordova.InAppBrowser.open('https://www.youtube.com/watch?v=2dPfuxb1H8E', '_blank', 'location=yes');
 	}else{
-	  var ref = cordova.InAppBrowser.open('https://www.youtube.com/watch?v=2dPfuxb1H8E', '_blank', 'location=yes');
+	  var ref = window.open('https://www.youtube.com/watch?v=2dPfuxb1H8E', '_blank', 'location=yes');
 	}
 };
 /*var options = {
