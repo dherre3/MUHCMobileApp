@@ -503,9 +503,7 @@ function loadProfileImagePatient(rows){
   var deferred = Q.defer();
   if(typeof rows[0].ProfileImage!=='undefined' && rows[0].ProfileImage!=='')
   {
-    var n = rows[0].ProfileImage.lastIndexOf(".");
-    var substring=rows[0].ProfileImage.substring(n+1,rows[0].ProfileImage.length);
-    rows[0].DocumentType=substring;
+    rows[0].DocumentType='jpeg';
     var image=new Buffer(rows[0].ProfileImage,'hex').toString('base64');
     //rows[0].ProfileImage=filesystem.readFileSync(__dirname + '/Patients/'+ rows[0].ProfileImage,'base64' );
     rows[0].ProfileImage=image;
