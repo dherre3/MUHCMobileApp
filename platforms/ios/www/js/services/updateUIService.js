@@ -2,6 +2,14 @@ var myApp=angular.module('MUHCApp');
 
 
 myApp.service('UpdateUI', ['EncryptionService','$http', 'Patient','Doctors','Appointments','Messages','Documents','UserPreferences', 'UserAuthorizationInfo', '$q', 'Notifications', 'UserPlanWorkflow','$cordovaNetwork', 'Notes', 'LocalStorage','RequestToServer','$filter',function (EncryptionService,$http, Patient,Doctors, Appointments,Messages, Documents, UserPreferences, UserAuthorizationInfo, $q, Notifications, UserPlanWorkflow,$cordovaNetwork,Notes,LocalStorage,RequestToServer,$filter) {
+    function updateTestResultsService(){
+      var testResultFirebaseLink = new Firebase('https://blinding-fire-4647.firebaseio.com/m/requests');
+      testResultFirebaseLink.once('value', function (snapshot) {
+          var data = snapshot.val();
+          LabResults.setTestResults(data);
+      });
+    }
+
     function updateAllServices(dataUserObject,mode){
         console.log(mode);
         var promises=[];

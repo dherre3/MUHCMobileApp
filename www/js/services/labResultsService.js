@@ -24,8 +24,8 @@ myApp.service('LabResults',function(){
 			this.testResultsByType = {};
 			this.testResultsByCategory = {};
 
-			for (key in tests) {
-				var testResult = tests[key].Content;
+			for (var key=0;key< tests.length;key++) {
+				var testResult = tests[key];
 				var testResultDate = testResult.TestDate.replace(/ /g,'');
 				var testResultType = testResult.FacComponentName;
 				var testCategory = undefined;

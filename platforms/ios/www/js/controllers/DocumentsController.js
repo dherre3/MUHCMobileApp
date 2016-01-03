@@ -46,7 +46,7 @@ myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope',
   }else{
     image.PreviewContent=image.Content;
   }
-
+  console.log({data:image.Content});
   $scope.documentObject=image;
   $scope.shareViaEmail=function()
   {
@@ -79,7 +79,11 @@ myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope',
   $scope.openDocument = function() {
       var app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
       if (app) {
-        var ref = cordova.InAppBrowser.open(image.Content, '_blank', 'EnableViewPortScale=yes');
+        if(ons.platform.isAndroid()){
+          var ref = cordova.InAppBrowser.open("http://docs.google.com/gview?url="+image.Content+"&embedded=true" , '_blank', 'EnableViewPortScale=yes');
+        }else{
+            var ref = cordova.InAppBrowser.open(image.Content, '_blank', 'EnableViewPortScale=yes');
+        }
       } else {
         window.open(image.Content);
       }
