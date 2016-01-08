@@ -12,6 +12,7 @@ var api=require('./api.js');
 
 //request(requestTest)
 var ref=new Firebase(credentials.FIREBASE_URL);
+ref.auth(credentials.FIREBASE_SECRET);
 ref.child('requests').on('child_added',function(requestsFromFirebase){
   var requestObject=requestsFromFirebase.val();
   var requestKey=requestsFromFirebase.key();
@@ -21,6 +22,7 @@ ref.child('requests').on('child_added',function(requestsFromFirebase){
 
 function request(requestKey, requestObject)
 {
+  //Accepts a requestKey, and requestObject
   if(requestObject.Request=='ResetPassword'||requestObject.Request=='ChangePasswordReset')
   {
     console.log(requestObject);
@@ -101,25 +103,25 @@ function resetPasswordRequest(requestKey, requestObject)
   //console.log(requestObject.UserID);
   //console.log(requestKey);
     sqlInterface.getPatientFieldsForPasswordReset(requestObject.UserID).then(function(patient){
-      console.log('Inside this function');
-      console.log(patient);
-      console.log(patient.SSN);
+      //To reset password must check that SSN is correct
       if(requestObject.Request=='ResetPassword'){
         var unencrypted=utility.decryptObject(requestObject.Parameters,patient.SSN);
         console.log(unencrypted);
         if(typeof unencrypted.SSN!=='undefined'&&unencrypted.SSN!=='')
         {
-          //console.log(patient.PatientSerNum);
+          //If unencrypted SSN is correct, then it procceeds to obtain security questions
           sqlInterface.getSecurityQuestions(patient.PatientSerNum).then(function(questions)
           {
             console.log(questions);
+            //Picks a random questions from a pool of 3 out of the 10 that were given as option
             var integer=Math.floor((3*Math.random()));
-            console.log(integer);
             questions[integer].type='success';
             var response={ResetPassword:questions[integer]};
+            //Sends to firebase the question encrypted using the patient SSN and AES
             uploadToFirebase(requestKey,patient.SSN,requestObject,response);
           });
         }else{
+          //If SSN is invalid rejects request! and sends error message to app.
           var response={};
           response.ResetPassword={};
           response.ResetPassword.type='error';
@@ -134,30 +136,30 @@ function resetPasswordRequest(requestKey, requestObject)
           });
         }
       }else{
+        //The other request is for verifying the answer to the security question, and sending new password
+        //It does this by sending password hashed with the answer as key.
         sqlInterface.getSecurityQuestions(patient.PatientSerNum).then(function(questions)
         {
-          console.log(questions);
           var flag=false;
           var newPassword='';
+          //checks for encrypted password being valid for a given answer to a question
+          //If right then it approves the request, updates user password by using SHA256
+          //Then sends success message to the user.
           for (var i = 0; i < questions.length; i++) {
-            console.log(questions[i].Answer);
             var password={NewPassword:requestObject.Parameters.NewPassword};
-            console.log(password);
             password=utility.decryptObject(password,questions[i].Answer);
-            console.log(password);
             if(typeof password.NewPassword!=='undefined'&&password.NewPassword!==''){
-              console.log(password.NewPassword);
               newPassword=CryptoJS.SHA256(password.NewPassword).toString();
-              console.log(newPassword);
-              console.log('I am the truth');
               flag=true;
             }
           }
+          //deletes the request
           if(!flag)
           {
-            //completeRequest(requestKey,{},'Invalid');
+            completeRequest(requestKey,{},'Invalid');
             console.log('Invalid flag');
           }else{
+            //sets new password then sends message
             console.log(patient);
             sqlInterface.setNewPassword(newPassword,patient.PatientSerNum).then(function(){
               completeRequest(requestKey,requestObject);
