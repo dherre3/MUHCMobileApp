@@ -6,7 +6,11 @@ $scope.openPDF=function(){
 	//file:///data/data/com.example.hello/files/pdfs
 	var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 	if(app){
-		var ref = cordova.InAppBrowser.open('./pdfs/radiotherapy_journey.pdf', '_blank', 'location=yes');
+		if(ons.platform.isAndroid()){
+			var ref=window.open('https://www.depdocs.com/opal/www/pdfs/radiotherapy_journey.pdf','_system','location=no');
+		}else{
+			var ref = cordova.InAppBrowser.open('./pdfs/radiotherapy_journey.pdf', '_blank', 'location=yes');
+		}
 	}else{
 		var ref = window.open('./pdfs/radiotherapy_journey.pdf', '_blank', 'location=yes');
 	}
