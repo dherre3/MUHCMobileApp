@@ -25,13 +25,16 @@
       </div>
       <div class="container">
   <a class="muhcapp-home-account" ng-click="menu.setMainPage('views/accountSettings.html',{closedMenu:true})">
-       <ons-row class="profile-wrapper" >
+       <ons-row class="profile-wrapper" align="center">
         <ons-col width="60px" class="profile-image-wrapper" >
           <img ng-src="{{ProfileImage}}" class="profile-image-home">
         </ons-col>
         <ons-col>
-          <div class="profile-name" style="color:#2B6197">{{FirstName}} {{LastName}}</div>
-          <div class="profile-email">{{Email}}</div>
+          <div  class="padding10">
+            <div class="profile-name" style="color:#2B6197">{{FirstName}} {{LastName}}</div>
+            <div class="profile-email">{{Email}}</div>
+          </div>
+
         </ons-col>
       </ons-row>
     </a>

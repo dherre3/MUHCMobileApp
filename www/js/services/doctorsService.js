@@ -27,9 +27,9 @@ myApp.service('Doctors',function($q,$filter,FileManagerService,$cordovaDevice){
             PrimaryPhysician=[];
             var promises=[];
             if(typeof doctors!=='undefined'&&doctors){
-
                 var doctorKeyArray=Object.keys(doctors);
                 for (var i = 0; i < doctorKeyArray.length; i++) {
+                  doctors[doctorKeyArray[i]].Phone=$filter('FormatPhoneNumber')(doctors[doctorKeyArray[i]].Phone);
                   if(typeof doctors[doctorKeyArray[i]].ProfileImage!=='undefined'&&doctors[doctorKeyArray[i]].ProfileImage!=='')
                   {
                     if(doctors[doctorKeyArray[i]].DocumentType=='pdf')
