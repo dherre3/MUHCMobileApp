@@ -1415,3 +1415,27 @@ loading bar check in
 .lucent {
   opacity: 0.4;
 }
+/*
+*Tight list css for all views
+*/
+
+.list__item--tight {
+  -webkit-transition: background-color 0.2s linear;
+  -moz-transition: background-color 0.2s linear;
+  -o-transition: background-color 0.2s linear;
+  transition: background-color 0.2s linear;
+  min-height: inherit;
+  line-height: inherit;
+}
+.list__item--tight:active {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.list__item--tight:hover {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
