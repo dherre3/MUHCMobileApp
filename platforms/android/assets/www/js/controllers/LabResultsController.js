@@ -1,7 +1,20 @@
 var myApp = angular.module('MUHCApp');
 myApp.controller('LabResultsController', ['RequestToServer','Notifications', 'UpdateUI', '$scope', '$timeout','$rootScope', 'UserPreferences', 'LabResults', function (RequestToServer, Notifications, UpdateUI, $scope,$timeout,$rootScope, UserPreferences, LabResults) {
 
+  $scope.load = function($done) {
+    RequestToServer.sendRequest('Refresh','LabTests');
+    $timeout(function() {
+      loadInfo();
+          $done();
+    }, 3000);
+  };
 
+  function loadInfo(){
+    UpdateUI.UpdateSection('LabTests').then(function()
+    {
+      $scope.init();
+    });
+ }
     // Constants
     var DATE_TAB = 'Date';
     var ALL_TESTS_TAB = 'AllTests';

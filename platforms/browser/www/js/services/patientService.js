@@ -1,6 +1,6 @@
 var myApp=angular.module('MUHCApp');
 
-myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordovaDevice','FileManagerService',function(UserPreferences,$q, $cordovaFileTransfer, $cordovaDevice,FileManagerService){
+myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordovaDevice','FileManagerService','$filter',function(UserPreferences,$q, $cordovaFileTransfer, $cordovaDevice,FileManagerService,$filter){
     var profileImage='';
     return{
         setUserFieldsOnline:function(patientFields,diagnosis){
@@ -51,6 +51,9 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
               }else{
                 if(typeof patientFields.ProfileImage!=='undefined'||patientFields.ProfileImage=='')
                 {
+                  patientFields.ProfileImage='data:image/'+patientFields.DocumentType+';base64,'+patientFields.ProfileImage;
+                  profileImage=patientFields.ProfileImage;
+                }else{
                   profileImage='./img/patient.png';
                 }
                 delete patientFields.ProfileImage;
@@ -64,7 +67,7 @@ myApp.service('Patient',['UserPreferences','$q','$cordovaFileTransfer','$cordova
           this.FirstName=patientFields.FirstName;
           this.LastName=patientFields.LastName;
           this.Alias=patientFields.Alias;
-          this.TelNum=patientFields.TelNum;
+          this.TelNum=$filter('phone-number')(patientFields.TelNum);
           this.Email=patientFields.Email;
           this.Diagnosis=diagnosis;
           this.UserSerNum=patientFields.PatientSerNum;

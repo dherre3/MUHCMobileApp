@@ -30,6 +30,13 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         *
         *
         */
+        setTimeout(function(){
+          $("#alertDemoInformationHome").addClass('animated fadeOutUp');
+          $timeout(function(){
+            $scope.hideDemoInformationHome=true;
+          },1000);
+        },3000)
+
         homePageInit();
         $scope.load = function($done) {
           RequestToServer.sendRequest('Refresh','All');

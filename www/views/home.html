@@ -15,7 +15,7 @@
           <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
         </span>
       </ons-pull-hook>
-<div class="container">
+<div ng-hide="hideDemoInformationHome" class="container animated fadeInDown" id="alertDemoInformationHome">
   <alert align="center" ng-show="showAlert" ng-model="alert" type="success" close="closeAlert()">
    <i class="ion-information-circled"></i> This demo version does not use real patient images or data.
   </alert>
