@@ -19,7 +19,7 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
           console.log(uuid);
           r.resolve(uuid);
         });*/
-    $http({
+    /*$http({
         method: 'GET',
         url: 'http://ip-api.com/json/?callback=?'
         }).then(function(data){
@@ -29,8 +29,10 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
           var uuid=String(uniqueIdentifier.query);
           uuid=uuid.replace(/\./g, "-");
           console.log(uuid);
+          uuid='demo';
           r.resolve(uuid);
-        });
+        });*/
+        r.resolve('demo');
       return r.promise;
     }
     var identifier='';
@@ -108,7 +110,7 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
               Ref.push({ 'Request' : encryptedRequestType, 'DeviceId':identifier,'UserID':userID, 'Parameters':{'NotificationSerNum' : content }});
             }else if (typeOfRequest=='TestResult')
             {
-              testResultRef.push({ 'Request': typeOfRequest, 'DeviceId':identifier, 'UserID': userId, 'Content': content}); 
+              testResultRef.push({ 'Request': typeOfRequest, 'DeviceId':identifier, 'UserID': userId, 'Content': content});
             }
 
 
@@ -122,7 +124,7 @@ myApp.service('RequestToServer',function(UserAuthorizationInfo, EncryptionServic
           var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
           if(app){
             identifier=device.uuid;
-            r.resolve(device.uuid);
+            r.resolve('demo');
           }else{
             getIdentifierWeb().then(function(uuid){
               console.log(uuid);

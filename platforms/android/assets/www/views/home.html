@@ -15,7 +15,7 @@
           <span ng-switch-when="action"><ons-icon size="35px" spin="true" icon="ion-load-d"></ons-icon> Loading data...</span>
         </span>
       </ons-pull-hook>
-<div class="container">
+<div ng-hide="hideDemoInformationHome" class="container animated fadeInDown" id="alertDemoInformationHome">
   <alert align="center" ng-show="showAlert" ng-model="alert" type="success" close="closeAlert()">
    <i class="ion-information-circled"></i> This demo version does not use real patient images or data.
   </alert>
@@ -116,7 +116,7 @@
               </ons-row>
                <div class="col-xs-12"  style="margin-top:15px" ng-hide="noUpcomingAppointments||noAppointments">
                   <div align="center">
-                      <button ng-disabled="!enableCheckin" class="button button--large" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
+                      <button ng-disabled="!enableCheckin" ng-class="checkinButtonClass" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>
                   <div ng-show="loading">
                      <span style="color:lightgrey"> Checkin location...</span>

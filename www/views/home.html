@@ -116,7 +116,7 @@
               </ons-row>
                <div class="col-xs-12"  style="margin-top:15px" ng-hide="noUpcomingAppointments||noAppointments">
                   <div align="center">
-                      <button ng-disabled="!enableCheckin" class="button button--large" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
+                      <button ng-disabled="!enableCheckin" ng-class="checkinButtonClass" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
                   </div>
                   <div ng-show="loading">
                      <span style="color:lightgrey"> Checkin location...</span>

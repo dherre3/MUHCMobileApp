@@ -95,7 +95,7 @@ myApp.controller('CalendarController', ['Appointments', '$scope','$timeout', fun
         var dateAppointment=$scope.calendarDayAppointments[index].ScheduledStartTime;
 
         if(today.getDate()===dateAppointment.getDate()&&today.getMonth()===dateAppointment.getMonth()&&today.getFullYear()===dateAppointment.getFullYear()){
-            return '#3399ff';
+            return '#cf5c4c';
 
         }else if(dateAppointment>today){
             return '#D3D3D3';

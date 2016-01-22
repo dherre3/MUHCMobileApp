@@ -36,7 +36,7 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
             $scope.hideDemoInformationHome=true;
           },1000);
         },3000)
-
+        $scope.checkinButtonClass='button button--large';
         homePageInit();
         $scope.load = function($done) {
           RequestToServer.sendRequest('Refresh','All');
@@ -106,6 +106,7 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
                 }
               });
             }else{
+              $scope.checkinButtonClass='button button--large-success';
               $scope.enableCheckin=false;
             }
           }else{
@@ -120,6 +121,7 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         $scope.ProfileImage=Patient.getProfileImage();
     }
     $scope.checkin=function(){
+      $scope.checkinButtonClass='button button--large-success';
       CheckinService.checkinToAppointment();
       $scope.alert.message='You have successfully checked in to your appointment, proceed to waiting room';
       $scope.enableCheckin=false;
