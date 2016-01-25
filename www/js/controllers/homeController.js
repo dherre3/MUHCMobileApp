@@ -49,10 +49,13 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         function loadInfo(){
           UpdateUI.UpdateSection('All').then(function()
           {
-            homePageInit();
+            $timeout(function(){
+              homePageInit();
+            });
           });
        }
         function homePageInit(){
+          $scope.checkinButtonLabel='Check-in';
           $scope.noUpcomingAppointments=false;
           //Setting up status
           if(UserPlanWorkflow.isEmpty())
@@ -106,6 +109,7 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
                 }
               });
             }else{
+              $scope.checkinButtonLabel='You are checked in';
               $scope.checkinButtonClass='button button--large-success';
               $scope.enableCheckin=false;
             }
@@ -121,6 +125,7 @@ myApp.controller('HomeController', ['$state','Appointments', 'CheckinService','$
         $scope.ProfileImage=Patient.getProfileImage();
     }
     $scope.checkin=function(){
+      $scope.checkinButtonLabel='You are checked in';
       $scope.checkinButtonClass='button button--large-success';
       CheckinService.checkinToAppointment();
       $scope.alert.message='You have successfully checked in to your appointment, proceed to waiting room';
