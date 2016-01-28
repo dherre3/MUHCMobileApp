@@ -15,14 +15,14 @@
         <ons-list style="margin-top: 12px;">
           <ons-list-item modifier="chevron" ng-show="doctor.Address" >
             <div class="prop-desc">
-              <ons-icon icon="fa-map-marker" size="25px"></ons-icon>
+              <i class="fa fa-map-marker iconHomeView" style="margin:0"></i>
               <span style="color:black" >{{doctor.Address}}</span>
             </div>
           </ons-list-item>
 
           <ons-list-item ng-show="doctor.Phone" modifier="chevron">
              <a href="tel:{{doctor.Phone}}" style="text-decoration:none"><div class="prop-desc">
-              <ons-icon icon="fa-mobile" size="25px"></ons-icon>
+              <i class="fa fa-mobile iconHomeView" style="margin:0"></i>
 
                <span style="color:black" >{{doctor.Phone|FormatPhoneNumber}}</span>
             </div></a>
@@ -31,7 +31,7 @@
           <ons-list-item ng-show="doctor.Email" modifier="chevron">
           <a href="mailto:{{doctor.Email}}">
             <div class="prop-desc">
-              <ons-icon icon=" fa-envelope-o" size="20px"></ons-icon>
+              <i class="fa fa-envelope-o iconHomeView" style="margin:0"></i>
               <span style="color:black" >{{doctor.Email}}</span>
             </div>
             </a>
@@ -39,7 +39,7 @@
         <ons-list-item modifier="chevron" ng-show="showMessageInApp">
           <a ng-click="goToConversation(doctor)">
             <div class="prop-desc">
-              <ons-icon icon="ion-ios-chatbubble-outline " size="25px" fixed-width="false"></ons-icon>
+              <i class="ion-ios-chatbubble-outline iconHomeView" style="margin:0"></i>
               <span style="color:black" >Message {{doctor.FirstName}} {{doctor.LastName}}</span>
             </div>
             </a>

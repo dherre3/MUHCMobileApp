@@ -1,7 +1,7 @@
   <ons-page ng-controller="AppointmentListController">
  <div>
- <div align="center">
-       <div class="navigation-bar" style="height:70px">
+ <div>
+       <div class="navigation-bar" style="height:70px;width:100vw">
          <div class="navigation-bar__center" style="padding:10px 0 10px 10px">
          <ons-row align="center">
            <ons-col align="center">
@@ -66,16 +66,16 @@
 
               <ons-col class="plan-right">
                 <div style="font-size:15px">
-                {{app.AppointmentType_EN}}
+                <strong>{{app.AppointmentType_EN}}</strong>
               </div>
                 <div class="plan-info">
                  <div >
                    <div ng-show="app.sessionNumber!==undefined"><strong>{{app.sessionNumber}}</strong></div>
-                 <i class="fa fa-calendar" style="color:#2B6197"></i>&nbsp;{{app.ScheduledStartTime|formatDateAppointmentTask}}
+                 <i class="fa fa-calendar iconHomeView" style="margin:0"></i>&nbsp;{{app.ScheduledStartTime|formatDateAppointmentTask}}
 
                   </div>
                   <div>
-                    <i class="ion-person iconHomeView"></i>&nbsp;{{app.ResourceName}}
+                    <i class="ion-location iconHomeView " style="margin:0"></i>&nbsp;{{app.ResourceName}}
                   </div>
                 </div>
               </ons-col>

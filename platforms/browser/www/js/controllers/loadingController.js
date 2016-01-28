@@ -5,18 +5,13 @@
 angular.module('MUHCApp').controller('LoadingController', ['$rootScope','$state', '$scope','UpdateUI', 'UserAuthorizationInfo','UserPreferences', '$q','Patient', 'Messages', '$timeout',function ($rootScope,$state, $scope, UpdateUI, UserAuthorizationInfo, UserPreferences, $q, Patient, Messages,$timeout) {
 		console.log('Im doing it');
 		modal.show();
-			setTimeout(function(){
-			console.log('starting upfatye');
-			var updateUI=UpdateUI.UpdateSection('All');
-
-			updateUI.then(function(){
-
-					console.log('finishing upfatye');
-					$rootScope.refresh=true;
-						$state.go('Home');
-						modal.hide();
-				});
-			},5000);
+		console.log('starting upfatye');
+		var updateUI=UpdateUI.UpdateSection('All');
+		updateUI.then(function(){
+				$rootScope.refresh=true;
+					$state.go('Home');
+					modal.hide();
+			});
 
 		setTimeout(function(){
 			if(typeof Patient.getFirstName()=='undefined'){

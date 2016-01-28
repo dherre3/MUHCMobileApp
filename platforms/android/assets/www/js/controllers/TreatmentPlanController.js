@@ -127,3 +127,11 @@ $scope.pickPagePagination=function(index)
     }
 
 }]);
+myApp.controller('IndividualStageController',['$scope','$timeout',function($scope,$timeout){
+  var page = myNavigator.getCurrentPage();
+  var image = page.options.param;
+  console.log(image);
+  $scope.stage=image;
+
+
+  }]);

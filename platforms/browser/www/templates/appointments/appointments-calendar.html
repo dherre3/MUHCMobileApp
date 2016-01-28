@@ -1,8 +1,8 @@
   <ons-page ng-controller="CalendarController">
        <div align="center">
-       <div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background-color:#5CE68A;display:inline-block;border:1px solid #000;"></div>&nbsp;<strong>Past</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background:#3399ff;border:1px solid #000;display:inline-block"></div>&nbsp;<strong>Today</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;border:1px solid #000;background:#D3D3D3;display:inline-block"></div>&nbsp;<strong>Upcoming</strong></div>
+       <div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background-color:#5CE68A;display:inline-block;border:1px solid #000;"></div>&nbsp;<strong>Past</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;background:#cf5c4c;border:1px solid #000;display:inline-block"></div>&nbsp;<strong>Today</strong></div>&nbsp;&nbsp;<div style="text-align:center;display:inline-block;font-size:10px"><div style="width:10px;height:10px;border:1px solid #000;background:#D3D3D3;display:inline-block"></div>&nbsp;<strong>Future</strong></div>
        <div>
-      <datepicker ng-model="dt"  datepicker-mode="calendarMode" show-weeks="false" class="well well-sm" custom-class="getDayClass(date, mode)"></datepicker></div>
+      <datepicker ng-model="dt"  datepicker-mode="calendarMode" show-weeks="false" class="well well-lg" custom-class="getDayClass(date, mode)" style="width:100vw" ></datepicker></div>
     </div>
  <div class="panel-default">
  <div class="panel-body" style="padding:0">
@@ -20,11 +20,11 @@
                 <div class="plan-info">
                  <div >
                    <div ng-show="app.sessionNumber!==undefined"><strong>{{app.sessionNumber}}</strong></div>
-                 <i class="fa fa-calendar" style="color:#2B6197"></i>&nbsp;{{app.ScheduledStartTime|formatDateAppointmentTask}}
+                 <i class="fa fa-calendar iconHomeView" style="margin:0"></i>&nbsp;{{app.ScheduledStartTime|formatDateAppointmentTask}}
 
                   </div>
                   <div>
-                    <i class="ion-person iconHomeView"></i>&nbsp;{{app.ResourceName}}
+                    <i class="ion-location iconHomeView" style="margin:0" ></i>&nbsp;{{app.ResourceName}}
                   </div>
                 </div>
               </ons-col>

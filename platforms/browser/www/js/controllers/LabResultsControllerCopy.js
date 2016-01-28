@@ -236,7 +236,7 @@ myApp.controller('ByDateTestsController',['$scope','$timeout','LabResults','$fil
   //$scope.testResultsByDate = LabResults.getTestResultsByDate();
   $scope.testsReceived = 'Lab results';
   $scope.goToTestsView=function(test){
-    myNavigatorLabResults.pushPage('./templates/labTests/test-view',{param:test});
+    myNavigatorLabResults.pushPage('./templates/labTests/test-view.html',{param:test});
   }
   $scope.$watch('radioModel',function(){
     console.log('inside');

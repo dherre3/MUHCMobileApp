@@ -94,11 +94,12 @@
         <ons-col >
 
          <div align="center" style="margin-left:5px">
-           <div ng-hide="noAppointments||noUpcomingAppointments" style="text-overflow:ellipsis">
+           <div ng-hide="noAppointments||noUpcomingAppointments" style="text-overflow:ellipsis;line-height:120%">
                   <div align="center"> <span class="profile-name">{{titleAppointmentsHome}}</span><br> </div>
-                    {{appointmentShown.ScheduledStartTime|formatDateAppointmentTask}}<br>
-                    {{appointmentShown.AppointmentType_EN}}
-
+                    <strong>{{appointmentShown.AppointmentType_EN}}</strong><br>
+                    {{appointmentShown.ScheduledStartTime|date:'EEEE MMM dd'}}<br>
+                    <div ng-if="!noUpcomingAppointments||!noAppointments"><label>Scheduled:</label> {{appointmentShown.ScheduledStartTime|date:'h:mm a'}}<br>
+                      <label>Estimated:</label> {{appointmentShown.ScheduledStartTime|date:'h:mm a'}}</div>
           </div>
           <div ng-show="noAppointments">
             <h3> No Appointments! </h3>
@@ -114,9 +115,9 @@
                 </div>
               </ons-col>
               </ons-row>
-               <div class="col-xs-12"  style="margin-top:15px" ng-hide="noUpcomingAppointments||noAppointments">
+               <div class="col-xs-12"  style="margin-top:5px" ng-hide="noUpcomingAppointments||noAppointments">
                   <div align="center">
-                      <button ng-disabled="!enableCheckin" ng-class="checkinButtonClass" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{"CHECKIN_BUTTON"|translate}}</button>
+                      <button ng-disabled="!enableCheckin" ng-class="checkinButtonClass" ng-click="checkin()"><ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>{{checkinButtonLabel}}</button>
                   </div>
                   <div ng-show="loading">
                      <span style="color:lightgrey"> Checkin location...</span>

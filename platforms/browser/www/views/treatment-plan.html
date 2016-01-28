@@ -101,7 +101,7 @@
      </ons-row>
      <div style="overflow-y:hidden">
      <ons-list class="plan-list">
-         <ons-list-item  class="plan" modifier="tappable" ng-click="menu.setMainPage('views/educational-material.html',{closedMenu:true})" ng-repeat="app in stages">
+         <ons-list-item  class="plan" modifier="tappable" ng-click="myNavigator.pushPage('./templates/treatment-plan/individual-stage.html',{param:app})" ng-repeat="app in stages">
              <ons-row>
                  <ons-col width="50px" class="plan-left">
 

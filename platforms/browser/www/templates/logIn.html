@@ -1,13 +1,19 @@
 
 <ons-navigator title="NavigatorForms" var="navigatorForms">
 <ons-page>
-	 <ons-toolbar>
-		 <div class="center">Login</div>
-	 </ons-toolbar>
-	 <div class="container" align="center" style="margin-top:5vh">
-		 <img src="./img/muhc-logo-text.png">
-		 <h5 style="color:#2E8AE6">Cedars Cancer Center</h5>
-		 	 <img ng-src="./img/opal.png" style="width:50px">
+	<ons-toolbar>
+		<div class="center">Login</div>
+	</ons-toolbar>
+	<div align="center">
+		<img src="./img/blurredLandscapeImage.jpeg" style="width:100vw;height:auto;max-width:800px">
+	</div>
+		<div class="container" align="center" style="margin-top:-180px">
+			<img src="./img/muhc-logo-text.png">
+			<h5 style="color:#2E8AE6">Cedars Cancer Center</h5>
+				<img ng-src="./img/opal.png" style="width:50px">
+		</div>
+	 <div class="container" align="center" style="margin-top:40px">
+
 
 		<div align="center" >
 
@@ -36,15 +42,18 @@
       <br>-->
 <span>
 	<br/>
-  <input class="text-input--material" placeholder="Email" name="email" ng-model="email" type="email" required>
+	<i class="iconHomeView ion-person"></i>
+  <input class="text-input" placeholder="Email" name="email" ng-model="email" type="email" required>
   <br /><br />
-  <input class="text-input--material" name="password" ng-model="password" placeholder="Password" type="password" required>
+	<i class="iconHomeView ion-ios-locked"></i>
+  <input class="text-input" name="password" ng-model="password" placeholder="Password" type="password" required>
 	<br/><br/>
 </span>
-<alert ng-show="alert.type" type="{{alert.type}}">{{alert.content}}</alert>
 <div style="max-width:400px">
 	<button class="button button--large" type="submit" id="submit">Login</button>
 </div>
+<alert ng-show="alert.type" type="{{alert.type}}">{{alert.content}}</alert>
+
         <!--<a class="left" role="button" href  style="font-size:11px;color:#0066FF" ng-click="$state.go('forgotPassword');">Forgot Password?</a>-->
     </div>
 

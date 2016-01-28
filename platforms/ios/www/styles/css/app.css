@@ -209,7 +209,6 @@ img
 .bottom-menu-item:first-child,
 .bottom-menu-item:last-child,
 .bottom-menu-item {
-  border-color: #2B6197;
   background-color: transparent;
   background-image: none !important;
   color: #626262;
@@ -342,7 +341,29 @@ a.muhcapp-home-account:link, a.muhcapp-home-account:hover{
   opacity: 0.4;
 }
 /*Onsen's css for contact me page*/
+.person-list {
+  border-top: none;
+}
 
+.person {
+  line-height: 2;
+}
+
+.person-list-header {
+  opacity: 0.6;
+}
+
+.person-name {
+  line-height: 44px;
+}
+
+.person-image {
+  width: 40px;
+  height: 40px;
+  margin-top: 3px;
+  margin-left:5px;
+  border-radius: 3px;
+}
 .prop-desc {
   font-size: 14px;
   opacity: 0.7;
@@ -552,7 +573,7 @@ ul.checkout-bar a {
 }
 
 .plan {
-  line-height: 1;
+  line-height: 2;
   padding: 0;
 }
 
@@ -583,14 +604,15 @@ ul.checkout-bar a {
 }
 
 .plan-name{
+  line-height: 1;
   font-size: 17px;
   margin-bottom: 8px;
 }
 
 .plan-info {
   opacity: 0.4;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.2;
 }
 
 /*
@@ -714,13 +736,13 @@ ul.checkout-bar a {
 }
 
 .list-item-content {
-  margin-left: 50px;
+  margin-left: 60px;
   margin-right: 30px;
 }
 
 .avator {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 3px;
   -webkit-border-radius: 3px;
 }
@@ -1184,7 +1206,8 @@ p{
 
 .iconHomeView{
   margin-top:5px;
-  font-size:18px;
+  margin-left: 10px;
+  font-size:24px;
   font-weight: 600;
   color: #2B6197;
   text-align: center;
@@ -1669,4 +1692,21 @@ Button appointments
 }
 .button--large-success:focus {
   outline: 0;
+}
+/*
+*Text class
+*/
+.overflow {
+  /**
+   * Required properties to achieve text-overflow
+   */
+      white-space: nowrap;
+    overflow: hidden;
+}
+.ellipsis {
+  text-overflow: ellipsis;
+
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
 }

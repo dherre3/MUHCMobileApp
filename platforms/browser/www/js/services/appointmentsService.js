@@ -169,7 +169,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
                     appointments[keysArray[i]].ScheduledStartTime = $filter('formatDate')(appointments[keysArray[i]].ScheduledStartTime);
                     appointments[keysArray[i]].ScheduledEndTime =  $filter('formatDate')(appointments[keysArray[i]].ScheduledEndTime);
                     this.UserAppointmentsArray[i] = appointments[keysArray[i]];
-                    if(appointments[keysArray[i]].AppointmentType_EN=='Daily Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType_EN=='First Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType_EN=='Final Radiotherapy Treatment Session')
+                    if(appointments[keysArray[i]].AppointmentType_EN=='Daily Radiotherapy Treatment'||appointments[keysArray[i]].AppointmentType_EN=='First Radiotherapy Treatment Session'||appointments[keysArray[i]].AppointmentType_EN=='Final Radiotherapy Treatment Session')
                     {
                       numberOfSessions++;
                     }
@@ -216,7 +216,7 @@ myApp.service('Appointments', ['$q', 'RequestToServer','$cordovaCalendar','UserA
 
                 var sessionNumber = 1;
                 for (var i = 0; i < this.UserAppointmentsArray.length; i++) {
-                  if(this.UserAppointmentsArray[i].AppointmentType_EN=='Daily Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType_EN=='Final Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType_EN=='First Radiotherapy Treatment Session')
+                  if(this.UserAppointmentsArray[i].AppointmentType_EN=='Daily Radiotherapy Treatment'||this.UserAppointmentsArray[i].AppointmentType_EN=='Final Radiotherapy Treatment Session'||this.UserAppointmentsArray[i].AppointmentType_EN=='First Radiotherapy Treatment Session')
                   {
                     this.UserAppointmentsArray[i].sessionNumber="Session "+sessionNumber+ " of "+ numberOfSessions;
                     sessionNumber++;
