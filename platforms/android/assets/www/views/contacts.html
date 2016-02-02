@@ -1,5 +1,5 @@
 
-<ons-page ng-controller="ContactsController">
+<ons-page ng-controller="ContactsController" style="background-color:white">
     <ons-toolbar>
    <div class="left">
       <ons-toolbar-button ng-click="menu.toggle()">
@@ -16,16 +16,86 @@
         </span>
       </ons-pull-hook>
     <ons-list >
-      <ons-list-header ng-show="primaryPhysician.length>0">Primary Doctor</ons-list-header>
+        <!--<ons-list class="person-list">-->
 
-      <ons-list-item ng-repeat="doctor in primaryPhysician" ng-click="goDoctorContact(doctor)" modifier="chevron">{{doctor.FirstName}} {{doctor.LastName}}</ons-list-item>
 
-      <ons-list-header ng-show="oncologists.length>0">Oncologists</ons-list-header>
+      <ons-list-header class="person-list-header" ng-show="primaryPhysician.length>0">Primary Doctor</ons-list-header>
 
-      <ons-list-item ng-repeat="doctor in oncologists" ng-click="goDoctorContact(doctor)" modifier="chevron"> {{doctor.FirstName}} {{doctor.LastName}}</ons-list-item>
+      <ons-list-item modifier="chevron" ng-repeat="doctor in primaryPhysician" ng-click="goDoctorContact(doctor)" class="list-item-container">
+          <div class="list-item-left">
+            <img ng-src="{{doctor.ProfileImage}}" class="avator">
+          </div>
+          <div class="list-item-right">
+            <div class="list-item-content">
+              <div class="name">{{doctor.FirstName}} {{doctor.LastName}}
+              </div>
 
-      <ons-list-header ng-show="otherDoctors.length>0">Other</ons-list-header>
-      <ons-list-item ng-repeat="doctor in otherDoctors" ng-click="goDoctorContact(doctor)" modifier="chevron"> {{doctor.FirstName}} {{doctor.LastName}}</ons-list-item>
+              <span class="desc">Doctor</span>
+            </div>
+          </div>
+      </ons-list-item>
+
+
+      <!--<ons-list-item class="person" ng-repeat="doctor in primaryPhysician" ng-click="goDoctorContact(doctor)" modifier="chevron">
+        <ons-row>
+        <ons-col width="50px">
+        <img ng-src="{{doctor.ProfileImage}}" class="person-image">
+        </ons-col>
+        <ons-col class="person-name">
+            {{doctor.FirstName}} {{doctor.LastName}}
+        </ons-col>
+      </ons-row>
+      </ons-list-item>-->
+
+      <ons-list-header class="person-list-header" ng-show="oncologists.length>0">Oncologists</ons-list-header>
+      <ons-list-item modifier="chevron" ng-repeat="doctor in oncologists" ng-click="goDoctorContact(doctor)" class="list-item-container">
+          <div class="list-item-left">
+            <img ng-src="{{doctor.ProfileImage}}" class="avator">
+          </div>
+          <div class="list-item-right">
+            <div class="list-item-content">
+              <div class="name">{{doctor.FirstName}} {{doctor.LastName}}
+              </div>
+
+              <span class="desc">Doctor</span>
+            </div>
+          </div>
+      </ons-list-item>
+      <!--<ons-list-item class="person" ng-repeat="doctor in oncologists" ng-click="goDoctorContact(doctor)" modifier="chevron">
+        <ons-row>
+        <ons-col width="50px">
+        <img ng-src="{{doctor.ProfileImage}}" class="person-image">
+        </ons-col>
+        <ons-col class="person-name">
+            
+        </ons-col>
+        </ons-row>
+      </ons-list-item>-->
+
+      <ons-list-header class="person-list-header" ng-show="otherDoctors.length>0">Other</ons-list-header>
+        <ons-list-item modifier="chevron" ng-repeat="doctor in otherDoctors" ng-click="goDoctorContact(doctor)" class="list-item-container">
+          <div class="list-item-left">
+            <img ng-src="{{doctor.ProfileImage}}" class="avator">
+          </div>
+          <div class="list-item-right">
+            <div class="list-item-content">
+              <div class="name">{{doctor.FirstName}} {{doctor.LastName}}
+              </div>
+
+              <span class="desc">Doctor</span>
+            </div>
+          </div>
+      </ons-list-item>
+      <!--<ons-list-item class="person" ng-repeat="doctor in otherDoctors" ng-click="goDoctorContact(doctor)" modifier="chevron">
+        <ons-row>
+        <ons-col width="50px">
+        <img ng-src="{{doctor.ProfileImage}}" class="person-image">
+        </ons-col>
+        <ons-col class="person-name">
+            {{doctor.FirstName}} {{doctor.LastName}}
+        </ons-col>
+        </ons-row>
+      </ons-list-item>-->
 
     </ons-list>
   </ons-page>

@@ -30,7 +30,7 @@ myApp.controller('ContactsController',['$scope','Doctors','$timeout','UpdateUI',
        });
    }
     $scope.goDoctorContact=function(doctor){
-        myNavigator.pushPage('templates/contacts/individual-contact.html', {param:{doctor:doctor,flagInConversation:0}},{ animation : 'slide' } );
+        homeNavigator.pushPage('templates/contacts/individual-contact.html', {param:{doctor:doctor,flagInConversation:0}},{ animation : 'slide' } );
     };
 }]);
 /**
@@ -44,7 +44,7 @@ myApp.controller('ContactsController',['$scope','Doctors','$timeout','UpdateUI',
 **/
 myApp.controller('ContactIndividualDoctorController',['$scope','$q',function($scope,$q){
 
-  var page = myNavigator.getCurrentPage();
+  var page = homeNavigator.getCurrentPage();
   var parameters=page.options.param;
   if(parameters.flagInConversation==1){
      $scope.showMessageInApp=false;
@@ -64,7 +64,7 @@ myApp.controller('ContactIndividualDoctorController',['$scope','$q',function($sc
     param=doctor;
     function goToMessage(){
         var r=$q.defer();
-        myNavigator.popPage({animation:'none'});
+        homeNavigator.popPage({animation:'none'});
         r.resolve(true);
         return r.promise;
     }

@@ -30,6 +30,7 @@ function ($rootScope, UserPreferences, Appointments,$cordovaCalendar,$scope) {
                    they have been added.
     **/
 
+
     function addEventsToNativeCalendar(){
           //Check for device or website
         var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
@@ -67,8 +68,35 @@ function ($rootScope, UserPreferences, Appointments,$cordovaCalendar,$scope) {
     }
     }
 
-    //Set up a watch in case appointments change
 
+$scope.doSomething=function()
+{
+  console.log('boom');
+}
+
+
+
+$scope.gesture = {
+    used: ''
+  };
+
+  $scope.onGesture = function(gesture) {
+    $scope.$apply(function() {
+      $scope.gesture.used = gesture;
+      if(gesture=='Swipe Right')
+      {
+        homeNavigator.popPage();
+      }
+      console.log(gesture);
+    })
+  }
+
+  $(document).on('tap', '#detect-area', function() {
+    $scope.$apply(function() {
+      $scope.gesture.used = 'Tap';
+      console.log('Tap.');
+    })
+  })
 }]);
 
 //Logic for the calendar controller view

@@ -24,41 +24,42 @@
         <ons-icon icon="fa-home" fixed-width="true"></ons-icon>
           HOME
         </ons-list-item>
+
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/checkin.html', {closeMenu: true})">
           <ons-icon icon="fa-check-square-o" fixed-width="true"></ons-icon>
           CHECK IN
         </ons-list-item>
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/contacts.html', {closeMenu: true})">
-          <ons-icon icon="ion-android-people" fixed-width="true"></ons-icon>
-          CONTACTS
-        </ons-list-item>
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/notifications.html', {closeMenu: true})">
+                <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/notifications.html', {closeMenu: true})">
           <ons-icon icon="fa-bell" fixed-width="true"></ons-icon>
           NOTIFICATIONS
           <div class="notification menu-notification">{{Notifications}}</div>
         </ons-list-item>
-
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/schedule.html', {closeMenu: true})">
           <ons-icon icon="fa-calendar" fixed-width="true"></ons-icon>
           APPOINTMENTS
         </ons-list-item>
-
-
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/treatment-plan.html', {closeMenu: true})">
+         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/treatment-plan.html', {closeMenu: true})">
           <ons-icon icon="fa-tasks" fixed-width="true"></ons-icon>
-          TREATMENT PLAN
+          TREATMENT PLANNING
+        </ons-list-item>
+         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/documents.html', {closeMenu: true})">
+          <ons-icon icon="fa-folder" fixed-width="true"></ons-icon>
+          MY CHART
         </ons-list-item>
 
-      <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/documents.html', {closeMenu: true})">
-          <ons-icon icon="fa-folder" fixed-width="true"></ons-icon>
-          DOCUMENTS
+        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/maps.html', {closeMenu: true})">
+          <ons-icon icon="fa-hospital-o" fixed-width="true"></ons-icon>
+          MAPS
+        </ons-list-item>
+        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/contacts.html', {closeMenu: true})">
+          <ons-icon icon="ion-android-people" fixed-width="true"></ons-icon>
+          CONTACTS
         </ons-list-item>
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/patientPortal.html', {closeMenu: true})">
           <ons-icon icon="fa-envelope" fixed-width="true"></ons-icon>
           MESSAGES
           <div class="notification menu-notification">{{NumberOfNewMessages}}</div>
         </ons-list-item>
-
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/educational-material.html', {closeMenu: true})">
           <ons-icon icon="fa-book" fixed-width="true"></ons-icon>
           EDUCATIONAL
@@ -68,12 +69,6 @@
           LAB RESULTS
         </ons-list-item>
       </ons-list>
-
-        <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/maps.html', {closeMenu: true})">
-          <ons-icon icon="fa-hospital-o" fixed-width="true"></ons-icon>
-          MAPS
-        </ons-list-item>
-
         <ons-list-item class="menu-item" ng-click="menu.setMainPage('views/notes.html', {closeMenu: true})">
           <ons-icon icon="fa-pencil" fixed-width="true"></ons-icon>
           NOTES

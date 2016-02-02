@@ -32,7 +32,7 @@ angular.module('MUHCApp')
           }, 3000);
         };
     accountInit();
-    myNavigatorAccount.on('postpop',function(){
+    homeNavigator.on('postpop',function(){
       $timeout(function(){
         accountInit();
       });
@@ -125,7 +125,7 @@ myApp.controller('ChangingSettingController',function(tmhDynamicLocale, $transla
     accountChangeSetUp();
 
     function accountChangeSetUp(){
-    var page = myNavigatorAccount.getCurrentPage();
+    var page = homeNavigator.getCurrentPage();
     var parameters=page.options.param;
     $scope.alertClass="bg-success updateMessage-success";
     $scope.value=parameters;

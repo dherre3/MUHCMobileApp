@@ -1710,3 +1710,26 @@ Button appointments
   white-space: nowrap;
   overflow: hidden;
 }
+
+/*
+*Utility classes
+*/
+.marginTop10
+{
+  margin-top: 10px;
+}
+.marginLeft10
+{
+  margin-left:10px;
+}
+.marginBottom10
+{
+  margin-bottom: 10px;
+}
+.marginRight10
+{
+  margin-right:10px;
+}
+.padding10{
+  padding:10px;
+}

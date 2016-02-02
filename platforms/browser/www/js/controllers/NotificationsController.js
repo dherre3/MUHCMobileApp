@@ -56,26 +56,24 @@ myApp.controller('NotificationsController', ['RequestToServer','Notifications', 
     }
 
     $scope.goToNotification=function(index,notification){
-            console.log(notification.Type);
-            if(notification.ReadStatus==='0'){
-                RequestToServer.sendRequest('NotificationRead',notification.NotificationSerNum);
-                Notifications.setNotificationReadStatus(index);
-            }
-            if(notification.Type==='Note'){
-                var note=Notes.getNoteBySerNum(notification.TypeSerNum);
-                myNavigator.pushPage('./templates/notes/single-note.html', {param:note},{ animation : 'slide' } );
-            }else if(notification.Type==='Appointment'){
-                var app=Appointments.getAppointmentBySerNum(notification.TypeSerNum);
-                myNavigator.pushPage('./templates/appointments/individual-appointment.html', {param:app},{ animation : 'slide' } );
-            }else if(notification.Type==='Document'){
-                console.log('doing it');
-                var doc=Documents.getDocumentBySerNum(notification.TypeSerNum);
-                myNavigator.pushPage('./templates/documents/individual-document.html',{param:doc},{ animation : 'slide' } );
-               // menu.setMainPage('views/scansNDocuments.html', {closeMenu: true});
-            }else{
-              myNavigator.pushPage('./templates/notifications/individual-notification.html',{param:notification},{ animation : 'slide' } );
-            }
+        console.log(notification.Type);
+        if(notification.ReadStatus==='0'){
+            RequestToServer.sendRequest('NotificationRead',notification.NotificationSerNum);
+            Notifications.setNotificationReadStatus(index);
         }
+        if(notification.Type==='Note'){
+            var note=Notes.getNoteBySerNum(notification.TypeSerNum);
+            myNavigator.pushPage('./templates/notes/single-note.html', {param:note},{ animation : 'slide' } );
+        }else if(notification.Type==='Appointment'){
+            var app=Appointments.getAppointmentBySerNum(notification.TypeSerNum);
+            myNavigator.pushPage('./templates/appointments/individual-appointment.html', {param:app},{ animation : 'slide' } );
+        }else if(notification.Type==='Document'){
+            var doc=Documents.getDocumentBySerNum(notification.TypeSerNum);
+            myNavigator.pushPage('./templates/documents/individual-document.html',{param:doc},{ animation : 'slide' } );
+        }else{
+          myNavigator.pushPage('./templates/notifications/individual-notification.html',{param:notification},{ animation : 'slide' } );
+        }
+    }
 }]);
 
 myApp.controller('IndividualNotificationController',['$scope',function($scope){

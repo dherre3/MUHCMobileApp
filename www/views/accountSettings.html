@@ -40,19 +40,19 @@
       <div class="settings-header">Personal</div>
 
       <ons-list modifier="inset" class="settings-list">
-       <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Alias'},{ animation : 'slide' } )">
+       <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('templates/settings/set-account-setting.html', {param:'Alias'},{ animation : 'slide' } )">
           Alias
           <span class="list-item-note lucent">{{Alias|limitLetters:7}}</span>
         </ons-list-item>
-        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Email'},{ animation : 'slide' } )">
+        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('templates/settings/set-account-setting.html', {param:'Email'},{ animation : 'slide' } )">
           Email
           <span class="list-item-note lucent">{{Email|limitLetters:7}}</span>
         </ons-list-item>
-        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Password'},{ animation : 'slide' } )">
+        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('templates/settings/set-account-setting.html', {param:'Password'},{ animation : 'slide' } )">
           Password
           <span type="password" class="list-item-note lucent">{{passFill|limitTo:7}}</span>
         </ons-list-item>
-        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Tel. Number'},{ animation : 'slide' } )">
+        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('templates/settings/set-account-setting.html', {param:'Tel. Number'},{ animation : 'slide' } )">
           Phone Number
           <span class="list-item-note lucent">{{TelNum}}</span>
         </ons-list-item>
@@ -61,7 +61,7 @@
       <div class="settings-header">Preferences</div>
 
       <ons-list modifier="inset" class="settings-list">
-        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('pageAccount.html', {param:'Language'},{ animation : 'slide' } )">
+        <ons-list-item modifier="chevron" ng-click="myNavigatorAccount.pushPage('templates/settings/set-account-setting.html', {param:'Language'},{ animation : 'slide' } )">
           Language
            <span class="list-item-note lucent">{{Language}}</span>
         </ons-list-item modifier="chevron">

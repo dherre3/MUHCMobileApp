@@ -139,7 +139,7 @@ var myApp = angular.module('MUHCApp', ['tmh.dynamicLocale','pascalprecht.transla
     })
         .state('Home', {
         url: '/Home',
-        templateUrl: 'templates/menu.html',
+        templateUrl: 'second-version/views/tabs.html',
         controller: 'HomeController',
            resolve: {
       // controller will not be loaded until $waitForAuth resolves

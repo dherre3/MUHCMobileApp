@@ -38,7 +38,7 @@ myApp.controller('DocumentsController', ['Patient', 'Documents', 'UpdateUI', '$s
 
 myApp.controller('SingleDocumentController', ['Documents', '$timeout', '$scope', '$cordovaEmailComposer','$cordovaFileOpener2','FileManagerService','Patient',function(Documents, $timeout, $scope,$cordovaEmailComposer,$cordovaFileOpener2, FileManagerService,Patient) {
   console.log('Simgle Document Controller');
-  var page = myNavigator.getCurrentPage();
+  var page = homeNavigator.getCurrentPage();
   var image = page.options.param;
   if(image.DocumentType=='pdf')
   {

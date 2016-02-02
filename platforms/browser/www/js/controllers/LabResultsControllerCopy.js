@@ -236,7 +236,7 @@ myApp.controller('ByDateTestsController',['$scope','$timeout','LabResults','$fil
   //$scope.testResultsByDate = LabResults.getTestResultsByDate();
   $scope.testsReceived = 'Lab results';
   $scope.goToTestsView=function(test){
-    myNavigatorLabResults.pushPage('./templates/labTests/test-view.html',{param:test});
+    homeNavigator.pushPage('./templates/labTests/test-view.html',{param:test});
   }
   $scope.$watch('radioModel',function(){
     console.log('inside');
@@ -246,7 +246,7 @@ myApp.controller('ByDateTestsController',['$scope','$timeout','LabResults','$fil
 
 
 myApp.controller('IndividualLabTestController',['$scope','$timeout',function($scope,$timeout){
-  var page = myNavigatorLabResults.getCurrentPage();
+  var page = homeNavigator.getCurrentPage();
   var test = page.options.param;
   if (test.testResults) {
     $scope.selectedLabResults = test.testResults;
@@ -260,12 +260,12 @@ myApp.controller('IndividualLabTestController',['$scope','$timeout',function($sc
   $scope.title = 'Lab Results - ' + $scope.testDate;
   $scope.goToSpecificTestView=function(test)
   {
-    myNavigatorLabResults.pushPage('./templates/labTests/specific-test-component.html',{param:test});
+    homeNavigator.pushPage('./templates/labTests/specific-test-component.html',{param:test});
   }
 }]);
 
 myApp.controller('SpecificTestComponentController',['$scope','$timeout',function($scope,$timeout){
-  var page = myNavigatorLabResults.getCurrentPage();
+  var page = homeNavigator.getCurrentPage();
   var test = page.options.param;
   $scope.selectedTest = test;
   $scope.testName = test.ComponentName;
@@ -305,7 +305,7 @@ myApp.controller('SpecificTestComponentController',['$scope','$timeout',function
   ];
 }]);
 myApp.controller('TimelineTestComponentController',['$scope','$timeout','LabResults',function($scope,$timeout,LabResults){
-  var page = myNavigatorLabResults.getCurrentPage();
+  var page = homeNavigator.getCurrentPage();
   var testName = page.options.param;
   $scope.testResultsByType = LabResults.getTestResultsByType();
   $scope.testInformation = $scope.testResultsByType[testName].testResults[0];
